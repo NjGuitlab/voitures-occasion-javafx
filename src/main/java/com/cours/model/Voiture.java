@@ -26,7 +26,7 @@ public class Voiture {
             Comparator.comparing(Voiture::getPrix).reversed();
 
     public static final Comparator<Voiture> PAR_KM_ASC =
-            Comparator.comparing(Voiture::getDatePublication).reversed();
+            Comparator.comparing(Voiture::getKilometrage);
 
     public static final Comparator<Voiture> PAR_DATE_DESC =
             Comparator.comparing(Voiture::getDatePublication).reversed();
