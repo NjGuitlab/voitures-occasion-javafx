@@ -1,8 +1,15 @@
 package com.cours.algorithmes;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * Implémentation de l'algorithme de tri par fusion.
+ * <p>
+ * Cette classe implémente l'interface Algorithme pour définir le tri par fusion dans la méthode ordonner.
+ * </p>
+ *
+ * @version 1.0
+ */
 public class TriFusion<T> implements Algorithme<T> {
 
     @Override
@@ -11,6 +18,16 @@ public class TriFusion<T> implements Algorithme<T> {
     @Override
     public String complexiteTheorique() { return "O(nlogn)";}
 
+    /**
+     * Trie une liste d'objets spécifiés en ordre.
+     * <p>
+     * Tous les éléments du tableau doivent implémenter l'interface Comparator.
+     * </p>
+     *
+     * @param ArrayList<T> le type des éléments de la liste, devant être comparables entre eux
+     * @param comparateur permet de déterminer le critère de tri
+     * @version 1.0
+     */
     @Override
     public void ordonner(ArrayList<T> data, Comparator<T> comparateur) {
 
