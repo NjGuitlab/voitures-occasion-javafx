@@ -38,3 +38,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### branche feature/algorithme
+src/main/java/com/cours/model/Voiture.java
