@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
@@ -12,7 +11,6 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <top>
@@ -96,12 +94,7 @@
                </children>
             </HBox>
             <Label text="Trier par : " />
-            <CheckBox fx:id="checkPrixCroissant" mnemonicParsing="false" text="Prix croissant" />
-            <CheckBox fx:id="checkPrixDecroissant" mnemonicParsing="false" text="Prix décroissant" />
-            <CheckBox fx:id="checkAnneeModele" mnemonicParsing="false" text="Année-modèle" />
-            <CheckBox fx:id="checkKilometrageCroissant" mnemonicParsing="false" text="Kilométrage croissant" />
-            <CheckBox fx:id="checkDatePublication" mnemonicParsing="false" text="Date de publication" />
-            <CheckBox fx:id="checkAlphabetique" mnemonicParsing="false" text="Ordre Alphabétique" />
+            <ComboBox fx:id="comboTypeTri" prefWidth="150.0" />
             <VBox prefHeight="88.0" prefWidth="194.0">
                <children>
                   <Label text="Choisir une marque :" />

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="176.0" prefWidth="120.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="249.0" prefWidth="164.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox prefHeight="23.0" prefWidth="100.0" spacing="6.0">
          <children>
@@ -49,6 +49,27 @@
          <children>
             <Label text="Couleur :" />
             <Label fx:id="labelCouleur" text="Label" />
+         </children>
+      </HBox>
+      <HBox prefHeight="16.0" prefWidth="120.0">
+         <children>
+            <Label text="Vendeur : " />
+            <Label fx:id="labelVendeur" text="Label" />
+         </children>
+      </HBox>
+      <HBox prefHeight="22.0" prefWidth="164.0">
+         <children>
+            <Label text="Ville :" />
+            <Label fx:id="labelVille" text="Label" />
+         </children>
+      </HBox>
+      <Label text="Description :" />
+      <Label fx:id="labelDescription" text="Label" />
+      <Button fx:id="buttonAddFavoris" mnemonicParsing="false" text="Ajouter aux Favoris" />
+      <HBox prefHeight="27.0" prefWidth="164.0">
+         <children>
+            <Label text="Prix / km :" />
+            <Label fx:id="labelPrixParKilo" text="Label" />
          </children>
       </HBox>
    </children>
