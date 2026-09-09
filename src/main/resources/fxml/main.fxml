@@ -1,14 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.cours.controller.MainController"
-            prefHeight="400.0" prefWidth="600.0">
 
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <VBox prefHeight="74.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="TOP_CENTER" contentDisplay="TOP" maxWidth="1.7976931348623157E308" text="CarFinder">
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="4.0" />
+               </VBox.margin>
+            </Label>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Rechercher un véhicule :">
+                     <HBox.margin>
+                        <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="champRecherche">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                     </padding>
+                  </TextField>
+                  <VBox prefHeight="35.0" prefWidth="205.0">
+                     <children>
+                        <Label text="Kilométrage maximum :" />
+                        <Slider fx:id="sliderKilometrage" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Année minimum :" />
+                        <Slider fx:id="sliderAnnee" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Prix maximum :" />
+                        <Slider fx:id="sliderPrix" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Type de carburant : " />
+                        <ComboBox fx:id="comboCarburant" prefWidth="150.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Véhicules disponibles" />
+            <ScrollPane prefHeight="200.0" prefWidth="200.0">
+               <content>
+                  <FlowPane fx:id="cardsContainer" prefHeight="200.0" prefWidth="588.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </center>
+   <left>
+      <VBox prefHeight="313.0" prefWidth="194.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Choisir une ville :" />
+            <ComboBox fx:id="comboVille" prefWidth="150.0" />
+            <Label text="Transmission :" />
+            <HBox prefHeight="51.0" prefWidth="218.0">
+               <children>
+                  <RadioButton fx:id="radioTransmissionToutes" mnemonicParsing="false" prefHeight="17.0" prefWidth="69.0" text="Toutes" />
+                  <RadioButton fx:id="radioTransmissionAuto" mnemonicParsing="false" text="Automatique" />
+                  <RadioButton fx:id="radioTransmissionManuelle" mnemonicParsing="false" text="Manuelle" />
+               </children>
+            </HBox>
+            <Label text="Trier par : " />
+            <CheckBox fx:id="checkPrixCroissant" mnemonicParsing="false" text="Prix croissant" />
+            <CheckBox fx:id="checkPrixDecroissant" mnemonicParsing="false" text="Prix décroissant" />
+            <CheckBox fx:id="checkAnneeModele" mnemonicParsing="false" text="Année-modèle" />
+            <CheckBox fx:id="checkKilometrageCroissant" mnemonicParsing="false" text="Kilométrage croissant" />
+            <CheckBox fx:id="checkDatePublication" mnemonicParsing="false" text="Date de publication" />
+            <CheckBox fx:id="checkAlphabetique" mnemonicParsing="false" text="Ordre Alphabétique" />
+            <VBox prefHeight="88.0" prefWidth="194.0">
+               <children>
+                  <Label text="Choisir une marque :" />
+                  <FlowPane fx:id="zoneCheckMarques" prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </left>
+   <right>
+      <VBox fx:id="zoneDetails" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+   </right>
+   <bottom>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Vos favoris" />
+            <ScrollPane prefHeight="200.0" prefWidth="200.0">
+               <content>
+                  <FlowPane fx:id="zoneFavoris" prefHeight="157.0" prefWidth="756.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </bottom>
+</BorderPane>
