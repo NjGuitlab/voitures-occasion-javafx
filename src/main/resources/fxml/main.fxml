@@ -78,6 +78,12 @@
                   <FlowPane fx:id="cardsContainer" prefHeight="200.0" prefWidth="588.0" />
                </content>
             </ScrollPane>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="btnPagePrecdenteCards" mnemonicParsing="false" text="Page précédente" />
+                  <Button fx:id="btnPageSuivanteCards" mnemonicParsing="false" text="Page suivante" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </center>
@@ -122,6 +128,12 @@
                   <FlowPane fx:id="zoneFavoris" prefHeight="157.0" prefWidth="756.0" />
                </content>
             </ScrollPane>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="btnPagPrecedenteFavoris" mnemonicParsing="false" text="Page précédente" />
+                  <Button fx:id="btnPageSuivanteFavoris" mnemonicParsing="false" text="Page suivante" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </bottom>
