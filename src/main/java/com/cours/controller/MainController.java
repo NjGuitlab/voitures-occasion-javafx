@@ -48,6 +48,9 @@ public class MainController {
     private Label labelSliderKilometrage, labelSliderAnnee, labelSliderPrix;
 
     @FXML
+    private DetailsVoitureController detailsvoiture;
+
+    @FXML
     public void initialize(){   // On initialise les données et toutes les options de filtrage
         chargerDonneesVoitures();
         remplirComboMarques();
@@ -195,6 +198,7 @@ public class MainController {
     // La méthode pour afficher les détails
     private void afficherDetailsVoitures(int idVoiture) {
         Voiture selectionnee = service.trouverParId(idVoiture);
+        detailsvoiture.afficherVoiture(selectionnee);
     }
 
 }
