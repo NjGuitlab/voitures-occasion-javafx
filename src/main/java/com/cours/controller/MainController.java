@@ -49,7 +49,7 @@ public class MainController {
     private RadioButton radioTransmissionToutes, radioTransmissionAuto, radioTransmissionManuelle;
 
     @FXML
-    private Label labelSliderKilometrage, labelSliderAnneeMin, labelSliderAnneeMax, labelSliderPrix;
+    private Label labelSliderKilometrage, labelSliderAnneeMin, labelSliderAnneeMax, labelSliderPrix, labelNumeroPagesCards;
 
     @FXML
     private DetailsVoitureController detailsVoitureController;
@@ -245,6 +245,8 @@ public class MainController {
             CardVoitureController card = new CardVoitureController(voiture, id -> afficherDetailsVoitures(id));
             cardsContainer.getChildren().add(card);
         }
+
+        labelNumeroPagesCards.setText(pagination.getPageActuelle() + "/" + pagination.getNombrePages()); // Met à jour la page dans le label
 
         // On met à jour les contrôles de pagination
         btnPagePrecedenteCards.setDisable(pagination.getPageActuelle() <= 1); // On désactive le bouton Précédent si on est sur la page 1
