@@ -7,8 +7,8 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.image.Image?>
-<fx:root prefHeight="308.0" prefWidth="200.0" spacing="8.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
-    <ImageView fx:id="imageVoiture" fitHeight="97.0" fitWidth="200.0" preserveRatio="true">
+<fx:root prefHeight="308.0" prefWidth="190.0" spacing="8.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+    <ImageView fx:id="imageVoiture" fitHeight="97.0" fitWidth="190.0" preserveRatio="true">
       <image>
          <Image url="@/images/images.jpg"/>
       </image>

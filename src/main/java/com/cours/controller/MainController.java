@@ -155,6 +155,9 @@ public class MainController {
         });
     }
 
+    // La fonction pour filter selon le kilométrage
+
+
     // Une fonction pour déterminer les bornes du slider d'année
     private void initialiserSliderAnnee() {
         if (listeVoitures == null || listeVoitures.isEmpty()) {
@@ -192,7 +195,27 @@ public class MainController {
         sliderPrix.valueProperty().addListener((obs, oldVal, newVal) -> {
             labelSliderPrix.setText(String.format("%d $", newVal.intValue()));
         });
+
+        // Pour exécuter la requête seulement au relâchement de la souris. (Pour quand on va utiliser une BDD)
+        sliderPrix.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
+            if (!isChanging) {
+                filtrerPrixMax((int) sliderPrix.getValue());
+            }
+        });
+
+        // Pour quand l'utilisateur clique directement
+        sliderPrix.setOnMouseClicked(event -> {
+            filtrerPrixMax((int) sliderPrix.getValue());
+        });
     }
+
+    // La fonction pour filtrer selon le prix
+    private void filtrerPrixMax(int prixMax) {
+        List<Voiture> filtrees = service.filtrerParPrixMax(prixMax);
+        pagination = new Pagination(filtrees, VOITURES_PAR_PAGE);  // On affiche les cartes des voitures filtrées
+        afficherCartes();
+    }
+
 
     // La fonction pour afficher les cards de voitures
     private void afficherCartes() {
