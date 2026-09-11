@@ -1,16 +1,22 @@
 package com.cours.controller;
 
+import com.cours.algorithmes.TriFusion;
+import com.cours.algorithmes.TriInsertion;
+import com.cours.algorithmes.TriRapide;
 import com.cours.model.TypeCarburant;
 import com.cours.model.Voiture;
+import com.cours.model.VoitureComparateurs;
 import com.cours.service.VoitureService;
 import com.cours.util.LectureCSV;
 import com.cours.util.Pagination;
 import com.cours.util.SourceDonnees;
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.time.Year;
 import java.util.ArrayList;
@@ -25,6 +31,10 @@ public class MainController {
 
     private List<Voiture> listeVoitures;
 
+    private TriFusion<Voiture> fusion = new TriFusion<>();
+    private TriRapide<Voiture> rapide = new TriRapide<>();
+    private TriInsertion<Voiture> insertion = new TriInsertion<>();
+
     private Pagination pagination;  // On importe l'util pour gérer la pagnination
     private static final int VOITURES_PAR_PAGE = 12;  // Le nombre de cards qu'on veut voir dans chaque page
 
@@ -37,7 +47,10 @@ public class MainController {
     private Slider sliderKilometrage, sliderAnneeMin, sliderAnneeMax, sliderPrix;
 
     @FXML
-    private ComboBox comboCarburant, comboVille, comboTypeTri, comboMarques;
+    private ComboBox comboCarburant, comboVille, comboMarques;
+
+    @FXML
+    private ComboBox<String> comboTypeTri;
 
     @FXML
     private FlowPane cardsContainer;
@@ -54,6 +67,8 @@ public class MainController {
     @FXML
     private DetailsVoitureController detailsVoitureController;
 
+    private final PauseTransition debounce = new PauseTransition(Duration.millis(300));  // Pour éviter de lancer trop rapidement la requête à chaque touche tapée
+
     @FXML
     public void initialize(){   // On initialise les données et toutes les options de filtrage
         chargerDonneesVoitures();
@@ -69,6 +84,11 @@ public class MainController {
         initialiserSliderKilometraqe();
         initialiserSliderAnneeMin();
         initialiserSliderPrix();
+
+        debounce.setOnFinished(event -> afficherVoituresCherchees(champRecherche.getText()));
+        champRecherche.textProperty().addListener((obs, oldVal, newVal) -> {
+            debounce.playFromStart();  // Pour écouter les événements du champ de recherche
+        });
     }
 
     // Une fonction pour charger les données des voitures quand on ouvre la page
@@ -274,7 +294,29 @@ public class MainController {
         } else {
             System.err.println("Erreur : detailsVoitureController est null");
         }
-
     }
 
-}
+    // La méthode pour appeler la fontion de recherche avec le TextField
+    private void afficherVoituresCherchees(String recherche) {
+        ArrayList<Voiture> trouvees = new ArrayList<>(service.rechercher(recherche));  // les tris ont un ArrayList comme paramètre
+        triApplique(trouvees);
+        pagination = new Pagination(trouvees, VOITURES_PAR_PAGE);
+        afficherCartes();
+    }
+
+    // Une fonction pour appliquer des tris si c'est demandé  (on utilise trois algorithmes différents)
+    private void triApplique(ArrayList<Voiture> listeOrigine) {
+        String typeTri = comboTypeTri.getValue();
+
+        if (typeTri == null || "Tous".equals(typeTri)) {
+            return;}
+
+        switch (typeTri) {
+            case "Kilométrage croissant" -> fusion.ordonner(listeOrigine, VoitureComparateurs.PAR_KM_ASC);  // Pour que le tri soit stable
+            case "Prix croissant" -> rapide.ordonner(listeOrigine, VoitureComparateurs.PAR_PRIX_ASC);  // Algorithme avec la meilleure performance
+            case "Prix décroissant" -> rapide.ordonner(listeOrigine, VoitureComparateurs.PAR_PRIX_DESC);
+            case "Date décroissante" -> insertion.ordonner(listeOrigine, VoitureComparateurs.PAR_DATE_DESC); // Alrgorithme stable (utile puisque plusieurs annonces ont la même date)
+            }
+        }
+    }
+

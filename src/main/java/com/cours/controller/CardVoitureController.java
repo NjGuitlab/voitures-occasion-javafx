@@ -19,7 +19,7 @@ public class CardVoitureController extends VBox {
     private ImageView imageVoiture;
 
     @FXML
-    private Label labelCardMarque, labelCardModele, labelCardAnnee, labelCardKilometrage, labelCardPrix, labelCardVille;
+    private Label labelCardMarque, labelCardModele, labelCardAnnee, labelCardKilometrage, labelCardPrix, labelCardVille, labelCardDatePublication;
 
     @FXML
     private Button btnVoirDetails;
@@ -51,6 +51,7 @@ public class CardVoitureController extends VBox {
             labelCardModele.setText(voiture.getModele());
             labelCardAnnee.setText(String.valueOf(voiture.getAnnee()));
             labelCardKilometrage.setText(String.valueOf(voiture.getKilometrage()));
+            labelCardDatePublication.setText(String.valueOf(voiture.getDatePublication()));
             labelCardPrix.setText(String.valueOf(voiture.getPrix()));
             labelCardVille.setText(voiture.getVille());
         }
