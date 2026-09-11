@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cours.controller.MainController">
    <top>
       <VBox prefHeight="74.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -44,18 +44,21 @@
                      <children>
                         <Label text="Kilométrage maximum :" />
                         <Slider fx:id="sliderKilometrage" />
+                        <Label fx:id="labelSliderKilometrage" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <Label text="Année minimum :" />
                         <Slider fx:id="sliderAnnee" />
+                        <Label fx:id="labelSliderAnnee" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <Label text="Prix maximum :" />
                         <Slider fx:id="sliderPrix" />
+                        <Label fx:id="labelSliderPrix" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
@@ -78,6 +81,12 @@
                   <FlowPane fx:id="cardsContainer" prefHeight="200.0" prefWidth="588.0" />
                </content>
             </ScrollPane>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="btnPagePrecedenteCards" mnemonicParsing="false" text="Page précédente" />
+                  <Button fx:id="btnPageSuivanteCards" mnemonicParsing="false" text="Page suivante" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </center>
@@ -99,14 +108,14 @@
             <VBox prefHeight="88.0" prefWidth="194.0">
                <children>
                   <Label text="Choisir une marque :" />
-                  <FlowPane fx:id="zoneCheckMarques" prefHeight="200.0" prefWidth="200.0" />
+                  <ComboBox fx:id="comboMarques" prefWidth="200.0" />
                </children>
             </VBox>
          </children>
       </VBox>
    </left>
    <right>
-      <VBox fx:id="zoneDetails" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <fx:include fx:id="zoneDetails" source="detail.fxml" BorderPane.alignment="CENTER" />
    </right>
    <bottom>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -122,6 +131,12 @@
                   <FlowPane fx:id="zoneFavoris" prefHeight="157.0" prefWidth="756.0" />
                </content>
             </ScrollPane>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="btnPagePrecedenteFavoris" mnemonicParsing="false" text="Page précédente" />
+                  <Button fx:id="btnPageSuivanteFavoris" mnemonicParsing="false" text="Page suivante" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </bottom>
