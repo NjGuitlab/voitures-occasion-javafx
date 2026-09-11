@@ -119,6 +119,22 @@ public class VoitureService {
 
     }
 
+    //-------------- Filter par Kilometrage Max ------------------ //
+
+    public List<Voiture> filtrerParKilometrageMax(int kilometrageMax){
+
+        List<Voiture> resultats = new ArrayList<>();
+
+        for (Voiture voiture: voitures){
+            if(voiture.getKilometrage()<= kilometrageMax){
+                resultats.add(voiture);
+            }
+        }
+
+        return resultats;
+
+    }
+
     // ------------ Recherche de voiture par mot clé ------------ //
     public List<Voiture> rechercher(String motCle){
         List<Voiture> resultats = new ArrayList<>();

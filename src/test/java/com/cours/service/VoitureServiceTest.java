@@ -134,6 +134,21 @@ public class VoitureServiceTest {
     }
 
     @Test
+    void doitFiltrerParKilometrageMax(){
+        LectureCSV lecture = new LectureCSV();
+        VoitureService service = new VoitureService(lecture);
+
+        List<Voiture> resultats = service.filtrerParKilometrageMax(10000);
+
+        assertNotNull(resultats);
+        assertFalse(resultats.isEmpty());
+
+        for(Voiture voiture: resultats){
+            assertTrue(voiture.getKilometrage()<=10000);
+        }
+    }
+
+    @Test
     void doitChercherParMotClef(){
         LectureCSV lecture = new LectureCSV();
         VoitureService service = new VoitureService(lecture);
