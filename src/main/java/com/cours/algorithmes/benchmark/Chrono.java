@@ -41,14 +41,10 @@ public class Chrono {
             algo.ordonner(copiePrepJVM, comparateur);
         }
 
-        ArrayList<T>[] listesReferences = new ArrayList[repetitions];
-        for (int i = 0; i < repetitions; i++) {
-            listesReferences[i] = new ArrayList<>(tableau);
-        }
-
         long deb = System.nanoTime();
         for (int i = 0; i < repetitions; i++){
-            algo.ordonner(listesReferences[i], comparateur);
+            ArrayList<T> listeReference = new ArrayList<>(tableau);
+            algo.ordonner(listeReference, comparateur);
         }
         long fin = System.nanoTime();
 
