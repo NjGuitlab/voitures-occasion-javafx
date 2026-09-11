@@ -135,4 +135,16 @@ public class VoitureService {
 
     }
 
+    // --------------- Rechercher une voiture par ID ----------------- //
+    public Voiture trouverParId(int id){
+
+        for(Voiture voiture : voitures) {
+            if (voiture.getId() == id) {
+                return voiture;
+            }
+        }
+        return null;
+
+    }
+
 }
