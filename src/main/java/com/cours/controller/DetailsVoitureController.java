@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-// Un controlleur distint pour la zone de détails (qui est dans un fichier FXML distinct)
+// Un controlleur distinct pour la zone de détails (qui est dans un fichier FXML distinct)
 public class DetailsVoitureController {
 
     @FXML
@@ -28,7 +28,7 @@ public class DetailsVoitureController {
             labelCouleur.setText(voiture.getCouleur());
             labelVendeur.setText(voiture.getTypeVendeur() != null ? voiture.getTypeVendeur().name() : "");  // enum ici aussi
             labelVille.setText(voiture.getVille());
-            labelPrixParKilo.setText(String.format("%2f $/km", voiture.getPrixParKilometre()));
+            // labelPrixParKilo.setText(String.format("%2f $/km", voiture.getPrixParKilometre()));
         }
     }
 

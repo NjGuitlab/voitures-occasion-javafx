@@ -3,11 +3,12 @@ package com.cours.controller;
 import com.cours.model.Voiture;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
-import java.awt.*;
 import java.io.Console;
 import java.io.IOException;
 import java.util.function.Consumer;

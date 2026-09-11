@@ -10,7 +10,7 @@
 <fx:root prefHeight="308.0" prefWidth="200.0" spacing="8.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
     <ImageView fx:id="imageVoiture" fitHeight="97.0" fitWidth="200.0" preserveRatio="true">
       <image>
-         <Image url="@/images/photo_voiture.avif"/>
+         <Image url="@/images/images.jpg"/>
       </image>
     </ImageView>
    <HBox prefHeight="100.0" prefWidth="200.0" spacing="12.0">

@@ -52,12 +52,16 @@ public class MainController {
     private Label labelSliderKilometrage, labelSliderAnnee, labelSliderPrix;
 
     @FXML
-    private DetailsVoitureController detailsvoiture;
+    private DetailsVoitureController detailsVoitureController;
 
     @FXML
     public void initialize(){   // On initialise les données et toutes les options de filtrage
         chargerDonneesVoitures();
         pagination = new Pagination(listeVoitures, VOITURES_PAR_PAGE);  // Pour la pagination des cards
+        btnPagePrecedenteCards.setOnAction(e -> allerPagePrecedente());
+        btnPageSuivanteCards.setOnAction(e -> allerPageSuivante());
+
+        afficherCartes();
         remplirComboMarques();
         remplirComboCarburant();
         remplirComboVilles();
@@ -194,16 +198,40 @@ public class MainController {
     private void afficherCartes() {
         cardsContainer.getChildren().clear();
 
-        for (Voiture voiture : listeVoitures) {
+        List<Voiture> voituresPage = pagination.getVoiturePageActuelle();
+
+        for (Voiture voiture : voituresPage) {  // On affiche le nombre de cartes qu'on veut dans une page
             CardVoitureController card = new CardVoitureController(voiture, id -> afficherDetailsVoitures(id));
             cardsContainer.getChildren().add(card);
         }
+
+        // On met à jour les contrôles de pagination
+        btnPagePrecedenteCards.setDisable(pagination.getPageActuelle() <= 1); // On désactive le bouton Précédent si on est sur la page 1
+        btnPageSuivanteCards.setDisable(pagination.getPageActuelle() >= pagination.getNombrePages());  // On désactive le bouton Suivant si on est à la dernière page
+    }
+
+    // Les fonctions pour les boutons de pagination
+    @FXML
+    private void allerPagePrecedente() {
+        pagination.pagePrecedente();
+        afficherCartes();
+    }
+
+    @FXML
+    private void allerPageSuivante() {
+        pagination.pageSuivante();
+        afficherCartes();
     }
 
     // La méthode pour afficher les détails
     private void afficherDetailsVoitures(int idVoiture) {
         Voiture selectionnee = service.trouverParId(idVoiture);
-        detailsvoiture.afficherVoiture(selectionnee);
+        if (detailsVoitureController != null) {
+            detailsVoitureController.afficherVoiture(selectionnee);
+        } else {
+            System.err.println("Erreur : detailsVoitureController est null");
+        }
+
     }
 
 }
