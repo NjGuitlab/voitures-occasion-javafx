@@ -34,7 +34,7 @@ public class MainController {
     private TextField champRecherche;
 
     @FXML
-    private Slider sliderKilometrage, sliderAnnee, sliderPrix;
+    private Slider sliderKilometrage, sliderAnneeMin, sliderAnneeMax, sliderPrix;
 
     @FXML
     private ComboBox comboCarburant, comboVille, comboTypeTri, comboMarques;
@@ -49,7 +49,7 @@ public class MainController {
     private RadioButton radioTransmissionToutes, radioTransmissionAuto, radioTransmissionManuelle;
 
     @FXML
-    private Label labelSliderKilometrage, labelSliderAnnee, labelSliderPrix;
+    private Label labelSliderKilometrage, labelSliderAnneeMin, labelSliderAnneeMax, labelSliderPrix, labelNumeroPagesCards;
 
     @FXML
     private DetailsVoitureController detailsVoitureController;
@@ -67,7 +67,7 @@ public class MainController {
         remplirComboVilles();
         remplirComboTri();
         initialiserSliderKilometraqe();
-        initialiserSliderAnnee();
+        initialiserSliderAnneeMin();
         initialiserSliderPrix();
     }
 
@@ -159,21 +159,38 @@ public class MainController {
 
 
     // Une fonction pour déterminer les bornes du slider d'année
-    private void initialiserSliderAnnee() {
+    private void initialiserSliderAnneeMin() {
         if (listeVoitures == null || listeVoitures.isEmpty()) {
             return;
         }
 
-        sliderAnnee.setMin(1940);
-        sliderAnnee.setMax(Year.now().getValue());
+        sliderAnneeMin.setMin(1940);
+        sliderAnneeMin.setMax(Year.now().getValue());
 
         //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
-        labelSliderAnnee.setText(String.format("%d", (int) sliderAnnee.getValue()));
+        labelSliderAnneeMin.setText(String.format("%d", (int) sliderAnneeMin.getValue()));
 
         // Pour écouter le changement de valeur du slider
-        sliderAnnee.valueProperty().addListener((obs, oldVal, newVal) -> {
-            labelSliderAnnee.setText(String.format("%d", newVal.intValue()));
+        sliderAnneeMin.valueProperty().addListener((obs, oldVal, newVal) -> {
+            labelSliderAnneeMin.setText(String.format("%d", newVal.intValue()));
         });
+
+        sliderAnneeMin.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
+            if (!isChanging) {
+                filtrerPrixMax((int) sliderAnneeMin.getValue());
+            }
+        });
+
+        sliderAnneeMin.setOnMouseClicked(event -> {
+            filtrerAnneeMin((int) sliderAnneeMin.getValue());
+        });
+    }
+
+    // La fonction pour filtrer selon l'année minimum
+    private void filtrerAnneeMin(int anneeMin) {
+        List<Voiture> filtrees = service.filtrerParAnneeMin(anneeMin);
+        pagination = new Pagination(filtrees, VOITURES_PAR_PAGE);  // On affiche les cartes des voitures filtrées
+        afficherCartes();
     }
 
     // Une fonction pour déterminer les bornes du slider d'année
@@ -188,6 +205,7 @@ public class MainController {
         int prixMax = Collections.max(listeVoitures.stream().map(Voiture::getPrix).toList());
         sliderPrix.setMax(prixMax);
 
+        sliderPrix.setValue(prixMax); // Pour que le curseur soit à droit à l'ouverture
         //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
         labelSliderPrix.setText(String.format("%d $", (int) sliderPrix.getValue()));
 
@@ -227,6 +245,8 @@ public class MainController {
             CardVoitureController card = new CardVoitureController(voiture, id -> afficherDetailsVoitures(id));
             cardsContainer.getChildren().add(card);
         }
+
+        labelNumeroPagesCards.setText(pagination.getPageActuelle() + "/" + pagination.getNombrePages()); // Met à jour la page dans le label
 
         // On met à jour les contrôles de pagination
         btnPagePrecedenteCards.setDisable(pagination.getPageActuelle() <= 1); // On désactive le bouton Précédent si on est sur la page 1
