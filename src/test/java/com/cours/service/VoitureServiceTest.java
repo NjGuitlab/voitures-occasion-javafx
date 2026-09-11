@@ -149,4 +149,26 @@ public class VoitureServiceTest {
 
     }
 
+    // ID existant
+    @Test
+    void doitTrouverParIdExistant(){
+        LectureCSV lecture = new LectureCSV();
+        VoitureService service = new VoitureService(lecture);
+
+        Voiture voiture = service.trouverParId(1);
+
+        assertNotNull(voiture);
+        assertEquals(1, voiture.getId());
+    }
+
+    // ID inexistant
+    @Test
+    void doitTrouverParIdInexistant(){
+        LectureCSV lecture = new LectureCSV();
+        VoitureService service = new VoitureService(lecture);
+
+        Voiture voiture = service.trouverParId(500);
+
+        assertNull(voiture);
+    }
 }
