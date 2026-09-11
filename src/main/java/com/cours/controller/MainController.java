@@ -182,4 +182,19 @@ public class MainController {
         });
     }
 
+    // La fonction pour afficher les cards de voitures
+    private void afficherCartes() {
+        cardsContainer.getChildren().clear();
+
+        for (Voiture voiture : listeVoitures) {
+            CardVoitureController card = new CardVoitureController(voiture, id -> afficherDetailsVoitures(id));
+            cardsContainer.getChildren().add(card);
+        }
+    }
+
+    // La méthode pour afficher les détails
+    private void afficherDetailsVoitures(int idVoiture) {
+        Voiture selectionnee = service.trouverParId(idVoiture);
+    }
+
 }
