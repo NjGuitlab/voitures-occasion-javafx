@@ -4,6 +4,7 @@ import com.cours.model.TypeCarburant;
 import com.cours.model.Voiture;
 import com.cours.service.VoitureService;
 import com.cours.util.LectureCSV;
+import com.cours.util.Pagination;
 import com.cours.util.SourceDonnees;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -23,6 +24,9 @@ public class MainController {
     private final VoitureService service = new VoitureService(new LectureCSV());
 
     private List<Voiture> listeVoitures;
+
+    private Pagination pagination;  // On importe l'util pour gérer la pagnination
+    private static final int VOITURES_PAR_PAGE = 12;  // Le nombre de cards qu'on veut voir dans chaque page
 
     public MainController(){}
 
@@ -53,6 +57,7 @@ public class MainController {
     @FXML
     public void initialize(){   // On initialise les données et toutes les options de filtrage
         chargerDonneesVoitures();
+        pagination = new Pagination(listeVoitures, VOITURES_PAR_PAGE);  // Pour la pagination des cards
         remplirComboMarques();
         remplirComboCarburant();
         remplirComboVilles();
