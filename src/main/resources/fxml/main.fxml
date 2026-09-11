@@ -44,18 +44,21 @@
                      <children>
                         <Label text="Kilométrage maximum :" />
                         <Slider fx:id="sliderKilometrage" />
+                        <Label fx:id="labelSliderKilometrage" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <Label text="Année minimum :" />
                         <Slider fx:id="sliderAnnee" />
+                        <Label fx:id="labelSliderAnnee" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <Label text="Prix maximum :" />
                         <Slider fx:id="sliderPrix" />
+                        <Label fx:id="labelSliderPrix" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">

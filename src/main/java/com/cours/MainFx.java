@@ -19,8 +19,8 @@ public class MainFx extends Application {
 
         stage.setTitle("Voitures d'occasion");
         stage.setScene(scene);
-        stage.setMinWidth(900);
-        stage.setMinHeight(600);
+        stage.setMinWidth(1200);
+        stage.setMinHeight(900);
         stage.show();
     }
 }
