@@ -28,7 +28,7 @@ public class DetailsVoitureController {
             labelCouleur.setText(voiture.getCouleur());
             labelVendeur.setText(voiture.getTypeVendeur() != null ? voiture.getTypeVendeur().name() : "");  // enum ici aussi
             labelVille.setText(voiture.getVille());
-            // labelPrixParKilo.setText(String.format("%2f $/km", voiture.getPrixParKilometre()));
+            labelPrixParKilo.setText(String.format("%.2f $/km", voiture.getPrixParKilometre()));
         }
     }
 
