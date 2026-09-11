@@ -186,4 +186,41 @@ public class VoitureServiceTest {
 
         assertNull(voiture);
     }
+
+    // Filtrage par criteres (Marque, TypeCarburant, PrixMax, kilometrageMax)
+    @Test
+    void doitFiltrerParCriteres(){
+        LectureCSV lecture = new LectureCSV();
+        VoitureService service = new VoitureService(lecture);
+
+        List<Voiture> resultats = service.filtrerParCriteres
+                ("Toyota",TypeCarburant.ESSENCE,5000,300000);
+
+        assertNotNull(resultats);
+
+        for(Voiture voiture: resultats){
+            assertTrue(
+                    voiture.getMarque().equalsIgnoreCase("Toyota")
+                    && voiture.getCarburant()== TypeCarburant.ESSENCE
+                    && voiture.getPrix()<= 5000
+                    && voiture.getKilometrage() <= 300000);
+        }
+
+    }
+
+    @Test
+    void doitRetournerAucunResultatSiAucunCritereNeCorrespond(){
+        LectureCSV lecture = new LectureCSV();
+        VoitureService service = new VoitureService(lecture);
+
+        List<Voiture> resultats = service.filtrerParCriteres(
+                "Toyota",
+                TypeCarburant.ESSENCE,
+                1,
+                300000
+        );
+
+        assertNotNull(resultats);
+        assertTrue(resultats.isEmpty());
+    }
 }

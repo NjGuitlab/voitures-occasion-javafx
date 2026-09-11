@@ -83,7 +83,7 @@ public class VoitureService {
         List<Voiture> resultats = new ArrayList<>();
 
         for (Voiture voiture : voitures){
-            if(voiture.getPrix() < prixMax){
+            if(voiture.getPrix() <= prixMax){
                 resultats.add(voiture);
             }
         }
@@ -162,5 +162,42 @@ public class VoitureService {
         return null;
 
     }
+
+    // ---------------------- Filtrer par plusieurs criteres ---------------------- //
+
+    public List<Voiture> filtrerParCriteres(
+            String marque,
+            TypeCarburant carburant,
+            Integer prixMax,
+            Integer kilometrageMax){
+
+        List<Voiture> resultats = new ArrayList<>();
+
+        for (Voiture voiture: voitures){
+
+            if (marque != null
+                    && !marque.equalsIgnoreCase("Toutes")
+                    && !voiture.getMarque().equalsIgnoreCase(marque)){
+                continue;
+            }
+            if (carburant !=null
+                    && !voiture.getCarburant().equals(carburant)){
+                continue;
+            }
+            if (prixMax != null
+                    && voiture.getPrix() > prixMax){
+                continue;
+            }
+            if (kilometrageMax != null
+                    && voiture.getKilometrage() > kilometrageMax){
+                continue;
+            }
+            resultats.add(voiture);
+        }
+
+        return resultats;
+
+    }
+
 
 }
