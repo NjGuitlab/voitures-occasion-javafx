@@ -65,6 +65,8 @@ public class Voiture {
         return prix;
     }
 
+    public double getPrixParKilometre() { return (double) prix / kilometrage;}
+
     public TypeCarburant getCarburant() {
         return carburant;
     }
