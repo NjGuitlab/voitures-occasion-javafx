@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cours.controller.MainController">
    <top>
       <VBox prefHeight="74.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -32,7 +32,7 @@
                         <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="champRecherche">
+                  <TextField fx:id="champRecherche" promptText="Rechercher...">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -44,18 +44,28 @@
                      <children>
                         <Label text="Kilométrage maximum :" />
                         <Slider fx:id="sliderKilometrage" />
+                        <Label fx:id="labelSliderKilometrage" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <Label text="Année minimum :" />
-                        <Slider fx:id="sliderAnnee" />
+                        <Slider fx:id="sliderAnneeMin" />
+                        <Label fx:id="labelSliderAnneeMin" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Année maximum :" />
+                        <Slider fx:id="sliderAnneeMax" />
+                        <Label fx:id="labelSliderAnneeMax" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <Label text="Prix maximum :" />
                         <Slider fx:id="sliderPrix" />
+                        <Label fx:id="labelSliderPrix" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
@@ -70,14 +80,22 @@
       </VBox>
    </top>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="500.0" prefWidth="588.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Véhicules disponibles" />
-            <ScrollPane prefHeight="200.0" prefWidth="200.0">
+            <ScrollPane fitToWidth="true" prefHeight="500.0" prefWidth="588.0" VBox.vgrow="ALWAYS">
                <content>
-                  <FlowPane fx:id="cardsContainer" prefHeight="200.0" prefWidth="588.0" />
+                  <FlowPane fx:id="cardsContainer" hgap="15.0" vgap="15.0" />
                </content>
             </ScrollPane>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="btnPagePrecedenteCards" mnemonicParsing="false" text="Page précédente" />
+                  <Label text="Page :" />
+                  <Label fx:id="labelNumeroPagesCards" text="Label" />
+                  <Button fx:id="btnPageSuivanteCards" mnemonicParsing="false" text="Page suivante" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </center>
@@ -99,30 +117,16 @@
             <VBox prefHeight="88.0" prefWidth="194.0">
                <children>
                   <Label text="Choisir une marque :" />
-                  <FlowPane fx:id="zoneCheckMarques" prefHeight="200.0" prefWidth="200.0" />
+                  <ComboBox fx:id="comboMarques" prefWidth="200.0" />
                </children>
             </VBox>
          </children>
       </VBox>
    </left>
    <right>
-      <VBox fx:id="zoneDetails" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <fx:include fx:id="detailsVoiture" source="detail.fxml" BorderPane.alignment="CENTER" />
    </right>
    <bottom>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label text="Vos favoris" />
-                  <Button fx:id="buttonVoirBenchmark" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Button" />
-               </children>
-            </HBox>
-            <ScrollPane prefHeight="200.0" prefWidth="200.0">
-               <content>
-                  <FlowPane fx:id="zoneFavoris" prefHeight="157.0" prefWidth="756.0" />
-               </content>
-            </ScrollPane>
-         </children>
-      </VBox>
+      <fx:include fx:id="zoneFavoris" source="ZoneFavoris.fxml" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>
