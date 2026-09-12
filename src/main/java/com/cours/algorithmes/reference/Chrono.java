@@ -1,7 +1,6 @@
-package com.cours.algorithmes.benchmark;
+package com.cours.algorithmes.reference;
 
 import com.cours.algorithmes.Algorithme;
-import com.cours.model.Voiture;
 
 import java.util.ArrayList;
 import java.util.Comparator;
