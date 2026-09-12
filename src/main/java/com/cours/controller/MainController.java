@@ -45,7 +45,7 @@ public class MainController {
     private Slider sliderKilometrage, sliderAnneeMin, sliderAnneeMax, sliderPrix;
 
     @FXML
-    private ComboBox comboCarburant, comboVille, comboMarques;
+    private ComboBox comboCarburant, comboMarques;
 
     @FXML
     private ComboBox<String> comboTypeTri;
@@ -54,7 +54,7 @@ public class MainController {
     private FlowPane cardsContainer;
 
     @FXML
-    private Button btnPagePrecedenteCards, btnPageSuivanteCards, buttonVoirBenchmark;
+    private Button btnPagePrecedenteCards, btnPageSuivanteCards;
 
     @FXML
     private RadioButton radioTransmissionToutes, radioTransmissionAuto, radioTransmissionManuelle;
@@ -67,6 +67,9 @@ public class MainController {
     @FXML
     private DetailsVoitureController detailsVoitureController;
 
+    @FXML
+    private FavorisController zoneFavorisController;
+
     private final PauseTransition debounce = new PauseTransition(Duration.millis(300));  // Pour éviter de lancer trop rapidement la requête à chaque touche tapée
 
     @FXML
@@ -76,10 +79,21 @@ public class MainController {
         btnPagePrecedenteCards.setOnAction(e -> allerPagePrecedente());
         btnPageSuivanteCards.setOnAction(e -> allerPageSuivante());
 
+        if (detailsVoitureController != null) {
+            detailsVoitureController.setVoitureService(service);  // Pour que la zone de détails ait le même service
+        }
+        if (zoneFavorisController != null) {
+            zoneFavorisController.setVoitureService(this.service);  // Pour que la zone de favoris ait le même service
+        }
+        if (zoneFavorisController != null && detailsVoitureController != null) {
+            detailsVoitureController.setOnFavoriAjoute(() -> zoneFavorisController.rafraichirVueFavoris());
+        }
+        System.out.println("[INIT] detailsVoitureController = " + detailsVoitureController);
+        System.out.println("[INIT] zoneFavorisController = " + zoneFavorisController);
+
         afficherCartes();
         remplirComboBox(listeVoitures.stream().map(Voiture::getMarque).distinct().toList(), comboMarques, "Toutes");
         remplirComboBox(listeVoitures.stream().map(v -> Objects.toString(v.getCarburant(), "")).filter(s -> !s.isBlank()).distinct().toList(), comboCarburant, "Tous");
-        remplirComboBox(listeVoitures.stream().map(Voiture::getVille).distinct().toList(), comboVille, "Toutes");
         comboMarques.setOnAction(e -> appliquerFiltreMultipleEtTri());  // Écouteur d'événement
         comboCarburant.setOnAction(e -> appliquerFiltreMultipleEtTri());
         remplirComboTri();
@@ -165,10 +179,6 @@ public class MainController {
         sliderKilometrage.setMax(kiloMax);
         sliderKilometrage.setValue(kiloMax);  // Pour que le curseur soit à droite
 
-        //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
-        int kilometrageEntier = (int) sliderKilometrage.getValue();  // Parce que le getValue() retourne normalement un double, on le transforme en int
-        labelSliderKilometrage.setText(String.format("%d km", kilometrageEntier));
-
         configurerSlider(sliderKilometrage, labelSliderKilometrage, "km", () -> appliquerFiltreMultipleEtTri());
     }
 
@@ -197,6 +207,9 @@ public class MainController {
 
     // Une fonction pour configurer tous les sliders
     private void configurerSlider(Slider slider, Label label, String suffixe, Runnable onAction) {
+        //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
+        label.setText(String.format("%d" + suffixe, (int) slider.getValue())); // Parce que le getValue() retourne normalement un double, on le transforme en int
+
         // Pour écouter le changement de valeur du slider
         slider.valueProperty().addListener((obs, oldVal, newVal) -> {
             label.setText(newVal.intValue() + " " + suffixe);
@@ -212,13 +225,11 @@ public class MainController {
             onAction.run();
         });
     }
-
     // Une fonction pour déterminer les bornes du slider d'année minumum
     private void initialiserSliderAnneeMin() {
         if (listeVoitures == null || listeVoitures.isEmpty()) {
             return;
         }
-
         int anneeMax = Collections.max(listeVoitures.stream().map(Voiture::getAnnee).toList());
         sliderAnneeMin.setMin(1980);
         sliderAnneeMin.setMax(anneeMax);
@@ -249,9 +260,6 @@ public class MainController {
         sliderAnneeMax.setMax(anneeMax);
         sliderAnneeMax.setValue(anneeMax); // Pour que le curseur soit à droite à l'ouverture
 
-        //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
-        labelSliderAnneeMax.setText(String.format("%d", (int) sliderAnneeMax.getValue()));
-
         configurerSlider(sliderAnneeMax, labelSliderAnneeMax, "", () -> filtrerAnneeMax((int) sliderAnneeMax.getValue()));
     }
 
@@ -268,13 +276,11 @@ public class MainController {
         if (listeVoitures == null || listeVoitures.isEmpty()) {
             return;
         }
-
         sliderPrix.setMin(0);
 
         // Pour obtenir la valeur maximale des prix des véhicules disponibles
         int prixMax = Collections.max(listeVoitures.stream().map(Voiture::getPrix).toList());
         sliderPrix.setMax(prixMax);
-
         sliderPrix.setValue(prixMax); // Pour que le curseur soit à droite à l'ouverture
         //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
         labelSliderPrix.setText(String.format("%d $", (int) sliderPrix.getValue()));
@@ -347,7 +353,6 @@ public class MainController {
         if (listeOrigine == null || listeOrigine.size() <= 1) {
             return;  // Pour empêcher que le tri plante si la liste est vide
         }
-
         String typeTri = comboTypeTri.getValue();
 
         if (typeTri == null || "Tous".equals(typeTri)) {
