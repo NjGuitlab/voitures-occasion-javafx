@@ -29,6 +29,7 @@ public class CardVoitureController extends VBox {
 
         loader.setRoot(this);
         loader.setController(this);
+        this.getStyleClass().add("card-voiture");
 
         try {
             loader.load();

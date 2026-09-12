@@ -1,0 +1,43 @@
+.button {
+    -fx-background-color: green;
+    -fx-text-fill: white;
+}
+
+.main-title {
+    -fx-text-fill: darkred;
+    -fx-font-size: 38px;
+    -fx-background-color: lightblue;
+    -fx-padding: 6px 18px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0.0, 0, 4);
+    -fx-font-weight: bold;
+    -fx-font-style: italic;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+#cardsContainer {
+    -fx-hgap: 10px;
+    -fx-vgap: 13px;
+    -fx-alignment: center;
+    -fx-background-color: #e8e4dc;
+    -fx-padding: 12px;
+}
+
+.card-voiture {
+    -fx-padding: 10px 6px;
+    -fx-background-color: #fbf9f4;
+    -fx-border-color: #d6cfc4;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.08), 8, 0.0, 0, 2);
+}
+
+.card-voiture:hover {
+    -fx-background-color: #f4efe6;
+}
+
+.card-voiture .button {
+    -fx-background-color: orange;
+    -fx-text-fill: white;
+}
