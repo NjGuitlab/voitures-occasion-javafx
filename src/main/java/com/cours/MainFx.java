@@ -15,12 +15,13 @@ public class MainFx extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
         Parent root = loader.load();
 
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 1200, 800);
+        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm()); // Pour ajouter le CSS
 
         stage.setTitle("Voitures d'occasion");
         stage.setScene(scene);
-        stage.setMinWidth(1200);
-        stage.setMinHeight(900);
+        stage.setMinWidth(1000);
+        stage.setMinHeight(700);
         stage.show();
     }
 }
