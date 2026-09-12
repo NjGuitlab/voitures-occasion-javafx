@@ -206,18 +206,7 @@ public class MainController {
         int kilometrageEntier = (int) sliderKilometrage.getValue();  // Parce que le getValue() retourne normalement un double, on le transforme en int
         labelSliderKilometrage.setText(String.format("%d km", kilometrageEntier));
 
-        // Pour écouter le changement de valeur du slider
-        sliderKilometrage.valueProperty().addListener((obs, oldVal, newVal) -> {
-            labelSliderKilometrage.setText(String.format("%d km", newVal.intValue()));
-        });
-
-        sliderKilometrage.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
-            if (!isChanging) {
-                appliquerFiltreMultipleEtTri();
-            }
-        });
-
-        sliderKilometrage.setOnMouseClicked(event -> appliquerFiltreMultipleEtTri());
+        configurerSlider(sliderKilometrage, labelSliderKilometrage, "km", () -> appliquerFiltreMultipleEtTri());
     }
 
     // La fonction pour filter selon plusieurs critères et appliquer des tris
@@ -243,6 +232,24 @@ public class MainController {
         afficherCartes();
     }
 
+    // Une fonction pour configurer tous les sliders
+    private void configurerSlider(Slider slider, Label label, String suffixe, Runnable onAction) {
+        // Pour écouter le changement de valeur du slider
+        slider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            label.setText(newVal.intValue() + " " + suffixe);
+        });
+
+        slider.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
+            if (!isChanging) {
+                onAction.run();
+            }
+        });
+
+        slider.setOnMouseClicked(event -> {
+            onAction.run();
+        });
+    }
+
     // Une fonction pour déterminer les bornes du slider d'année minumum
     private void initialiserSliderAnneeMin() {
         if (listeVoitures == null || listeVoitures.isEmpty()) {
@@ -256,20 +263,7 @@ public class MainController {
         //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
         labelSliderAnneeMin.setText(String.format("%d", (int) sliderAnneeMin.getValue()));
 
-        // Pour écouter le changement de valeur du slider
-        sliderAnneeMin.valueProperty().addListener((obs, oldVal, newVal) -> {
-            labelSliderAnneeMin.setText(String.format("%d", newVal.intValue()));
-        });
-
-        sliderAnneeMin.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
-            if (!isChanging) {
-                filtrerAnneeMin((int) sliderAnneeMin.getValue());
-            }
-        });
-
-        sliderAnneeMin.setOnMouseClicked(event -> {
-            filtrerAnneeMin((int) sliderAnneeMin.getValue());
-        });
+        configurerSlider(sliderAnneeMin, labelSliderAnneeMin, "", () -> filtrerAnneeMin((int) sliderAnneeMin.getValue()));
     }
 
     // La fonction pour filtrer selon l'année minimum
@@ -295,20 +289,7 @@ public class MainController {
         //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
         labelSliderAnneeMax.setText(String.format("%d", (int) sliderAnneeMax.getValue()));
 
-        // Pour écouter le changement de valeur du slider
-        sliderAnneeMax.valueProperty().addListener((obs, oldVal, newVal) -> {
-            labelSliderAnneeMax.setText(String.format("%d", newVal.intValue()));
-        });
-
-        sliderAnneeMax.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
-            if (!isChanging) {
-                filtrerAnneeMax((int) sliderAnneeMax.getValue());
-            }
-        });
-
-        sliderAnneeMax.setOnMouseClicked(event -> {
-            filtrerAnneeMax((int) sliderAnneeMax.getValue());
-        });
+        configurerSlider(sliderAnneeMax, labelSliderAnneeMax, "", () -> filtrerAnneeMax((int) sliderAnneeMax.getValue()));
     }
 
     // La fonction pour filtrer selon l'année maximum
@@ -335,22 +316,7 @@ public class MainController {
         //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
         labelSliderPrix.setText(String.format("%d $", (int) sliderPrix.getValue()));
 
-        // Pour écouter le changement de valeur du slider
-        sliderPrix.valueProperty().addListener((obs, oldVal, newVal) -> {
-            labelSliderPrix.setText(String.format("%d $", newVal.intValue()));
-        });
-
-        // Pour exécuter la requête seulement au relâchement de la souris. (Pour quand on va utiliser une BDD)
-        sliderPrix.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
-            if (!isChanging) {
-                appliquerFiltreMultipleEtTri();
-            }
-        });
-
-        // Pour quand l'utilisateur clique directement
-        sliderPrix.setOnMouseClicked(event -> {
-            appliquerFiltreMultipleEtTri();
-        });
+        configurerSlider(sliderPrix, labelSliderPrix, "$", () -> appliquerFiltreMultipleEtTri());
     }
 
     // La fonction pour appliquer le filtrage par Type de Transmission
