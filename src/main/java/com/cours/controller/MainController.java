@@ -45,7 +45,7 @@ public class MainController {
     private Slider sliderKilometrage, sliderAnneeMin, sliderAnneeMax, sliderPrix;
 
     @FXML
-    private ComboBox comboCarburant, comboVille, comboMarques;
+    private ComboBox comboCarburant, comboMarques;
 
     @FXML
     private ComboBox<String> comboTypeTri;
@@ -79,7 +79,6 @@ public class MainController {
         afficherCartes();
         remplirComboBox(listeVoitures.stream().map(Voiture::getMarque).distinct().toList(), comboMarques, "Toutes");
         remplirComboBox(listeVoitures.stream().map(v -> Objects.toString(v.getCarburant(), "")).filter(s -> !s.isBlank()).distinct().toList(), comboCarburant, "Tous");
-        remplirComboBox(listeVoitures.stream().map(Voiture::getVille).distinct().toList(), comboVille, "Toutes");
         comboMarques.setOnAction(e -> appliquerFiltreMultipleEtTri());  // Écouteur d'événement
         comboCarburant.setOnAction(e -> appliquerFiltreMultipleEtTri());
         remplirComboTri();
@@ -212,13 +211,11 @@ public class MainController {
             onAction.run();
         });
     }
-
     // Une fonction pour déterminer les bornes du slider d'année minumum
     private void initialiserSliderAnneeMin() {
         if (listeVoitures == null || listeVoitures.isEmpty()) {
             return;
         }
-
         int anneeMax = Collections.max(listeVoitures.stream().map(Voiture::getAnnee).toList());
         sliderAnneeMin.setMin(1980);
         sliderAnneeMin.setMax(anneeMax);
@@ -268,13 +265,11 @@ public class MainController {
         if (listeVoitures == null || listeVoitures.isEmpty()) {
             return;
         }
-
         sliderPrix.setMin(0);
 
         // Pour obtenir la valeur maximale des prix des véhicules disponibles
         int prixMax = Collections.max(listeVoitures.stream().map(Voiture::getPrix).toList());
         sliderPrix.setMax(prixMax);
-
         sliderPrix.setValue(prixMax); // Pour que le curseur soit à droite à l'ouverture
         //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
         labelSliderPrix.setText(String.format("%d $", (int) sliderPrix.getValue()));
@@ -347,7 +342,6 @@ public class MainController {
         if (listeOrigine == null || listeOrigine.size() <= 1) {
             return;  // Pour empêcher que le tri plante si la liste est vide
         }
-
         String typeTri = comboTypeTri.getValue();
 
         if (typeTri == null || "Tous".equals(typeTri)) {
