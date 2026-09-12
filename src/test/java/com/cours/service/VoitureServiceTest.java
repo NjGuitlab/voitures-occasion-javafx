@@ -223,4 +223,40 @@ public class VoitureServiceTest {
         assertNotNull(resultats);
         assertTrue(resultats.isEmpty());
     }
+
+    @Test
+    void doitAjouterUneVoitureAuxFavoris() {
+        LectureCSV lecture = new LectureCSV();
+        VoitureService service = new VoitureService(lecture);
+
+        service.ajouterFavori(1);
+
+        assertEquals(1, service.getFavoris().size());
+        assertEquals(1, service.getFavoris().get(0).getId());
+    }
+
+    @Test
+    void neDoitPasAjouterDeuxFoisLaMemeVoiture() {
+        LectureCSV lecture = new LectureCSV();
+        VoitureService service = new VoitureService(lecture);
+
+        service.ajouterFavori(1);
+        service.ajouterFavori(1);
+
+        assertEquals(1, service.getFavoris().size());
+    }
+
+    @Test
+    void doitSupprimerUneVoitureDesFavoris() {
+        LectureCSV lecture = new LectureCSV();
+        VoitureService service = new VoitureService(lecture);
+
+        service.ajouterFavori(1);
+        service.ajouterFavori(2);
+
+        service.supprimerFavori(1);
+
+        assertEquals(1, service.getFavoris().size());
+        assertEquals(2, service.getFavoris().get(0).getId());
+    }
 }

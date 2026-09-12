@@ -11,10 +11,12 @@ import java.util.List;
 public class VoitureService {
 
     private List<Voiture> voitures;
+    private List<Voiture> favoris;
 
     public VoitureService(SourceDonnees sourceDonnees) {
 
         this.voitures = sourceDonnees.chargerVoitures();
+        this.favoris = new ArrayList<>();
 
     }
 
@@ -197,6 +199,27 @@ public class VoitureService {
 
         return resultats;
 
+    }
+
+    // ------------- Gestion des favoris ----------------- //
+
+    //Ajouter aux favoris
+    public void ajouterFavori(int id){
+        Voiture voiture = trouverParId(id);
+
+        if(voiture !=null && !favoris.contains(voiture)){
+            favoris.add(voiture);
+        }
+    }
+
+    //Afficher les favoris
+    public List<Voiture> getFavoris(){
+        return favoris;
+    }
+
+    //Supprimer un favoris
+    public void supprimerFavori(int id){
+        favoris.removeIf(voiture ->voiture.getId() == id);
     }
 
 
