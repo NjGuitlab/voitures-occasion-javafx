@@ -83,6 +83,7 @@ public class MainController {
         remplirComboTri();
         initialiserSliderKilometraqe();
         initialiserSliderAnneeMin();
+        initialiserSliderAnneeMax();
         initialiserSliderPrix();
 
         debounce.setOnFinished(event -> afficherVoituresCherchees(champRecherche.getText()));
@@ -143,7 +144,6 @@ public class MainController {
 
         comboVille.setItems(FXCollections.observableArrayList(villes));
         comboVille.getSelectionModel().selectFirst();  // C'est la première option qui s'affiche par défaut
-
     }
 
     // Une fonction pour initialiser le ComboBox des types de tri
@@ -152,33 +152,11 @@ public class MainController {
         comboTypeTri.getSelectionModel().selectFirst();
     }
 
-    // Une fonction pour déterminer les bornes du slider de kilométrage
-    private void initialiserSliderKilometraqe() {
-        if (listeVoitures == null || listeVoitures.isEmpty()) {
-            return;
-        }
-
-        sliderKilometrage.setMin(0);
-
-        // Pour obtenir la valeur maximale des kilométrage des véhicules disponibles
-        int kiloMax = Collections.max(listeVoitures.stream().map(Voiture::getKilometrage).toList());
-
-        sliderKilometrage.setMax(kiloMax);
-
-        //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
-        int kilometrageEntier = (int) sliderKilometrage.getValue();  // Parce que le getValue() retourne normalement un double, on le transforme en int
-        labelSliderKilometrage.setText(String.format("%d km", kilometrageEntier));
-
-        // Pour écouter le changement de valeur du slider
-        sliderKilometrage.valueProperty().addListener((obs, oldVal, newVal) -> {
-            labelSliderKilometrage.setText(String.format("%d km", newVal.intValue()));
-        });
-    }
-
-    // La fonction pour filter selon le kilométrage
+    // La fonction pour filtrer selon plusieurs critères et trier
 
 
-    // Une fonction pour déterminer les bornes du slider d'année
+
+    // Une fonction pour déterminer les bornes du slider d'année minumum
     private void initialiserSliderAnneeMin() {
         if (listeVoitures == null || listeVoitures.isEmpty()) {
             return;
@@ -197,7 +175,7 @@ public class MainController {
 
         sliderAnneeMin.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
             if (!isChanging) {
-                filtrerPrixMax((int) sliderAnneeMin.getValue());
+                filtrerAnneeMin((int) sliderAnneeMin.getValue());
             }
         });
 
@@ -209,6 +187,44 @@ public class MainController {
     // La fonction pour filtrer selon l'année minimum
     private void filtrerAnneeMin(int anneeMin) {
         List<Voiture> filtrees = service.filtrerParAnneeMin(anneeMin);
+        pagination = new Pagination(filtrees, VOITURES_PAR_PAGE);  // On affiche les cartes des voitures filtrées
+        afficherCartes();
+    }
+
+    // Une fonction pour déterminer les bornes du slider d'année maximum
+    private void initialiserSliderAnneeMax() {
+        if (listeVoitures == null || listeVoitures.isEmpty()) {
+            return;
+        }
+
+        sliderAnneeMax.setMin(1940);
+        int anneeMax = Year.now().getValue();
+        sliderAnneeMax.setMax(anneeMax);
+        sliderAnneeMax.setValue(anneeMax); // Pour que le curseur soit à droite à l'ouverture
+
+        //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
+        labelSliderAnneeMax.setText(String.format("%d", (int) sliderAnneeMax.getValue()));
+
+        // Pour écouter le changement de valeur du slider
+        sliderAnneeMax.valueProperty().addListener((obs, oldVal, newVal) -> {
+            labelSliderAnneeMax.setText(String.format("%d", newVal.intValue()));
+        });
+
+        sliderAnneeMax.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
+            if (!isChanging) {
+                filtrerAnneeMax((int) sliderAnneeMax.getValue());
+            }
+        });
+
+        sliderAnneeMax.setOnMouseClicked(event -> {
+            filtrerAnneeMax((int) sliderAnneeMax.getValue());
+        });
+    }
+
+    // La fonction pour filtrer selon l'année maximum
+    private void filtrerAnneeMax(int anneeMax) {
+        ArrayList<Voiture> filtrees = new ArrayList<>(service.filtrerParAnneeMax(anneeMax));
+        triApplique(filtrees);
         pagination = new Pagination(filtrees, VOITURES_PAR_PAGE);  // On affiche les cartes des voitures filtrées
         afficherCartes();
     }
@@ -225,7 +241,7 @@ public class MainController {
         int prixMax = Collections.max(listeVoitures.stream().map(Voiture::getPrix).toList());
         sliderPrix.setMax(prixMax);
 
-        sliderPrix.setValue(prixMax); // Pour que le curseur soit à droit à l'ouverture
+        sliderPrix.setValue(prixMax); // Pour que le curseur soit à droite à l'ouverture
         //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
         labelSliderPrix.setText(String.format("%d $", (int) sliderPrix.getValue()));
 
