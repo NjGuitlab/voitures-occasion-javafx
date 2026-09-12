@@ -171,36 +171,56 @@ public class VoitureService {
             String marque,
             TypeCarburant carburant,
             Integer prixMax,
-            Integer kilometrageMax){
+            Integer kilometrageMax,
+            Integer anneeMin,
+            Integer anneeMax,
+            Transmission transmission) {
 
         List<Voiture> resultats = new ArrayList<>();
 
-        for (Voiture voiture: voitures){
+        for (Voiture voiture : voitures) {
 
             if (marque != null
                     && !marque.equalsIgnoreCase("Toutes")
-                    && !voiture.getMarque().equalsIgnoreCase(marque)){
+                    && !voiture.getMarque().equalsIgnoreCase(marque)) {
                 continue;
             }
-            if (carburant !=null
-                    && !voiture.getCarburant().equals(carburant)){
+
+            if (carburant != null
+                    && !voiture.getCarburant().equals(carburant)) {
                 continue;
             }
+
             if (prixMax != null
-                    && voiture.getPrix() > prixMax){
+                    && voiture.getPrix() > prixMax) {
                 continue;
             }
+
             if (kilometrageMax != null
-                    && voiture.getKilometrage() > kilometrageMax){
+                    && voiture.getKilometrage() > kilometrageMax) {
                 continue;
             }
+
+            if (anneeMin != null
+                    && voiture.getAnnee() < anneeMin) {
+                continue;
+            }
+
+            if (anneeMax != null
+                    && voiture.getAnnee() > anneeMax) {
+                continue;
+            }
+
+            if (transmission != null
+                    && voiture.getTransmission() != transmission) {
+                continue;
+            }
+
             resultats.add(voiture);
         }
 
         return resultats;
-
     }
-
     // ------------- Gestion des favoris ----------------- //
 
     //Ajouter aux favoris
