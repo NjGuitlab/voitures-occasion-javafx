@@ -3,6 +3,7 @@ package com.cours.controller;
 import com.cours.algorithmes.TriFusion;
 import com.cours.algorithmes.TriInsertion;
 import com.cours.algorithmes.TriRapide;
+import com.cours.model.Transmission;
 import com.cours.model.TypeCarburant;
 import com.cours.model.Voiture;
 import com.cours.model.VoitureComparateurs;
@@ -56,10 +57,12 @@ public class MainController {
     private FlowPane cardsContainer;
 
     @FXML
-    private Button btnPagePrecedenteCards, btnPageSuivanteCards, buttonVoirBenchmark, btnPagePrecedenteFavoris, btnPageSuivanteFavoris;
+    private Button btnPagePrecedenteCards, btnPageSuivanteCards, buttonVoirBenchmark;
 
     @FXML
     private RadioButton radioTransmissionToutes, radioTransmissionAuto, radioTransmissionManuelle;
+
+    private ToggleGroup groupeTransmission;  //Pour fait un toggle entre les radio boutons
 
     @FXML
     private Label labelSliderKilometrage, labelSliderAnneeMin, labelSliderAnneeMax, labelSliderPrix, labelNumeroPagesCards;
@@ -78,7 +81,9 @@ public class MainController {
 
         afficherCartes();
         remplirComboMarques();
+        comboMarques.setOnAction(e -> appliquerFiltreMultipleEtTri());  // Écouteur d'événement
         remplirComboCarburant();
+        comboCarburant.setOnAction(e -> appliquerFiltreMultipleEtTri());
         remplirComboVilles();
         remplirComboTri();
         initialiserSliderKilometraqe();
@@ -90,6 +95,35 @@ public class MainController {
         champRecherche.textProperty().addListener((obs, oldVal, newVal) -> {
             debounce.playFromStart();  // Pour écouter les événements du champ de recherche
         });
+
+        groupeTransmission = new ToggleGroup();
+        radioTransmissionToutes.setToggleGroup(groupeTransmission);
+        radioTransmissionAuto.setToggleGroup(groupeTransmission);
+        radioTransmissionManuelle.setToggleGroup(groupeTransmission);
+
+        radioTransmissionToutes.setSelected(true); // Sélection par défaut
+
+        groupeTransmission.selectedToggleProperty().addListener((obs, ancToggle, nouvToggle) -> {
+            if (nouvToggle != null) {
+                RadioButton boutonSelectionne = (RadioButton) nouvToggle;
+                String text = boutonSelectionne.getText();
+
+                Transmission transmission = null;
+                if(!"Toutes".equalsIgnoreCase(text)) {
+                    try {
+                        transmission = Transmission.valueOf(text.toUpperCase());
+                    } catch (IllegalArgumentException e) {
+                        if (text.toLowerCase().startsWith("auto")) {
+                            transmission = Transmission.AUTOMATIQUE;
+                        } else if (text.toLowerCase().startsWith("man")) {
+                            transmission = Transmission.MANUELLE;
+                        }
+                    }
+                }
+                filtrerTransmission(transmission);
+            }
+        });
+
     }
 
     // Une fonction pour charger les données des voitures quand on ouvre la page
@@ -150,11 +184,64 @@ public class MainController {
     private void remplirComboTri() {
         comboTypeTri.getItems().addAll("Tous", "Kilométrage croissant", "Prix croissant", "Prix décroissant", "Date décroissante");
         comboTypeTri.getSelectionModel().selectFirst();
+
+        comboTypeTri.setOnAction(e -> appliquerFiltreMultipleEtTri());
     }
 
-    // La fonction pour filtrer selon plusieurs critères et trier
+    // Une fonction pour déterminer les bornes du slider de kilométrage
+    private void initialiserSliderKilometraqe() {
+        if (listeVoitures == null || listeVoitures.isEmpty()) {
+            return;
+        }
 
+        sliderKilometrage.setMin(0);
 
+        // Pour obtenir la valeur maximale des kilométrage des véhicules disponibles
+        int kiloMax = Collections.max(listeVoitures.stream().map(Voiture::getKilometrage).toList());
+
+        sliderKilometrage.setMax(kiloMax);
+        sliderKilometrage.setValue(kiloMax);  // Pour que le curseur soit à droite
+
+        //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
+        int kilometrageEntier = (int) sliderKilometrage.getValue();  // Parce que le getValue() retourne normalement un double, on le transforme en int
+        labelSliderKilometrage.setText(String.format("%d km", kilometrageEntier));
+
+        // Pour écouter le changement de valeur du slider
+        sliderKilometrage.valueProperty().addListener((obs, oldVal, newVal) -> {
+            labelSliderKilometrage.setText(String.format("%d km", newVal.intValue()));
+        });
+
+        sliderKilometrage.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
+            if (!isChanging) {
+                appliquerFiltreMultipleEtTri();
+            }
+        });
+
+        sliderKilometrage.setOnMouseClicked(event -> appliquerFiltreMultipleEtTri());
+    }
+
+    // La fonction pour filter selon plusieurs critères et appliquer des tris
+    private void appliquerFiltreMultipleEtTri() {
+        String marque = (comboMarques.getValue() != null) ? comboMarques.getValue().toString() : null;
+        String carburantStr = (comboCarburant.getValue() != null) ? comboCarburant.getValue().toString() : null;
+        TypeCarburant carburant = null;
+        if (carburantStr != null && !"Tous".equalsIgnoreCase(carburantStr)) {
+            try {
+                carburant = TypeCarburant.valueOf(carburantStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                carburant = null;
+            }
+        }
+        Integer prixMax = (int) sliderPrix.getValue();
+        Integer kmMax = (int) sliderKilometrage.getValue();
+
+        ArrayList<Voiture> filtrees = new ArrayList<>(service.filtrerParCriteres(marque, carburant, prixMax, kmMax));
+
+        triApplique(filtrees);  // On applique s'il y a un tri choisi
+
+        pagination = new Pagination(filtrees, VOITURES_PAR_PAGE);
+        afficherCartes();
+    }
 
     // Une fonction pour déterminer les bornes du slider d'année minumum
     private void initialiserSliderAnneeMin() {
@@ -162,8 +249,9 @@ public class MainController {
             return;
         }
 
-        sliderAnneeMin.setMin(1940);
-        sliderAnneeMin.setMax(Year.now().getValue());
+        int anneeMax = Collections.max(listeVoitures.stream().map(Voiture::getAnnee).toList());
+        sliderAnneeMin.setMin(1980);
+        sliderAnneeMin.setMax(anneeMax);
 
         //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
         labelSliderAnneeMin.setText(String.format("%d", (int) sliderAnneeMin.getValue()));
@@ -186,7 +274,8 @@ public class MainController {
 
     // La fonction pour filtrer selon l'année minimum
     private void filtrerAnneeMin(int anneeMin) {
-        List<Voiture> filtrees = service.filtrerParAnneeMin(anneeMin);
+        ArrayList<Voiture> filtrees = new ArrayList<>(service.filtrerParAnneeMin(anneeMin));
+        triApplique(filtrees);  // On applique un tri si un est choisi
         pagination = new Pagination(filtrees, VOITURES_PAR_PAGE);  // On affiche les cartes des voitures filtrées
         afficherCartes();
     }
@@ -197,7 +286,8 @@ public class MainController {
             return;
         }
 
-        sliderAnneeMax.setMin(1940);
+        int anneeMin = Collections.min(listeVoitures.stream().map(Voiture::getAnnee).toList());
+        sliderAnneeMax.setMin(anneeMin);
         int anneeMax = Year.now().getValue();
         sliderAnneeMax.setMax(anneeMax);
         sliderAnneeMax.setValue(anneeMax); // Pour que le curseur soit à droite à l'ouverture
@@ -229,7 +319,7 @@ public class MainController {
         afficherCartes();
     }
 
-    // Une fonction pour déterminer les bornes du slider d'année
+    // Une fonction pour déterminer les bornes du slider de prix
     private void initialiserSliderPrix() {
         if (listeVoitures == null || listeVoitures.isEmpty()) {
             return;
@@ -253,23 +343,29 @@ public class MainController {
         // Pour exécuter la requête seulement au relâchement de la souris. (Pour quand on va utiliser une BDD)
         sliderPrix.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
             if (!isChanging) {
-                filtrerPrixMax((int) sliderPrix.getValue());
+                appliquerFiltreMultipleEtTri();
             }
         });
 
         // Pour quand l'utilisateur clique directement
         sliderPrix.setOnMouseClicked(event -> {
-            filtrerPrixMax((int) sliderPrix.getValue());
+            appliquerFiltreMultipleEtTri();
         });
     }
 
-    // La fonction pour filtrer selon le prix
-    private void filtrerPrixMax(int prixMax) {
-        List<Voiture> filtrees = service.filtrerParPrixMax(prixMax);
-        pagination = new Pagination(filtrees, VOITURES_PAR_PAGE);  // On affiche les cartes des voitures filtrées
+    // La fonction pour appliquer le filtrage par Type de Transmission
+    private void filtrerTransmission(Transmission transmission) {
+        List<Voiture> source;
+        if (transmission == null) {
+            source = listeVoitures;
+        } else {
+            source = service.filtrerParTransmission(transmission);
+        }
+        ArrayList<Voiture> filtrees = new ArrayList<>(source);
+        triApplique(filtrees);
+        pagination = new Pagination(filtrees, VOITURES_PAR_PAGE);
         afficherCartes();
     }
-
 
     // La fonction pour afficher les cards de voitures
     private void afficherCartes() {
@@ -322,6 +418,10 @@ public class MainController {
 
     // Une fonction pour appliquer des tris si c'est demandé  (on utilise trois algorithmes différents)
     private void triApplique(ArrayList<Voiture> listeOrigine) {
+        if (listeOrigine == null || listeOrigine.size() <= 1) {
+            return;  // Pour empêcher que le tri plante si la liste est vide
+        }
+
         String typeTri = comboTypeTri.getValue();
 
         if (typeTri == null || "Tous".equals(typeTri)) {
