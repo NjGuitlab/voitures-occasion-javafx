@@ -20,10 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class MainController {
 
@@ -80,11 +77,11 @@ public class MainController {
         btnPageSuivanteCards.setOnAction(e -> allerPageSuivante());
 
         afficherCartes();
-        remplirComboMarques();
+        remplirComboBox(listeVoitures.stream().map(Voiture::getMarque).distinct().toList(), comboMarques, "Toutes");
+        remplirComboBox(listeVoitures.stream().map(v -> Objects.toString(v.getCarburant(), "")).filter(s -> !s.isBlank()).distinct().toList(), comboCarburant, "Tous");
+        remplirComboBox(listeVoitures.stream().map(Voiture::getVille).distinct().toList(), comboVille, "Toutes");
         comboMarques.setOnAction(e -> appliquerFiltreMultipleEtTri());  // Écouteur d'événement
-        remplirComboCarburant();
         comboCarburant.setOnAction(e -> appliquerFiltreMultipleEtTri());
-        remplirComboVilles();
         remplirComboTri();
         initialiserSliderKilometraqe();
         initialiserSliderAnneeMin();
@@ -124,61 +121,29 @@ public class MainController {
             }
         });
     }
-
     // Une fonction pour charger les données des voitures quand on ouvre la page
     private void chargerDonneesVoitures (){
         if (service != null) {
             this.listeVoitures = service.getVoitures();
         }
     }
-
-    // Une fonction pour remplir le comboBox des différentes marques distinctes
-    private void remplirComboMarques() {
-
-        if (listeVoitures == null || listeVoitures.isEmpty()) {
-            return;
-        }
-        List<String> marques = new ArrayList<>(listeVoitures.stream().map(Voiture::getMarque).distinct().toList());
-
-    // On ajoute l'option Toutes pour que le filtre ne s'applique pas
-    marques.add(0, "Toutes");
-
-    // On met la liste dans le comboBox
-        comboMarques.setItems(FXCollections.observableArrayList(marques));
-        comboMarques.getSelectionModel().selectFirst();  // C'est la première option qui s'affiche par défaut
-    }
-
-    // Une fonction pour remplir le comboBox des types de carburants
-    private void remplirComboCarburant() {
-        if (listeVoitures == null || listeVoitures.isEmpty()) {
+    // Un fonction générique pour remplir les ComboBox
+    private void remplirComboBox(List<String> listeElements, ComboBox<String> combo, String generale) {
+        if (combo == null) {
             return;
         }
 
-        // On transforme les types de carburant de type TypeCarburant en String pour l'affichage dans le ComboBox
-        List<String> carburantsString = new ArrayList<>(listeVoitures.stream().map(v -> Objects.toString(v.getCarburant(), "")).filter(s -> !s.isBlank()).distinct().toList());
-
-        // On ajoute l'option Tous pour que le filtre ne s'applique pas
-        carburantsString.add(0, "Tous");
-
-        comboCarburant.setItems(FXCollections.observableArrayList(carburantsString));
-        comboCarburant.getSelectionModel().selectFirst();  // C'est la première option qui s'affiche par défaut
-    }
-
-    // Une fonction pour afficher les villes dans le ComboBox des villes
-    private void remplirComboVilles() {
-        if (listeVoitures == null || listeVoitures.isEmpty()) {
-            return;
+        List<String> items = new ArrayList<>();
+        if (generale != null && !generale.isBlank()) {
+            items.add(generale);
         }
 
-        List<String> villes = new ArrayList<>(listeVoitures.stream().map(Voiture::getVille).distinct().toList());
-
-        // On ajoute l'option Toutes pour que le filtre ne s'applique pas
-        villes.add(0, "Toutes");
-
-        comboVille.setItems(FXCollections.observableArrayList(villes));
-        comboVille.getSelectionModel().selectFirst();  // C'est la première option qui s'affiche par défaut
+        if (listeElements != null && !listeElements.isEmpty()) {
+            items.addAll(listeElements);
+        }
+        combo.setItems(FXCollections.observableArrayList(items));
+        combo.getSelectionModel().selectFirst();
     }
-
     // Une fonction pour initialiser le ComboBox des types de tri
     private void remplirComboTri() {
         comboTypeTri.getItems().addAll("Tous", "Kilométrage croissant", "Prix croissant", "Prix décroissant", "Date décroissante");
@@ -192,7 +157,6 @@ public class MainController {
         if (listeVoitures == null || listeVoitures.isEmpty()) {
             return;
         }
-
         sliderKilometrage.setMin(0);
 
         // Pour obtenir la valeur maximale des kilométrage des véhicules disponibles
@@ -331,7 +295,6 @@ public class MainController {
         pagination = new Pagination(filtrees, VOITURES_PAR_PAGE);
         afficherCartes();
     }
-
     // La fonction pour afficher les cards de voitures
     private void afficherCartes() {
         cardsContainer.getChildren().clear();
@@ -349,7 +312,6 @@ public class MainController {
         btnPagePrecedenteCards.setDisable(pagination.getPageActuelle() <= 1); // On désactive le bouton Précédent si on est sur la page 1
         btnPageSuivanteCards.setDisable(pagination.getPageActuelle() >= pagination.getNombrePages());  // On désactive le bouton Suivant si on est à la dernière page
     }
-
     // Les fonctions pour les boutons de pagination
     @FXML
     private void allerPagePrecedente() {
@@ -372,7 +334,6 @@ public class MainController {
             System.err.println("Erreur : detailsVoitureController est null");
         }
     }
-
     // La méthode pour appeler la fontion de recherche avec le TextField
     private void afficherVoituresCherchees(String recherche) {
         ArrayList<Voiture> trouvees = new ArrayList<>(service.rechercher(recherche));  // les tris ont un ArrayList comme paramètre
@@ -393,10 +354,10 @@ public class MainController {
             return;}
 
         switch (typeTri) {
-            case "Kilométrage croissant" -> fusion.ordonner(listeOrigine, VoitureComparateurs.PAR_KM_ASC);  // Pour que le tri soit stable
-            case "Prix croissant" -> rapide.ordonner(listeOrigine, VoitureComparateurs.PAR_PRIX_ASC);  // Algorithme avec la meilleure performance
+            case "Kilométrage croissant" -> fusion.ordonner(listeOrigine, VoitureComparateurs.PAR_KM_ASC);
+            case "Prix croissant" -> rapide.ordonner(listeOrigine, VoitureComparateurs.PAR_PRIX_ASC);
             case "Prix décroissant" -> rapide.ordonner(listeOrigine, VoitureComparateurs.PAR_PRIX_DESC);
-            case "Date décroissante" -> insertion.ordonner(listeOrigine, VoitureComparateurs.PAR_DATE_DESC); // Alrgorithme stable (utile puisque plusieurs annonces ont la même date)
+            case "Date décroissante" -> insertion.ordonner(listeOrigine, VoitureComparateurs.PAR_DATE_DESC);
             }
         }
     }
