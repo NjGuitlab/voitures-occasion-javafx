@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<fx:root prefHeight="122.0" prefWidth="307.0" type="HBox" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="122.0" prefWidth="210.0" maxWidth="210.0" minWidth="180.0" type="HBox" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <javafx.scene.layout.VBox prefHeight="251.0" prefWidth="130.0" spacing="8.0">
           <HBox prefHeight="49.0" prefWidth="190.0" spacing="12.0">

@@ -54,7 +54,7 @@ public class MainController {
     private FlowPane cardsContainer;
 
     @FXML
-    private Button btnPagePrecedenteCards, btnPageSuivanteCards, buttonVoirBenchmark;
+    private Button btnPagePrecedenteCards, btnPageSuivanteCards;
 
     @FXML
     private RadioButton radioTransmissionToutes, radioTransmissionAuto, radioTransmissionManuelle;
@@ -67,6 +67,9 @@ public class MainController {
     @FXML
     private DetailsVoitureController detailsVoitureController;
 
+    @FXML
+    private FavorisController zoneFavorisController;
+
     private final PauseTransition debounce = new PauseTransition(Duration.millis(300));  // Pour éviter de lancer trop rapidement la requête à chaque touche tapée
 
     @FXML
@@ -75,6 +78,18 @@ public class MainController {
         pagination = new Pagination(listeVoitures, VOITURES_PAR_PAGE);  // Pour la pagination des cards
         btnPagePrecedenteCards.setOnAction(e -> allerPagePrecedente());
         btnPageSuivanteCards.setOnAction(e -> allerPageSuivante());
+
+        if (detailsVoitureController != null) {
+            detailsVoitureController.setVoitureService(service);  // Pour que la zone de détails ait le même service
+        }
+        if (zoneFavorisController != null) {
+            zoneFavorisController.setVoitureService(this.service);  // Pour que la zone de favoris ait le même service
+        }
+        if (zoneFavorisController != null && detailsVoitureController != null) {
+            detailsVoitureController.setOnFavoriAjoute(() -> zoneFavorisController.rafraichirVueFavoris());
+        }
+        System.out.println("[INIT] detailsVoitureController = " + detailsVoitureController);
+        System.out.println("[INIT] zoneFavorisController = " + zoneFavorisController);
 
         afficherCartes();
         remplirComboBox(listeVoitures.stream().map(Voiture::getMarque).distinct().toList(), comboMarques, "Toutes");
