@@ -123,7 +123,6 @@ public class MainController {
                 filtrerTransmission(transmission);
             }
         });
-
     }
 
     // Une fonction pour charger les données des voitures quand on ouvre la page
