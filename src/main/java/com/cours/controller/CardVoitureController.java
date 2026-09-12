@@ -16,9 +16,6 @@ import java.util.function.Consumer;
 public class CardVoitureController extends VBox {
 
     @FXML
-    private ImageView imageVoiture;
-
-    @FXML
     private Label labelCardMarque, labelCardModele, labelCardAnnee, labelCardKilometrage, labelCardPrix, labelCardVille, labelCardDatePublication;
 
     @FXML

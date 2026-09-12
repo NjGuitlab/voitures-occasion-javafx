@@ -164,10 +164,6 @@ public class MainController {
         sliderKilometrage.setMax(kiloMax);
         sliderKilometrage.setValue(kiloMax);  // Pour que le curseur soit à droite
 
-        //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
-        int kilometrageEntier = (int) sliderKilometrage.getValue();  // Parce que le getValue() retourne normalement un double, on le transforme en int
-        labelSliderKilometrage.setText(String.format("%d km", kilometrageEntier));
-
         configurerSlider(sliderKilometrage, labelSliderKilometrage, "km", () -> appliquerFiltreMultipleEtTri());
     }
 
@@ -196,6 +192,9 @@ public class MainController {
 
     // Une fonction pour configurer tous les sliders
     private void configurerSlider(Slider slider, Label label, String suffixe, Runnable onAction) {
+        //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
+        label.setText(String.format("%d" + suffixe, (int) slider.getValue())); // Parce que le getValue() retourne normalement un double, on le transforme en int
+
         // Pour écouter le changement de valeur du slider
         slider.valueProperty().addListener((obs, oldVal, newVal) -> {
             label.setText(newVal.intValue() + " " + suffixe);
@@ -245,9 +244,6 @@ public class MainController {
         int anneeMax = Year.now().getValue();
         sliderAnneeMax.setMax(anneeMax);
         sliderAnneeMax.setValue(anneeMax); // Pour que le curseur soit à droite à l'ouverture
-
-        //Pour afficher la valeur en-dessous dans le Label prévu à cet effet
-        labelSliderAnneeMax.setText(String.format("%d", (int) sliderAnneeMax.getValue()));
 
         configurerSlider(sliderAnneeMax, labelSliderAnneeMax, "", () -> filtrerAnneeMax((int) sliderAnneeMax.getValue()));
     }
