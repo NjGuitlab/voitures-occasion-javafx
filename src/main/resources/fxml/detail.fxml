@@ -6,68 +6,73 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="racineDetails" fx:controller="com.cours.controller.DetailsVoitureController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="230.0" spacing="6.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.control.ScrollPane?>
+<VBox fx:id="racineDetails" fx:controller="com.cours.controller.DetailsVoitureController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="220.0" prefHeight="300.0" prefWidth="230.0" spacing="6.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <padding>
       <Insets top="14.0" right="12.0" bottom="14.0" left="12.0" />
    </padding>
    <children>
       <HBox prefHeight="23.0" prefWidth="100.0" spacing="6.0">
          <children>
-            <Label fx:id="labelMarque" text="Label" />
-            <Label fx:id="labelModele" text="Label" />
-            <Label fx:id="labelAnnee" text="Label" />
+            <Label fx:id="labelMarque" styleClass="details-value" />
+            <Label fx:id="labelModele" styleClass="details-value" />
+            <Label fx:id="labelAnnee" styleClass="details-value" />
          </children>
       </HBox>
       <HBox prefHeight="21.0" prefWidth="100.0">
          <children>
-            <Label text="Prix demandé : " />
-            <Label fx:id="labelPrix" text="Label" />
+            <Label text="Prix demandé : " styleClass="details-label"/>
+            <Label fx:id="labelPrix" styleClass="details-value" />
          </children>
       </HBox>
       <HBox prefHeight="29.0" prefWidth="100.0" spacing="3.0">
          <children>
-            <Label fx:id="labelKilometres" text="Label" />
-            <Label text="km" />
+            <Label fx:id="labelKilometres" styleClass="details-value" />
+            <Label text="kilomètres" styleClass="detail-label"/>
          </children>
       </HBox>
       <HBox prefHeight="13.0" prefWidth="100.0">
          <children>
-            <Label text="Carburant : " />
-            <Label fx:id="labelCarburant" text="Label" />
+            <Label text="Carburant : " styleClass="detail-label"/>
+            <Label fx:id="labelCarburant" styleClass="details-value" />
          </children>
       </HBox>
       <HBox prefHeight="20.0" prefWidth="120.0">
          <children>
-            <Label text="Transmission :" />
-            <Label fx:id="labelTransmission" text="Label" />
+            <Label text="Transmission : " styleClass="details-label"/>
+            <Label fx:id="labelTransmission" styleClass="details-value" />
          </children>
       </HBox>
       <HBox prefHeight="19.0" prefWidth="120.0">
          <children>
-            <Label text="Couleur :" />
-            <Label fx:id="labelCouleur" text="Label" />
+            <Label text="Couleur : " styleClass="details-label"/>
+            <Label fx:id="labelCouleur" styleClass="details-value" />
          </children>
       </HBox>
       <HBox prefHeight="16.0" prefWidth="120.0">
          <children>
-            <Label text="Vendeur : " />
-            <Label fx:id="labelVendeur" text="Label" />
+            <Label text="Vendeur : " styleClass="details-label"/>
+            <Label fx:id="labelVendeur" styleClass="details-value" />
          </children>
       </HBox>
       <HBox prefHeight="22.0" prefWidth="164.0">
          <children>
-            <Label text="Ville :" />
-            <Label fx:id="labelVille" text="Label" />
+            <Label text="Ville : " styleClass="details-label"/>
+            <Label fx:id="labelVille" styleClass="details-value" />
          </children>
       </HBox>
-      <Label text="Description :" />
-      <Label fx:id="labelDescription" text="Label" />
-      <Button fx:id="buttonAddFavoris" mnemonicParsing="false" text="Ajouter aux Favoris" />
       <HBox prefHeight="27.0" prefWidth="164.0">
          <children>
-            <Label text="Prix / km :" />
-            <Label fx:id="labelPrixParKilo" text="Label" />
+            <Label text="Prix / km : " styleClass="details-label"/>
+            <Label fx:id="labelPrixParKilo" styleClass="details-value"/>
          </children>
       </HBox>
+      <Label text="Description : " styleClass="details-section-header"/>
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="70.0" maxHeight="100.0" style="-fx-background-color: transparent;">
+         <content>
+      <Label fx:id="labelDescription" styleClass="details=desc-text" wrapText="true" />
+         </content>
+      </ScrollPane>
+      <Button fx:id="buttonAddFavoris" mnemonicParsing="false" text="Ajouter aux Favoris" styleClass="btn-favori"/>
    </children>
 </VBox>

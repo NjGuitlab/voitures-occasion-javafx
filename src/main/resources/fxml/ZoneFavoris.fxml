@@ -30,10 +30,10 @@
         </ScrollPane>
         <HBox prefHeight="38.0" spacing="12.0" alignment="CENTER">
             <children>
-                <Button fx:id="btnPagePrecedenteFavoris" mnemonicParsing="false" text="Page précédente" />
+                <Button fx:id="btnPagePrecedenteFavoris" mnemonicParsing="false" text="Page précédente" styleClass="btn-pagination"/>
                 <Label text="Page " style="-fx-text-fill: #555; -fx-font-weight: bold;"/>
                 <Label fx:id="labelNombrePagesFavoris" text="0/0" styleClass="badge-pagination"/>
-                <Button fx:id="btnPageSuivanteFavoris" mnemonicParsing="false" text="Page suivante" />
+                <Button fx:id="btnPageSuivanteFavoris" mnemonicParsing="false" text="Page suivante" styleClass="btn-pagination"/>
             </children>
             <padding>
                 <Insets bottom="6.0"/>

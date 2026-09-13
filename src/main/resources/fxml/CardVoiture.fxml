@@ -13,36 +13,36 @@
          <Image url="@/images/images.jpg" />
       </image>
     </ImageView>
-   <HBox spacing="4.0" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+   <HBox spacing="6.0" alignment="CENTER_LEFT">
       <children>
-         <Label fx:id="labelCardMarque" minWidth="-Infinity" />
-         <Label fx:id="labelCardModele"  HBox.hgrow="ALWAYS"/>
-         <Label fx:id="labelCardAnnee"  minWidth="-Infinity" />
+         <Label fx:id="labelCardMarque" styleClass="card-title" />
+         <Label fx:id="labelCardModele"  styleClass="card-title" HBox.hgrow="ALWAYS"/>
+         <Label fx:id="labelCardAnnee"  styleClass="card-year" />
       </children>
    </HBox>
-   <HBox prefHeight="100.0" prefWidth="200.0">
+   <HBox spacing="6.0">
       <children>
-         <Label text="Kilométrage :" />
-         <Label fx:id="labelCardKilometrage" text="Label" />
+         <Label text="Kilométrage :" styleClass="card-label"/>
+         <Label fx:id="labelCardKilometrage" styleClass="card-value"/>
       </children>
    </HBox>
-   <HBox prefHeight="100.0" prefWidth="200.0">
+   <HBox spacing="6.0">
       <children>
-         <Label text="Date de publication :" />
-         <Label fx:id="labelCardDatePublication" text="Label" />
+         <Label text="Publié le :" styleClass="card-label"/>
+         <Label fx:id="labelCardDatePublication" styleClass="card-value" />
       </children>
    </HBox>
-   <HBox prefHeight="100.0" prefWidth="200.0">
+   <HBox spacing="6.0">
+   <children>
+      <Label text="Ville :" styleClass="card-label"/>
+      <Label fx:id="labelCardVille" styleClass="card-value" />
+   </children>
+   </HBox>
+   <HBox alignment="CENTER_LEFT" spacing="6.0">
       <children>
-         <Label text="Prix :" />
-         <Label fx:id="labelCardPrix" text="Label" />
+         <Label text="Prix :" styleClass="card-label"/>
+         <Label fx:id="labelCardPrix" styleClass="card-price" />
       </children>
    </HBox>
-   <HBox prefHeight="100.0" prefWidth="200.0">
-      <children>
-         <Label text="Ville :" />
-         <Label fx:id="labelCardVille" text="Label" />
-      </children>
-   </HBox>
-   <Button fx:id="btnVoirDetails" mnemonicParsing="false" text="Voir les détails" />
+   <Button fx:id="btnVoirDetails" mnemonicParsing="false" text="Voir les détails" styleClass="btn-details" />
 </fx:root>
