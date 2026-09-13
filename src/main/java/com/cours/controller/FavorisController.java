@@ -6,12 +6,20 @@ import com.cours.service.VoitureService;
 import com.cours.util.LectureCSV;
 import com.cours.util.Pagination;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ConstrainedColumnResizeBase;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.event.ActionEvent;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -34,6 +42,7 @@ public class FavorisController {
 
     @FXML
     private Button buttonVoirBenchmark, btnPagePrecedenteFavoris, btnPageSuivanteFavoris;
+    private Runnable onDemandeOuvertureBenchmark;  // Pour ouvrir la fenêtre des benchmark
 
     @FXML
     private FlowPane favorisCardsContainer;
@@ -51,6 +60,8 @@ public class FavorisController {
     public void initialize() {
         btnPagePrecedenteFavoris.setOnAction(e -> allerPagePrecedente());
         btnPageSuivanteFavoris.setOnAction(e -> allerPageSuivante());
+
+        buttonVoirBenchmark.setOnAction(e -> ouvrirFenetreBenchmark(e));
     }
 
     //Pour utiliser le même VoitureService que dans MainController
@@ -121,6 +132,27 @@ public class FavorisController {
         if (pagination != null) {
             pagination.pageSuivante();
             afficherCartesFavoris();
+        }
+    }
+
+    // Fonction pour lancer la fenêtre de benchmark
+    @FXML
+    private void ouvrirFenetreBenchmark(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/benchmark.fxml"));
+            Parent root = loader.load();
+
+            Stage stageBenchmark = new Stage();
+            stageBenchmark.setTitle("Comparaison des Algorithmes de Tri");
+            stageBenchmark.setScene(new Scene(root));
+
+            Stage mainFenetre = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stageBenchmark.initOwner(mainFenetre);
+            stageBenchmark.initModality(Modality.APPLICATION_MODAL);
+
+            stageBenchmark.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
