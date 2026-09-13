@@ -93,8 +93,10 @@ public class FavorisController {
                     onVoitureSelectionnee.accept(id);
                 }
             },
-                    () -> service.supprimerFavori(voiture.getId()));
-
+                    () -> {
+                service.supprimerFavori(voiture.getId());
+                rafraichirVueFavoris();  // Ça rafraichit la zone de favoris quand on en supprimer un
+                    });
             favorisCardsContainer.getChildren().add(card);
         }
 

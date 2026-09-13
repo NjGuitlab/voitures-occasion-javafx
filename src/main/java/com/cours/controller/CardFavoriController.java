@@ -1,10 +1,12 @@
 package com.cours.controller;
 
 import com.cours.model.Voiture;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
@@ -33,13 +35,19 @@ public class CardFavoriController extends HBox {
 
         remplirDonnees(voiture);
 
-        this.setOnMouseClicked(event -> { // Pour afficher les détails quand on clique sur la Card d'un Favori
+        this.setOnMouseClicked(event -> {
+            // Pour ignorer si le clic vient du bouton supprimer ou d'un de ses composants internes
+            if (event.getTarget() == btnSupprimerFavori || btnSupprimerFavori.getChildrenUnmodifiable().contains(event.getTarget())) {
+                return;
+            }
             if (onClicDetails != null) {
                 onClicDetails.accept(voiture.getId());
             }
         });
 
         this.setStyle(this.getStyle() + "; -fx-cursor: hand;");
+
+        btnSupprimerFavori.addEventHandler(MouseEvent.MOUSE_CLICKED, Event::consume);
 
         btnSupprimerFavori.setOnAction(event -> {
             event.consume();
