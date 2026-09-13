@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cours.controller.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cours.controller.MainController" stylesheets="@../css/style.css">
    <top>
       <VBox alignment="CENTER" prefHeight="74.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -29,7 +29,7 @@
                   <Insets bottom="8.0" left="8.0" right="8.0" top="4.0" />
                </VBox.margin>
             </Label>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_LEFT" spacing="15.0">
                <children>
                   <Label text="Rechercher un véhicule :">
                      <HBox.margin>
@@ -44,35 +44,35 @@
                         <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                      </padding>
                   </TextField>
-                  <VBox prefHeight="35.0" prefWidth="205.0">
+                  <VBox>
                      <children>
                         <Label text="Kilométrage maximum :" />
                         <Slider fx:id="sliderKilometrage" />
                         <Label fx:id="labelSliderKilometrage" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox>
                      <children>
                         <Label text="Année minimum :" />
                         <Slider fx:id="sliderAnneeMin" />
                         <Label fx:id="labelSliderAnneeMin" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox>
                      <children>
                         <Label text="Année maximum :" />
                         <Slider fx:id="sliderAnneeMax" />
                         <Label fx:id="labelSliderAnneeMax" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox>
                      <children>
                         <Label text="Prix maximum :" />
                         <Slider fx:id="sliderPrix" />
                         <Label fx:id="labelSliderPrix" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox>
                      <children>
                         <Label text="Type de carburant : " />
                         <ComboBox fx:id="comboCarburant" prefWidth="150.0" />
@@ -104,7 +104,10 @@
       </VBox>
    </center>
    <left>
-      <VBox prefHeight="313.0" prefWidth="194.0" BorderPane.alignment="CENTER">
+      <VBox prefWidth="210.0" spacing="12.0">
+         <padding>
+            <Insets top="12.0" right="10.0" bottom="12.0" left="12.0" />
+         </padding>
          <children>
             <Label text="Transmission :" />
             <HBox prefHeight="51.0" prefWidth="218.0">

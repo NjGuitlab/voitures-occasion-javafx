@@ -8,21 +8,21 @@
 
 <VBox fx:id="racineFavoris" fx:controller="com.cours.controller.FavorisController" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <HBox prefHeight="100.0" prefWidth="200.0">
+        <HBox prefHeight="35.0" alignment="CENTER_LEFT">
             <children>
                 <Label text="Vos favoris" />
                 <Button fx:id="buttonVoirBenchmark" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Voir les performaces des tris" />
             </children>
         </HBox>
-        <ScrollPane prefHeight="200.0" prefWidth="200.0" fitToWidth="true" hbarPolicy="NEVER">
+        <ScrollPane prefHeight="200.0" prefWidth="200.0" fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
             <content>
                 <FlowPane fx:id="favorisCardsContainer" prefHeight="157.0" prefWidth="756.0" hgap="8" vgap="8" prefWrapLength="1100"/>
             </content>
         </ScrollPane>
-        <HBox prefHeight="100.0" prefWidth="200.0">
+        <HBox prefHeight="35.0" alignment="CENTER">
             <children>
                 <Button fx:id="btnPagePrecedenteFavoris" mnemonicParsing="false" text="Page précédente" />
-                <Label text="Prix :" />
+                <Label text="Page " />
                 <Label fx:id="labelNombrePagesFavoris" text="Label" />
                 <Button fx:id="btnPageSuivanteFavoris" mnemonicParsing="false" text="Page suivante" />
             </children>
