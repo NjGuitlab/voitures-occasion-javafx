@@ -18,7 +18,7 @@ public class CardFavoriController extends HBox {
     @FXML
     private Button btnSupprimerFavori;
 
-    public CardFavoriController(Voiture voiture, Consumer<Integer> onSupprimerFavori) {  // Consumer sert à stocker l'ID pour le bouton
+    public CardFavoriController(Voiture voiture, Consumer<Integer> onClicDetails, Runnable onSupprimer) {  // Consumer sert à stocker l'ID pour le bouton
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CardFavoris.fxml"));  // Pour charger le fichier FXML
 
         loader.setRoot(this);
@@ -33,9 +33,18 @@ public class CardFavoriController extends HBox {
 
         remplirDonnees(voiture);
 
+        this.setOnMouseClicked(event -> { // Pour afficher les détails quand on clique sur la Card d'un Favori
+            if (onClicDetails != null) {
+                onClicDetails.accept(voiture.getId());
+            }
+        });
+
+        this.setStyle(this.getStyle() + "; -fx-cursor-hand;");
+
         btnSupprimerFavori.setOnAction(event -> {
-            if (onSupprimerFavori!= null) {
-                onSupprimerFavori.accept(voiture.getId());
+            event.consume();
+            if (onSupprimer != null) {
+                onSupprimer.run();
             }
         });
     }
