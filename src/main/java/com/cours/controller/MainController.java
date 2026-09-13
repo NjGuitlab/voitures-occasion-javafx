@@ -81,6 +81,7 @@ public class MainController {
         }
         if (zoneFavorisController != null) {
             zoneFavorisController.setVoitureService(this.service);  // Pour que la zone de favoris ait le même service
+            zoneFavorisController.setOnVoitureSelectionnee(this::afficherDetailsVoitures);
         }
         if (zoneFavorisController != null && detailsVoitureController != null) {
             detailsVoitureController.setOnFavoriAjoute(() -> zoneFavorisController.rafraichirVueFavoris());

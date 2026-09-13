@@ -6,26 +6,38 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="racineFavoris" fx:controller="com.cours.controller.FavorisController" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.geometry.Insets?>
+<VBox fx:id="racineFavoris" fx:controller="com.cours.controller.FavorisController" prefHeight="230.0" prefWidth="1200.0" spacing="10.0" styleClass="zone-favoris-root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <HBox prefHeight="100.0" prefWidth="200.0">
+        <HBox prefHeight="40.0" spacing="12.0" alignment="CENTER_LEFT">
             <children>
-                <Label text="Vos favoris" />
-                <Button fx:id="buttonVoirBenchmark" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Voir les performaces des tris" />
+                <Label text="Vos favoris" styleClass="section-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="buttonVoirBenchmark" mnemonicParsing="false" styleClass="btn-benchmark" text="📊 Performances des tris" />
             </children>
+            <padding>
+                <Insets left="14.0" right="14.0" top="6.0" />
+            </padding>
         </HBox>
-        <ScrollPane prefHeight="200.0" prefWidth="200.0" fitToWidth="true" hbarPolicy="NEVER">
+        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS" styleClass="scroll-favoris">
             <content>
-                <FlowPane fx:id="favorisCardsContainer" prefHeight="157.0" prefWidth="756.0" hgap="8" vgap="8" prefWrapLength="1100"/>
+                <FlowPane fx:id="favorisCardsContainer" hgap="12.0" vgap="8.0" prefWrapLength="1150.0">
+                <padding>
+                    <Insets bottom="6.0" left="14.0" right="14.0" top="6.0" />
+                </padding>
+                </FlowPane>
             </content>
         </ScrollPane>
-        <HBox prefHeight="100.0" prefWidth="200.0">
+        <HBox prefHeight="38.0" spacing="12.0" alignment="CENTER">
             <children>
-                <Button fx:id="btnPagePrecedenteFavoris" mnemonicParsing="false" text="Page précédente" />
-                <Label text="Prix :" />
-                <Label fx:id="labelNombrePagesFavoris" text="Label" />
-                <Button fx:id="btnPageSuivanteFavoris" mnemonicParsing="false" text="Page suivante" />
+                <Button fx:id="btnPagePrecedenteFavoris" mnemonicParsing="false" text="Page précédente" styleClass="btn-pagination"/>
+                <Label text="Page " style="-fx-text-fill: #555; -fx-font-weight: bold;"/>
+                <Label fx:id="labelNombrePagesFavoris" text="0/0" styleClass="badge-pagination"/>
+                <Button fx:id="btnPageSuivanteFavoris" mnemonicParsing="false" text="Page suivante" styleClass="btn-pagination"/>
             </children>
+            <padding>
+                <Insets bottom="6.0"/>
+            </padding>
         </HBox>
     </children>
 </VBox>

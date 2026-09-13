@@ -7,12 +7,14 @@ import com.cours.util.LectureCSV;
 import com.cours.util.Pagination;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ConstrainedColumnResizeBase;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class FavorisController {
 
@@ -38,6 +40,12 @@ public class FavorisController {
 
     @FXML
     private Label labelNombrePagesFavoris;
+
+    private Consumer<Integer> onVoitureSelectionnee;
+
+    public void setOnVoitureSelectionnee(Consumer<Integer> onVoitureSelectionnee) {
+        this.onVoitureSelectionnee = onVoitureSelectionnee;
+    }
 
     @FXML
     public void initialize() {
@@ -81,9 +89,12 @@ public class FavorisController {
 
         for (Voiture voiture : favorisPage) {  // On affiche le nombre de cartes qu'on veut dans une page
             CardFavoriController card = new CardFavoriController(voiture, id -> {
-                service.supprimerFavori(id);
-                rafraichirVueFavoris();
-            });
+                if (onVoitureSelectionnee != null) {
+                    onVoitureSelectionnee.accept(id);
+                }
+            },
+                    () -> service.supprimerFavori(voiture.getId()));
+
             favorisCardsContainer.getChildren().add(card);
         }
 

@@ -6,33 +6,35 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<fx:root prefHeight="122.0" prefWidth="210.0" maxWidth="210.0" minWidth="180.0" type="HBox" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.geometry.Insets?>
+<fx:root maxWidth="215.0" minWidth="200.0" prefWidth="215.0" type="HBox" spacing="8.0" alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <javafx.scene.layout.VBox prefHeight="251.0" prefWidth="130.0" spacing="8.0">
-          <HBox prefHeight="49.0" prefWidth="190.0" spacing="12.0">
+    <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+    <children>
+          <HBox spacing="4.0">
               <children>
-                  <Label fx:id="labelCardMarque" text="Label" />
-                  <Label fx:id="labelCardModele" text="Label" />
-                  <Label fx:id="labelCardAnnee" text="Label" />
+                  <Label fx:id="labelCardMarque" style="-fx-font-weight: bold;" text="Marque" />
+                  <Label fx:id="labelCardModele" text="Modele" />
+                  <Label fx:id="labelCardAnnee" style="-fx-text-fill: #777;" text="2020" />
               </children>
           </HBox>
-          <HBox prefHeight="42.0" prefWidth="190.0">
+          <HBox spacing="4.0">
               <children>
-                  <Label text="Date de publication :" />
-                  <Label fx:id="labelCardDatePublication" text="Label" />
+                  <Label text="Publié :" style="-fx-text-fill: #666; -fx-font-size: 11px;"/>
+                  <Label fx:id="labelCardDatePublication" style="-fx-text-fill: #666; -fx-font-size: 11px;" text="2026-01-01" />
               </children>
           </HBox>
-          <HBox prefHeight="76.0" prefWidth="190.0">
+          <HBox spacing="4.0">
               <children>
-                  <Label text="Prix :" />
-                  <Label fx:id="labelCardPrix" text="Label" />
+                  <Label text="Prix :" style="-fx-font-weight: bold;"/>
+                  <Label fx:id="labelCardPrix" style="-fx-font-weight: bold; -fx-text-fill: #2b5b84;" text="0 $" />
               </children>
           </HBox>
-      </javafx.scene.layout.VBox>
-      <VBox prefHeight="122.0" prefWidth="71.0">
-         <children>
-            <Button fx:id="btnSupprimerFavori" mnemonicParsing="false" text="Supprimer" />
+        </children>
+        </VBox>
+            <Button fx:id="btnSupprimerFavori" mnemonicParsing="false" text="X" />
          </children>
-      </VBox>
-   </children>
+        <padding>
+            <Insets top="8.0" right="8.0" bottom="8.0" left="8.0"/>
+        </padding>
 </fx:root>

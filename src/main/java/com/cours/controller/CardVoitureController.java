@@ -21,6 +21,8 @@ public class CardVoitureController extends VBox {
     @FXML
     private Button btnVoirDetails;
 
+    private static final java.text.DecimalFormat FORMAT_NOMBRE = new java.text.DecimalFormat("#,###");  // Pour avoir un beau formatage pour les chiffres
+
     public CardVoitureController(Voiture voiture, Consumer<Integer> onVoirDetails) {  // Consumer sert à stocker l'ID pour le bouton
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CardVoiture.fxml"));  // Pour charger le fichier FXML
 
@@ -30,6 +32,7 @@ public class CardVoitureController extends VBox {
 
         try {
             loader.load();
+            this.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         } catch (IOException e) {
             throw new RuntimeException("Erreur de chargement du FXML de la Card", e);
         }
@@ -48,9 +51,10 @@ public class CardVoitureController extends VBox {
             labelCardMarque.setText(voiture.getMarque());
             labelCardModele.setText(voiture.getModele());
             labelCardAnnee.setText(String.valueOf(voiture.getAnnee()));
-            labelCardKilometrage.setText(String.valueOf(voiture.getKilometrage()));
-            labelCardDatePublication.setText(String.valueOf(voiture.getDatePublication()));
-            labelCardPrix.setText(String.valueOf(voiture.getPrix()));
+
+            labelCardKilometrage.setText(FORMAT_NOMBRE.format(voiture.getKilometrage()) + " km");
+            labelCardDatePublication.setText(voiture.getDatePublication().toString());
+            labelCardPrix.setText(FORMAT_NOMBRE.format(voiture.getPrix()) + " $");
             labelCardVille.setText(voiture.getVille());
         }
 
