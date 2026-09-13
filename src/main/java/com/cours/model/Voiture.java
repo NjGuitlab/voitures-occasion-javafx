@@ -1,6 +1,7 @@
 package com.cours.model;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 
 public class Voiture {
 
@@ -228,4 +229,28 @@ public class Voiture {
                 ", ville='" + ville + '\'' +
                 '}';
     }
+
+    /**
+     * <p> Comparateur pour trier les voitures par prix, dans l'ordre croissant. </p>
+     */
+    public static final Comparator<Voiture> PAR_PRIX_ASC =
+            Comparator.comparing(Voiture::getPrix);
+
+    /**
+     * <p> Comparateur pour trier les voitures par prix, dans l'ordre décroissant. </p>
+     */
+    public static final Comparator<Voiture> PAR_PRIX_DESC =
+            Comparator.comparing(Voiture::getPrix).reversed();
+
+    /**
+     * <p> Comparateur pour trier les voitures par kilométrage, dans l'ordre croissant. </p>
+     */
+    public static final Comparator<Voiture> PAR_KM_ASC =
+            Comparator.comparing(Voiture::getKilometrage);
+
+    /**
+     * <p> Comparateur pour trier les voitures par date de publication, de la plus récente à la plus ancienne. </p>
+     */
+    public static final Comparator<Voiture> PAR_DATE_DESC =
+            Comparator.comparing(Voiture::getDatePublication).reversed();
 }
