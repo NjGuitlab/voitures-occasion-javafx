@@ -11,7 +11,7 @@
         <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
                 <Label text="Vos favoris" />
-                <Button fx:id="buttonVoirBenchmark" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Button" />
+                <Button fx:id="buttonVoirBenchmark" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Voir les performaces des tris" />
             </children>
         </HBox>
         <ScrollPane prefHeight="200.0" prefWidth="200.0" fitToWidth="true" hbarPolicy="NEVER">
