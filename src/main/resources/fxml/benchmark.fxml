@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.maisonneuve.cours.controller.BenchmarkController">
+<BorderPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cours.controller.BenchmarkController">
     <top>
         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
             <children>
@@ -57,7 +57,7 @@
                 <NumberAxis fx:id="axeX" label="Taille (n)" side="BOTTOM" />
             </xAxis>
             <yAxis>
-                <NumberAxis fx:id="axeY" label="Temps (ns)" side="LEFT" />
+                <NumberAxis fx:id="axeY" label="Temps (ms)" side="LEFT" />
             </yAxis>
         </LineChart>
     </center>

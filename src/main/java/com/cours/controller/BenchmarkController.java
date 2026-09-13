@@ -1,6 +1,9 @@
 package com.cours.controller;
 
 import com.cours.algorithmes.Algorithme;
+import com.cours.algorithmes.TriFusion;
+import com.cours.algorithmes.TriInsertion;
+import com.cours.algorithmes.TriRapide;
 import com.cours.algorithmes.reference.Chrono;
 import com.cours.algorithmes.reference.util.GenerateurDonneesVoiture;
 import com.cours.model.Transmission;
@@ -38,7 +41,8 @@ public class BenchmarkController {
 
     private ToggleGroup groupeCritere;
 
-    private static final int[] TAILLES = {100,500,1_000,5_000,10_000,50_000};
+    private static final int[] TAILLES = {100,500,1_000,5_000,10_000,50_000, 100_000};
+    private static final int[] TAILLES_INSERTION = {100, 500, 1_000, 2_000, 5_000};
 
     @FXML
     public void initialize(){
@@ -56,18 +60,23 @@ public class BenchmarkController {
         radioPrixDown.setToggleGroup(groupeCritere);
         radioPrixUp.setToggleGroup(groupeCritere);
 
-        radioKm.setUserData(Voiture.PAR_KM_ASC);
-        radioDate.setUserData(Voiture.PAR_DATE_DESC);
-        radioTransmissionManuelle.setUserData(Transmission.MANUELLE);
+        radioKm.setSelected(true);
 
-        radioTransmissionToutes.setSelected(true);
-
-        groupeTransmission.selectedToggleProperty().addListener((obs, ancToggle, nouvToggle) -> {
-            if (nouvToggle != null) {
-                appliquerFiltreMultipleEtTri();
-            }
-        });
-
+        axeX.setAutoRanging(true);
+        axeY.setAutoRanging(true);
+    }
+    // La fonction pour récupérer le radio-bouton choisi.
+    private Comparator<Voiture> recupererComparateurChoisi() {
+        if (radioKm.isSelected()) {
+            return Voiture.PAR_KM_ASC;
+        } else if (radioPrixUp.isSelected()) {
+            return Voiture.PAR_PRIX_ASC;
+        } else if (radioPrixDown.isSelected()) {
+            return Voiture.PAR_PRIX_DESC;
+        } else if (radioDate.isSelected()) {
+            return Voiture.PAR_DATE_DESC;
+        }
+        return Voiture.PAR_KM_ASC;  // La valeur par défaut
     }
 
     private void lancerBenchmark(){
@@ -86,14 +95,17 @@ public class BenchmarkController {
 
                 serie.setName(algo.nom());
 
-                Comparator comparatorChoisi = ra
+                Comparator<Voiture> comparatorChoisi = recupererComparateurChoisi();
 
-                for(int n : TAILLES){
-                    ArrayList<Voiture> voitures = GenerateurDonneesVoiture.generateVoitures(n);
-                    long tempsNs = Chrono.chronometrer(algo, voitures, repetitions);
+                int[] tailles = (algo instanceof TriFusion
+                        || algo instanceof TriRapide) ? TAILLES : TAILLES_INSERTION;
+
+                for(int n : tailles){
+                    ArrayList<Voiture> voitures = new ArrayList<>(GenerateurDonneesVoiture.generateVoitures(n));
+                    long tempsNs = Chrono.chronometrer(algo, voitures, comparatorChoisi, repetitions);
                     double tempsMilli = tempsNs / 1_000_000.0;
                     Platform.runLater(() ->
-                            serie.getData().add(new XYChart.Data<>(n,tempsNs)));
+                            serie.getData().add(new XYChart.Data<>(n,tempsMilli)));
                 }
                 Platform.runLater(() -> graphique.getData().add(serie));
             }
@@ -106,16 +118,9 @@ public class BenchmarkController {
 
     private List<Algorithme> collecterAlgorithmes(){
         List<Algorithme> algos = new ArrayList<>();
-        // Algos Orginal
-        if(chkDicho.isSelected()) algos.add(new RechercheDichotomique());
-        if(chkLineaire.isSelected()) algos.add(new RechercheLineaire());
-        if(chkDouble.isSelected()) algos.add(new DoubleBoucle());
-
         // Algos de Tri
-        if(chkTriBulle.isSelected()) algos.add(new TriBulle());
-        if(chkTriSelection.isSelected()) algos.add(new TriSelection());
         if(chkTriInsertion.isSelected()) algos.add(new TriInsertion());
-        if(chkFusion.isSelected()) algos.add(new TriMerge());
+        if(chkFusion.isSelected()) algos.add(new TriFusion());
         if(chkRapide.isSelected()) algos.add(new TriRapide());
 
         return algos;
@@ -124,6 +129,5 @@ public class BenchmarkController {
     private void afficherAlert(String msg){
         new Alert(Alert.AlertType.WARNING, msg).showAndWait();
     }
-
 }
 
