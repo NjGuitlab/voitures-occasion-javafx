@@ -7,7 +7,7 @@
 
 
 <?import javafx.geometry.Insets?>
-<fx:root maxWidth="215.0" minWidth="200.0" prefWidth="215.0" type="HBox" spacing="8.0" alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxWidth="215.0" minWidth="200.0" prefWidth="215.0" type="HBox" spacing="8.0" alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
     <VBox spacing="4.0" HBox.hgrow="ALWAYS">
     <children>

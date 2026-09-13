@@ -1,6 +1,22 @@
 .button {
     -fx-background-color: green;
     -fx-text-fill: white;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-padding: 6px 14px;
+}
+
+.button:hover {
+    -fx-background-color: #238b23;
+}
+
+.button:pressed {
+    -fx-background-color: #1a6b1a;
+}
+
+.button:disabled {
+    -fx-opacity: 0.45;
 }
 
 .main-title {
@@ -35,9 +51,120 @@
 
 .card-voiture:hover {
     -fx-background-color: #f4efe6;
+    -fx-border-color: #b8ad9e;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.16), 12, 0.0, 0, 4);
 }
 
 .card-voiture .button {
     -fx-background-color: orange;
     -fx-text-fill: white;
+}
+
+.card-voiture .button:hover {
+    -fx-background-color: #e68a00;
+}
+
+.card-favoris {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e0ded8;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 6px 10px;
+    -fx-alignment: center-left;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 4, 0.0, 0, 1);
+}
+
+.card-favoris:hover {
+    -fx-background-color: #faf8f5;
+    -fx-border-color: #c9c3b8;
+}
+
+.card-favoris .button {
+    -fx-background-color: #d9534f;
+    -fx-font-size: 11px;
+    -fx-padding: 4px 8px;
+}
+
+.card-favoris .button:hover {
+    -fx-background-color: #c9302c;
+}
+
+#racineDetails {
+    -fx-background-color: #fdfbf7;
+    -fx-border-color: transparent transparent transparent #dcd6cd;
+    -fx-border-width: 1px;
+    -fx-padding: 16px;
+}
+
+.text-field, .combo-box {
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #c8c2b7;
+    -fx-border-width: 1px;
+    -fx-background-color: white;
+}
+
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: #4a90e2;
+}
+
+.slider .thumb {
+    -fx-background-color: #2b5b84;
+    -fx-background-radius: 10px;
+}
+
+.slider .thumb:hover {
+    -fx-background-color: #1d3f5e;
+}
+
+.zone-favoris-root {
+    -fx-background-color: #f7f6f2;
+    -fx-border-color: #dcd6cd transparent transparent transparent;
+    -fx-border-width: 2px;
+}
+
+.section-title {
+    -fx-font-size: 18px;
+    -fx-font-weigth: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Sergoe UI", "Arial", sans-serif;
+    -fx-padding: 4px 8px;
+}
+
+.btn-benchmark {
+    -fx-background-color: #2b5b84;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6px;
+    -fx-padding: 7px 15px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.12), 4, 0.0, 0, 2);
+}
+
+.btn-benchmark:hover {
+    -fx-background-color: #1d3f5e;
+}
+
+.btn-benchmark:pressed {
+    -fx-background-color: #132b40;
+}
+
+.scroll-favoris {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-favoris > .viewport {
+    -fx-background-color: transparent;
+}
+
+.badge-pagination {
+    -fx-background-color: #e2ded6;
+    -fx-text-fill: #333;
+    -fx-padding: 2px 8px;
+    -fx-background-radius: 10px;
+    -fx-font-weight: bold;
 }
