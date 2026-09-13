@@ -11,10 +11,12 @@ import java.util.List;
 public class VoitureService {
 
     private List<Voiture> voitures;
+    private List<Voiture> favoris;
 
     public VoitureService(SourceDonnees sourceDonnees) {
 
         this.voitures = sourceDonnees.chargerVoitures();
+        this.favoris = new ArrayList<>();
 
     }
 
@@ -169,34 +171,75 @@ public class VoitureService {
             String marque,
             TypeCarburant carburant,
             Integer prixMax,
-            Integer kilometrageMax){
+            Integer kilometrageMax,
+            Integer anneeMin,
+            Integer anneeMax,
+            Transmission transmission) {
 
         List<Voiture> resultats = new ArrayList<>();
 
-        for (Voiture voiture: voitures){
+        for (Voiture voiture : voitures) {
 
             if (marque != null
                     && !marque.equalsIgnoreCase("Toutes")
-                    && !voiture.getMarque().equalsIgnoreCase(marque)){
+                    && !voiture.getMarque().equalsIgnoreCase(marque)) {
                 continue;
             }
-            if (carburant !=null
-                    && !voiture.getCarburant().equals(carburant)){
+
+            if (carburant != null
+                    && !voiture.getCarburant().equals(carburant)) {
                 continue;
             }
+
             if (prixMax != null
-                    && voiture.getPrix() > prixMax){
+                    && voiture.getPrix() > prixMax) {
                 continue;
             }
+
             if (kilometrageMax != null
-                    && voiture.getKilometrage() > kilometrageMax){
+                    && voiture.getKilometrage() > kilometrageMax) {
                 continue;
             }
+
+            if (anneeMin != null
+                    && voiture.getAnnee() < anneeMin) {
+                continue;
+            }
+
+            if (anneeMax != null
+                    && voiture.getAnnee() > anneeMax) {
+                continue;
+            }
+
+            if (transmission != null
+                    && voiture.getTransmission() != transmission) {
+                continue;
+            }
+
             resultats.add(voiture);
         }
 
         return resultats;
+    }
+    // ------------- Gestion des favoris ----------------- //
 
+    //Ajouter aux favoris
+    public void ajouterFavori(int id){
+        Voiture voiture = trouverParId(id);
+
+        if(voiture !=null && !favoris.contains(voiture)){
+            favoris.add(voiture);
+        }
+    }
+
+    //Afficher les favoris
+    public List<Voiture> getFavoris(){
+        return favoris;
+    }
+
+    //Supprimer un favoris
+    public void supprimerFavori(int id){
+        favoris.removeIf(voiture ->voiture.getId() == id);
     }
 
 

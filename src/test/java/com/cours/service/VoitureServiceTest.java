@@ -187,40 +187,91 @@ public class VoitureServiceTest {
         assertNull(voiture);
     }
 
-    // Filtrage par criteres (Marque, TypeCarburant, PrixMax, kilometrageMax)
     @Test
-    void doitFiltrerParCriteres(){
+    void doitAjouterUneVoitureAuxFavoris() {
         LectureCSV lecture = new LectureCSV();
         VoitureService service = new VoitureService(lecture);
 
-        List<Voiture> resultats = service.filtrerParCriteres
-                ("Toyota",TypeCarburant.ESSENCE,5000,300000);
+        service.ajouterFavori(1);
 
-        assertNotNull(resultats);
-
-        for(Voiture voiture: resultats){
-            assertTrue(
-                    voiture.getMarque().equalsIgnoreCase("Toyota")
-                    && voiture.getCarburant()== TypeCarburant.ESSENCE
-                    && voiture.getPrix()<= 5000
-                    && voiture.getKilometrage() <= 300000);
-        }
-
+        assertEquals(1, service.getFavoris().size());
+        assertEquals(1, service.getFavoris().get(0).getId());
     }
 
     @Test
-    void doitRetournerAucunResultatSiAucunCritereNeCorrespond(){
+    void neDoitPasAjouterDeuxFoisLaMemeVoiture() {
+        LectureCSV lecture = new LectureCSV();
+        VoitureService service = new VoitureService(lecture);
+
+        service.ajouterFavori(1);
+        service.ajouterFavori(1);
+
+        assertEquals(1, service.getFavoris().size());
+    }
+
+    @Test
+    void doitSupprimerUneVoitureDesFavoris() {
+        LectureCSV lecture = new LectureCSV();
+        VoitureService service = new VoitureService(lecture);
+
+        service.ajouterFavori(1);
+        service.ajouterFavori(2);
+
+        service.supprimerFavori(1);
+
+        assertEquals(1, service.getFavoris().size());
+        assertEquals(2, service.getFavoris().get(0).getId());
+    }
+
+    // Version Tri Global amélioré
+    @Test
+    void doitFiltrerParTousLesCriteres() {
         LectureCSV lecture = new LectureCSV();
         VoitureService service = new VoitureService(lecture);
 
         List<Voiture> resultats = service.filtrerParCriteres(
                 "Toyota",
                 TypeCarburant.ESSENCE,
-                1,
-                300000
+                50000,
+                100000,
+                2015,
+                2023,
+                Transmission.AUTOMATIQUE
         );
 
         assertNotNull(resultats);
-        assertTrue(resultats.isEmpty());
+
+        for (Voiture voiture : resultats) {
+            assertEquals("Toyota", voiture.getMarque());
+            assertEquals(TypeCarburant.ESSENCE, voiture.getCarburant());
+            assertTrue(voiture.getPrix() <= 50000);
+            assertTrue(voiture.getKilometrage() <= 100000);
+            assertTrue(voiture.getAnnee() >= 2015);
+            assertTrue(voiture.getAnnee() <= 2023);
+            assertEquals(Transmission.AUTOMATIQUE, voiture.getTransmission());
+        }
+    }
+
+    @Test
+    void doitIgnorerLesCriteresNonSelectionnes() {
+        LectureCSV lecture = new LectureCSV();
+        VoitureService service = new VoitureService(lecture);
+
+        List<Voiture> resultats = service.filtrerParCriteres(
+                "Toyota",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertNotNull(resultats);
+        assertFalse(resultats.isEmpty());
+
+        for (Voiture voiture : resultats) {
+            assertEquals("Toyota", voiture.getMarque());
+        }
     }
 }
