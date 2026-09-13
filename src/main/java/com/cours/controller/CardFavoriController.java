@@ -39,7 +39,7 @@ public class CardFavoriController extends HBox {
             }
         });
 
-        this.setStyle(this.getStyle() + "; -fx-cursor-hand;");
+        this.setStyle(this.getStyle() + "; -fx-cursor: hand;");
 
         btnSupprimerFavori.setOnAction(event -> {
             event.consume();
