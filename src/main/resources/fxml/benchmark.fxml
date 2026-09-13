@@ -13,52 +13,60 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cours.controller.BenchmarkController">
-    <top>
-        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
-            <children>
-                <Label text="Performances des tris des Voitures" />
-                <Region prefHeight="100.0" prefWidth="551.0" />
-                <Label text="Repetitions :" />
-                <Spinner fx:id="spinnerRepetitions" />
-                <Button fx:id="btnLancer" mnemonicParsing="false" text="Lancer les mesures" />
-                <Button fx:id="btnReset" mnemonicParsing="false" text="Reset" />
-            </children>
-            <padding>
-                <Insets bottom="14.0" left="24.0" right="24.0" top="14.0" />
-            </padding>
-        </HBox>
-    </top>
+<?import javafx.scene.control.Separator?>
+<BorderPane prefHeight="700.0" prefWidth="1050.0" styleClass="root-benchmark" stylesheets="@../css/benchmark.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cours.controller.BenchmarkController">
     <left>
-        <VBox prefHeight="600.0" prefWidth="267.0" spacing="12.0">
-            <children>
-                <Label text="ALGORITHME DE TRI" />
-                <CheckBox fx:id="chkTriInsertion" mnemonicParsing="false" text="Tri Insertion - O(n²)" />
-                <CheckBox fx:id="chkFusion" mnemonicParsing="false" text="Tri par Fusion - O(n log n)" />
-                <CheckBox fx:id="chkRapide" mnemonicParsing="false" text="Tri Rapide - O(n log n)" />
-                <Region prefHeight="15.0" prefWidth="227.0" />
-            <Label text="CRITÈRE DE COMPARAISON" />
-            <RadioButton fx:id="radioKm" mnemonicParsing="false" text="Kilométrage croissant" />
-            <RadioButton fx:id="radioPrixUp" mnemonicParsing="false" text="Prix croissant" />
-            <RadioButton fx:id="radioPrixDown" mnemonicParsing="false" text="Prix décroissant" />
-            <RadioButton fx:id="radioDate" mnemonicParsing="false" text="Année décroissante" />
-            <Region prefHeight="72.0" prefWidth="227.0" />
-                <Label text="Tailles Testees" />
-                <Label text="100, 500, 1k, 5k , 10k ,50k " />
-            </children>
+        <VBox prefWidth="320.0" spacing="18.0" styleClass="sidebar">
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>
+            <VBox spacing="4.0">
+                <Label styleClass="titre-vue" text="Performance des tris" />
+                <Label styleClass="sous-titre-vue" text="Analyse comparative des algorithmes" />
+            </VBox>
+            <Separator />
+            <VBox spacing="10.0" styleClass="card-section">
+                <Label text="ALGORITHMES" />
+                <CheckBox fx:id="chkTriInsertion" selected="true" text="Tri Insertion - O(n²)" />
+                <CheckBox fx:id="chkFusion" selected="true" text="Tri par Fusion - O(n log n)" />
+                <CheckBox fx:id="chkRapide" selected="true" text="Tri Rapide - O(n log n)" />
+            </VBox>
+            <VBox spacing="10.0" styleClass="card-section">
+            <Label text="CRITÈRE DE COMPARAISON" />
+            <RadioButton fx:id="radioKm" text="Kilométrage croissant" />
+            <RadioButton fx:id="radioPrixUp" text="Prix croissant" />
+            <RadioButton fx:id="radioPrixDown" text="Prix décroissant" />
+            <RadioButton fx:id="radioDate" text="Année décroissante" />
+            </VBox>
+            <VBox spacing="10.0" styleClass="card-section">
+                <Label styleClass="section-header" text="CONFIGURATION" />
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <Label text="Répétitions : " />
+                    <Spinner fx:id="spinnerRepetitions" prefWidth="90.0" />
+                </HBox>
+                <Label styleClass="label-tailles" text="Échantillons : 100, 500, 1k, 5k , 10k ,50k" />
+        </VBox>
+        <HBox spacing="12.0">
+            <Button fx:id="btnLancer" maxWidth="Infinity" styleClass="btn-primary" text="Lancer le test" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnReset" styleClass="btn-secondary" text="Réinitialiser" />
+        </HBox>
         </VBox>
     </left>
     <center>
-        <LineChart fx:id="graphique" BorderPane.alignment="CENTER">
+    <VBox spacing="15.0">
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </padding>
+        <VBox styleClass="chart-container" VBox.vgrow="ALWAYS">
+        <LineChart fx:id="graphique" createSymbols="true" title="Temps d'exécution selon la taille (n)" VBox.vgrow="ALWAYS">
             <xAxis>
-                <NumberAxis fx:id="axeX" label="Taille (n)" side="BOTTOM" />
+                <NumberAxis fx:id="axeX" label="Taille (n)" autoRanging="true" />
             </xAxis>
             <yAxis>
-                <NumberAxis fx:id="axeY" label="Temps (ms)" side="LEFT" />
+                <NumberAxis fx:id="axeY" label="Temps (ms)" autoRanging="true" />
             </yAxis>
         </LineChart>
+        </VBox>
+    </VBox>
     </center>
 </BorderPane>
