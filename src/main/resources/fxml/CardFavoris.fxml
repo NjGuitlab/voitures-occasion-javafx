@@ -31,7 +31,7 @@
       </javafx.scene.layout.VBox>
       <VBox prefHeight="122.0" prefWidth="71.0">
          <children>
-            <Button fx:id="btnSupprimerFavori" mnemonicParsing="false" text="Button" />
+            <Button fx:id="btnSupprimerFavori" mnemonicParsing="false" text="Supprimer" />
          </children>
       </VBox>
    </children>
