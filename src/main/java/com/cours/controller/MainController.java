@@ -27,7 +27,7 @@ public class MainController {
 
     private TriFusion<Voiture> fusion = new TriFusion<>();
     private TriRapide<Voiture> rapide = new TriRapide<>();
-    private TriInsertion<Voiture> insertion = new TriInsertion<>();
+    private TriInsertion<String> insertion = new TriInsertion<>();  // On l'utilise pour trier les noms de marques
 
     private Pagination pagination;  // On importe l'util pour gérer la pagnination
     private static final int VOITURES_PAR_PAGE = 12;  // Le nombre de cards qu'on veut voir dans chaque page
@@ -84,7 +84,12 @@ public class MainController {
             detailsVoitureController.setOnFavoriAjoute(() -> zoneFavorisController.rafraichirVueFavoris());
         }
         afficherCartes();
-        remplirComboBox(listeVoitures.stream().map(Voiture::getMarque).distinct().toList(), comboMarques, "Toutes");
+
+        // On utilise le tri Insertion ici pour trier les noms de marques par ordre alphabétique pour le ComboBox
+        ArrayList<String> listeMarques = new ArrayList<>(listeVoitures.stream().map(Voiture::getMarque).distinct().toList());
+        insertion.ordonner(listeMarques, String.CASE_INSENSITIVE_ORDER);
+
+        remplirComboBox(listeMarques, comboMarques, "Toutes");
         remplirComboBox(listeVoitures.stream().map(v -> Objects.toString(v.getCarburant(), "")).filter(s -> !s.isBlank()).distinct().toList(), comboCarburant, "Tous");
         comboMarques.setOnAction(e -> appliquerFiltreMultipleEtTri());  // Écouteur d'événement
         comboCarburant.setOnAction(e -> appliquerFiltreMultipleEtTri());
@@ -249,36 +254,22 @@ public class MainController {
         afficherCartes();
     }
 
-    /** Une fonction pour appliquer des tris si c'est demandé
-     *
-     * <p> Pour 1100 éléments ou moins le tri par insertion est utilisé sinon le tri rapide est employé. </p>
-     * @param listeOrigine
-     */
-
+    // Une fonction pour appliquer des tris si c'est demandé  (on utilise deux algorithmes différents)
     private void triApplique(ArrayList<Voiture> listeOrigine) {
-
+        if (listeOrigine == null || listeOrigine.size() <= 1) {
+            return;  // Pour empêcher que le tri plante si la liste est vide
+        }
         String typeTri = comboTypeTri.getValue();
 
         if (typeTri == null || "Tous".equals(typeTri)) {
-            return;
-        }
+            return;}
 
-        if (listeVoitures.size() <= 1100) {
-            switch (typeTri) {
-                case "Kilométrage croissant" -> insertion.ordonner(listeOrigine, Voiture.PAR_KM_ASC);
-                case "Prix croissant" -> insertion.ordonner(listeOrigine, Voiture.PAR_PRIX_ASC);
-                case "Prix décroissant" -> insertion.ordonner(listeOrigine, Voiture.PAR_PRIX_DESC);
-                case "Date décroissante" -> insertion.ordonner(listeOrigine, Voiture.PAR_DATE_DESC);
-            }
-        } else {
-            switch (typeTri) {
-                case "Kilométrage croissant" -> rapide.ordonner(listeOrigine, Voiture.PAR_KM_ASC);
-                case "Prix croissant" -> rapide.ordonner(listeOrigine, Voiture.PAR_PRIX_ASC);
-                case "Prix décroissant" -> rapide.ordonner(listeOrigine, Voiture.PAR_PRIX_DESC);
-                case "Date décroissante" -> rapide.ordonner(listeOrigine, Voiture.PAR_DATE_DESC);
-            }
-        }
-
+        switch (typeTri) {
+            case "Kilométrage croissant" -> fusion.ordonner(listeOrigine, Voiture.PAR_KM_ASC);
+            case "Prix croissant" -> rapide.ordonner(listeOrigine, Voiture.PAR_PRIX_ASC);  // Le tri rapide est le plus performant pour ce qu'on a besoin
+            case "Prix décroissant" -> rapide.ordonner(listeOrigine, Voiture.PAR_PRIX_DESC);
+            case "Date décroissante" -> rapide.ordonner(listeOrigine, Voiture.PAR_DATE_DESC);
         }
     }
+}
 
