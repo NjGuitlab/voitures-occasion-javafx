@@ -1,5 +1,8 @@
 package com.cours.service;
 
+import com.cours.algorithmes.TriFusion;
+import com.cours.algorithmes.TriInsertion;
+import com.cours.algorithmes.TriRapide;
 import com.cours.model.Transmission;
 import com.cours.model.Voiture;
 import com.cours.util.SourceDonnees;
@@ -12,6 +15,10 @@ public class VoitureService {
 
     private List<Voiture> voitures;
     private List<Voiture> favoris;
+
+    private TriFusion<Voiture> fusion = new TriFusion<>();
+    private TriRapide<Voiture> rapide = new TriRapide<>();
+    private TriInsertion<String> insertion = new TriInsertion<>();  // On l'utilise pour trier les noms de marques
 
     public VoitureService(SourceDonnees sourceDonnees) {
 
@@ -240,6 +247,46 @@ public class VoitureService {
     //Supprimer un favoris
     public void supprimerFavori(int id){
         favoris.removeIf(voiture ->voiture.getId() == id);
+    }
+
+
+    /**
+     * Applique un tri selon le nombre d'éléments à trier afin d'optimiser la performance.
+     *
+     * @param listeOrigine la liste à trier.
+     * @param typeTri le critère de tri.
+     * @param stable si l'ordre relatif est à préserver.
+     */
+
+    public void triApplique(ArrayList<Voiture> listeOrigine, String typeTri, boolean stable) {
+
+        if (typeTri == null || "Tous".equals(typeTri)) {
+            return;}
+
+        if (listeOrigine.size() <= 1100) {
+            switch (typeTri) {
+                case "Kilométrage croissant" -> insertion.ordonner(listeOrigine, Voiture.PAR_KM_ASC);
+                case "Prix croissant" -> insertion.ordonner(listeOrigine, Voiture.PAR_PRIX_ASC);
+                case "Prix décroissant" -> insertion.ordonner(listeOrigine, Voiture.PAR_PRIX_DESC);
+                case "Date décroissante" -> insertion.ordonner(listeOrigine, Voiture.PAR_DATE_DESC);
+            }
+        } else {
+            if (!stable) {
+                switch (typeTri) {
+                    case "Kilométrage croissant" -> rapide.ordonner(listeOrigine, Voiture.PAR_KM_ASC);
+                    case "Prix croissant" -> rapide.ordonner(listeOrigine, Voiture.PAR_PRIX_ASC);
+                    case "Prix décroissant" -> rapide.ordonner(listeOrigine, Voiture.PAR_PRIX_DESC);
+                    case "Date décroissante" -> rapide.ordonner(listeOrigine, Voiture.PAR_DATE_DESC);
+                }
+            } else {
+                switch (typeTri) {
+                    case "Kilométrage croissant" -> fusion.ordonner(listeOrigine, Voiture.PAR_KM_ASC);
+                    case "Prix croissant" -> fusion.ordonner(listeOrigine, Voiture.PAR_PRIX_ASC);
+                    case "Prix décroissant" -> fusion.ordonner(listeOrigine, Voiture.PAR_PRIX_DESC);
+                    case "Date décroissante" -> fusion.ordonner(listeOrigine, Voiture.PAR_DATE_DESC);
+                }
+            }
+        }
     }
 
 
