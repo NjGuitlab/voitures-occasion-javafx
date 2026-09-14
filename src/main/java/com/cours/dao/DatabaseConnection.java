@@ -1,25 +1,27 @@
 package com.cours.dao;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
-import java.io.InputStream;
 
 public class DatabaseConnection {
 
-    public static Connection connexion(){
+    public static Connection connexion() throws SQLException {
 
         // Crée un objet Properties pour lire les infos de database.properties
         Properties properties = new Properties();
 
-        try {
-            // On cherche le fichier database.properties dans les ressources
-            InputStream input = DatabaseConnection.class
-                    .getClassLoader()
-                    .getResourceAsStream("database.properties");
+        try (InputStream input = DatabaseConnection.class
+                .getClassLoader()
+                .getResourceAsStream("database.properties")) {
 
             if (input == null) {
-                throw new Exception("Fichier database.properties introuvable");
+                throw new IllegalStateException(
+                        "Fichier database.properties introuvable."
+                );
             }
 
             // Charger les informations du fichier dans properties
@@ -36,13 +38,12 @@ public class DatabaseConnection {
             // Retourne la connexion crée
             return connexion;
 
-        } catch (Exception e) {
-            // Affiche l'erreur si la connexion ne fonctionne pas
-            e.printStackTrace();
+        } catch (IOException e) {
+            throw new IllegalStateException(
+                    "Impossible de lire la configuration de la base de données.",
+                    e
+            );
         }
-
-        // Si une erreur se produit, aucune connexion n'est retournée
-        return null;
     }
 
 }
