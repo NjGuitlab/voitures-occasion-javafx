@@ -1,6 +1,7 @@
 package com.cours.algorithmes;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Définie la structure non-négociable pour implémenter des algorithmes de tris
@@ -16,5 +17,5 @@ public interface Algorithme<T> {
 
     String complexiteTheorique();
 
-    void ordonner(ArrayList<T> data, Comparator<T> comparator);
+    <T> void ordonner(List<T> data, Comparator<T> comparator);
 }

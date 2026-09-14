@@ -1,6 +1,7 @@
 package com.cours.algorithmes;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -29,12 +30,12 @@ public class TriRapide<T> implements Algorithme<T> {
      * @version 1.0
      */
     @Override
-    public void ordonner(ArrayList<T> data, Comparator<T> comparateur) {
+    public <T> void ordonner(List<T> data, Comparator<T> comparateur) {
         if (data == null || data.size() <= 1) return;
         trier(data, 0, data.size() - 1, comparateur);
     }
 
-    private void trier(ArrayList<T> data, int deb, int fin, Comparator<T> comparateur) {
+    private <T> void trier(List<T> data, int deb, int fin, Comparator<T> comparateur) {
         if (deb < fin) {
             int p = sectionner(data, deb, fin, comparateur);
             trier(data, deb, p, comparateur);
@@ -42,7 +43,7 @@ public class TriRapide<T> implements Algorithme<T> {
         }
     }
 
-    private int sectionner(ArrayList<T> data, int deb, int fin, Comparator<T> comparateur) {
+    private <T> int sectionner(List<T> data, int deb, int fin, Comparator<T> comparateur) {
         // Choix de pivot aléatoire afin de réduire le nombre de comparaisons pour des données presque triées
         int pivotIndex = deb + ThreadLocalRandom.current().nextInt(fin - deb + 1);
         T pivot = data.get(pivotIndex);

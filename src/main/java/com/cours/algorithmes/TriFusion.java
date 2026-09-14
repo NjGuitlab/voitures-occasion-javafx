@@ -1,6 +1,7 @@
 package com.cours.algorithmes;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Implémentation de l'algorithme de tri par fusion.
@@ -29,12 +30,12 @@ public class TriFusion<T> implements Algorithme<T> {
      * @version 1.0
      */
     @Override
-    public void ordonner(ArrayList<T> data, Comparator<T> comparateur) {
+    public <T> void ordonner(List<T> data, Comparator<T> comparateur) {
 
         diviser(data, 0, data.size() - 1, comparateur);
     }
 
-    private void diviser(ArrayList<T> data, int deb, int fin, Comparator<T> comparateur) {
+    private <T> void diviser(List<T> data, int deb, int fin, Comparator<T> comparateur) {
         if (deb >= fin) return;
 
         int mil = (deb + fin)/2;
@@ -44,7 +45,7 @@ public class TriFusion<T> implements Algorithme<T> {
         fusionner(data, deb, mil, fin, comparateur);
     }
 
-    private void fusionner(ArrayList<T> data, int deb, int mil, int fin, Comparator<T> comparateur) {
+    private <T> void fusionner(List<T> data, int deb, int mil, int fin, Comparator<T> comparateur) {
 
         ArrayList<T> temp = new ArrayList<>(fin - deb + 1);
 

@@ -1,6 +1,7 @@
 package com.cours.algorithmes;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Implémentation de l'algorithme de tri par insertion.
@@ -29,7 +30,7 @@ public class TriInsertion<T> implements Algorithme<T> {
      * @version 1.0
      */
     @Override
-    public void ordonner(ArrayList<T> data, Comparator<T> comparateur) {
+    public <T> void ordonner(List<T> data, Comparator<T> comparateur) {
         
         for (int i = 1; i < data.size(); i++) {
             T key = data.get(i);
