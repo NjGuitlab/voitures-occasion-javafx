@@ -45,10 +45,14 @@ CREATE TABLE voitures (
     type_vendeur type_vendeur NOT NULL,
     date_publication DATE DEFAULT CURRENT_DATE,
     description TEXT,
-    CONSTRAINT fk_id_marque FOREIGN KEY (id_marque) REFERENCES marques(id),
+    CONSTRAINT fk_id_marque FOREIGN KEY (id_marque) REFERENCES marques(id) ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT ck_annee_valide CHECK ( annee >= 1900 ),
     CONSTRAINT ck_kilometrage_positif CHECK ( kilometrage >= 0 ),
     CONSTRAINT ck_prix_positif CHECK ( prix > 0 )
 );
+
+-- Des index pour faciliter le filtrage
+CREATE INDEX idx_voitures_marque ON voitures(id_marque);
+CREATE INDEX idx_voitures_prix ON voitures(prix);
 
 
