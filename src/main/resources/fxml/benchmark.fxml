@@ -36,7 +36,7 @@
             <RadioButton fx:id="radioKm" text="Kilométrage croissant" />
             <RadioButton fx:id="radioPrixUp" text="Prix croissant" />
             <RadioButton fx:id="radioPrixDown" text="Prix décroissant" />
-            <RadioButton fx:id="radioDate" text="Année décroissante" />
+            <RadioButton fx:id="radioDate" text="Date décroissante" />
             </VBox>
             <VBox spacing="10.0" styleClass="card-section">
                 <Label styleClass="section-header" text="CONFIGURATION" />
