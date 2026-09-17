@@ -15,6 +15,10 @@ import java.sql.SQLException;
 
 public class VoiturePostgreSQLDAO implements VoitureDAO{
 
+
+
+    // ============= Afficher toutes les voitures =============== //
+
     @Override
     public List<Voiture> trouverTous() {
 
@@ -79,6 +83,8 @@ public class VoiturePostgreSQLDAO implements VoitureDAO{
         return voitures;
     }
 
+    // =============== Trouver une annonce par ID ================== //
+
     @Override
     public Optional<Voiture> trouverParId(int id) {
         try (Connection connexion = DatabaseConnection.connexion()) {
@@ -134,7 +140,7 @@ public class VoiturePostgreSQLDAO implements VoitureDAO{
                                 resultats.getString("description")
                         );
 
-                        // La voiture existe : on la retourne dans un Optional.
+                        // La voiture existe : on la retourne dans un Optional
                         return Optional.of(voiture);
                     }
                 }
@@ -148,7 +154,7 @@ public class VoiturePostgreSQLDAO implements VoitureDAO{
         return Optional.empty();
     }
 
-    // ------------ On récupère l'ID de la marque --------------------- //
+    // ========== On récupère l'ID de la marque =========== //
 
     private int trouverIdMarque(String nomMarque) {
 
@@ -166,14 +172,13 @@ public class VoiturePostgreSQLDAO implements VoitureDAO{
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(
-                    "Erreur lors de la recherche de la marque.", e);
+            throw new RuntimeException("Erreur lors de la recherche de la marque.", e);
         }
 
-        throw new IllegalArgumentException(
-                "La marque '" + nomMarque + "' n'existe pas."
-        );
+        throw new IllegalArgumentException("La marque '" + nomMarque + "' n'existe pas.");
     }
+
+    // =============== Ajouter une voiture à la base ================ //
 
     @Override
     public Voiture ajouter(Voiture voiture) {
@@ -195,8 +200,7 @@ public class VoiturePostgreSQLDAO implements VoitureDAO{
                 date_publication,
                 description
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """;
+                VALUES (?, ?, ?, ?, ?, ?::type_carburant, ?::transmission, ?, ?, ?::type_vendeur, ?, ?)             """;
 
         try (Connection connexion = DatabaseConnection.connexion();
              PreparedStatement statement = connexion.prepareStatement(
@@ -243,16 +247,13 @@ public class VoiturePostgreSQLDAO implements VoitureDAO{
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(
-                    "Erreur lors de l'ajout de la voiture.",
-                    e
-            );
+            throw new RuntimeException("Erreur lors de l'ajout de la voiture.", e);
         }
 
-        throw new IllegalStateException(
-                "La voiture a été ajoutée mais son ID n'a pas pu être récupéré."
-        );
+        throw new IllegalStateException("La voiture a été ajoutée mais son ID n'a pas pu être récupéré.");
     }
+
+    // ============= Modifier une annonce =============== //
 
     @Override
     public void modifier(Voiture voiture) {
@@ -269,11 +270,11 @@ public class VoiturePostgreSQLDAO implements VoitureDAO{
                 annee = ?,
                 kilometrage = ?,
                 prix = ?,
-                carburant = ?,
-                transmission = ?,
+                carburant = ?::type_carburant,
+                transmission = ?::transmission,
                 couleur = ?,
                 ville = ?,
-                type_vendeur = ?,
+                type_vendeur = ?::type_vendeur,
                 date_publication = ?,
                 description = ?
             WHERE id = ?
@@ -314,28 +315,28 @@ public class VoiturePostgreSQLDAO implements VoitureDAO{
 
         } catch (SQLException e) {
             throw new RuntimeException(
-                    "Erreur lors de la modification de la voiture.",
-                    e
-            );
+                    "Erreur lors de la modification de la voiture.", e);
         }
     }
+
+    // ============= Supprimer une annonce ============= //
 
     @Override
     public void supprimer(int id) {
 
-        // 1. Requête SQL pour supprimer la voiture
+        // Requête SQL pour supprimer la voiture
         String sql = "DELETE FROM voitures WHERE id = ?";
 
         try (Connection connexion = DatabaseConnection.connexion();
              PreparedStatement statement = connexion.prepareStatement(sql)) {
 
-            // 2. On indique l'ID de la voiture à supprimer
+            // On indique l'ID de la voiture à supprimer
             statement.setInt(1, id);
 
-            // 3. On exécute la suppression
+            // On exécute la suppression
             int lignesSupprimees = statement.executeUpdate();
 
-            // 4. Vérification
+            // Vérification
             if (lignesSupprimees == 0) {
                 throw new IllegalArgumentException(
                         "Aucune voiture trouvée avec l'ID " + id
@@ -343,10 +344,7 @@ public class VoiturePostgreSQLDAO implements VoitureDAO{
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(
-                    "Erreur lors de la suppression de la voiture.",
-                    e
-            );
+            throw new RuntimeException("Erreur lors de la suppression de la voiture.", e);
         }
     }
 }
