@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -12,52 +11,53 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cours.controller.MainController" stylesheets="@../css/style.css">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cours.controller.MainController">
    <top>
-      <VBox alignment="CENTER" styleClass="top-bar-container" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" spacing="10.0" styleClass="top-bar-container" BorderPane.alignment="CENTER">
          <children>
             <Label styleClass="main-title" text="CarFinder" />
             <HBox alignment="CENTER" spacing="18.0">
                <children>
                <VBox spacing="4.0">
                <children>
-                  <Label text="Recherche :" styleClass="filter-label"/>
-                  <TextField fx:id="champRecherche" promptText="Mot-clé, modèle, ville..." prefWidth="170.0" />
+                  <Label styleClass="filter-label" text="Recherche :" />
+                  <TextField fx:id="champRecherche" prefWidth="170.0" promptText="Mot-clé, modèle, ville..." />
                </children>
                </VBox>
-                  <VBox spacing="2.0" prefWidth="130.0">
+                  <VBox prefWidth="130.0" spacing="2.0">
                      <children>
-                        <Label text="Kilométrage maximum :" styleClass="filter-label"/>
+                        <Label styleClass="filter-label" text="Kilométrage maximum :" />
                         <Slider fx:id="sliderKilometrage" />
-                        <Label fx:id="labelSliderKilometrage" alignment="CENTER_RIGHT" maxWidth="Infinity" styleClass="slider-value-label"/>
+                        <Label fx:id="labelSliderKilometrage" alignment="CENTER_RIGHT" maxWidth="Infinity" styleClass="slider-value-label" />
                      </children>
                   </VBox>
-                  <VBox spacing="2.0" prefWidth="110.0">
+                  <VBox prefWidth="110.0" spacing="2.0">
                      <children>
-                        <Label text="Année minimum :" styleClass="filter-label"/>
+                        <Label styleClass="filter-label" text="Année minimum :" />
                         <Slider fx:id="sliderAnneeMin" />
-                        <Label fx:id="labelSliderAnneeMin" alignment="CENTER_RIGHT" maxWidth="Infinity" styleClass="slider-value-label"/>
+                        <Label fx:id="labelSliderAnneeMin" alignment="CENTER_RIGHT" maxWidth="Infinity" styleClass="slider-value-label" />
                      </children>
                   </VBox>
-                  <VBox spacing="2.0" prefWidth="110.0">
+                  <VBox prefWidth="110.0" spacing="2.0">
                      <children>
-                        <Label text="Année maximum :" styleClass="filter-label"/>
+                        <Label styleClass="filter-label" text="Année maximum :" />
                         <Slider fx:id="sliderAnneeMax" />
-                        <Label fx:id="labelSliderAnneeMax" alignment="CENTER_RIGHT" maxWidth="Infinity" styleClass="slider-value-label"/>
+                        <Label fx:id="labelSliderAnneeMax" alignment="CENTER_RIGHT" maxWidth="Infinity" styleClass="slider-value-label" />
                      </children>
                   </VBox>
-                  <VBox spacing="2.0" prefWidth="120.0">
+                  <VBox prefWidth="120.0" spacing="2.0">
                      <children>
-                        <Label text="Prix maximum :" styleClass="filter-label"/>
+                        <Label styleClass="filter-label" text="Prix maximum :" />
                         <Slider fx:id="sliderPrix" />
-                        <Label fx:id="labelSliderPrix" alignment="CENTER_RIGHT" maxWidth="Infinity" styleClass="slider-value-label"/>
+                        <Label fx:id="labelSliderPrix" alignment="CENTER_RIGHT" maxWidth="Infinity" styleClass="slider-value-label" />
                      </children>
                   </VBox>
                   <VBox spacing="4.0">
                      <children>
-                        <Label text="Type de carburant : " styleClass="filter-label"/>
+                        <Label styleClass="filter-label" text="Type de carburant : " />
                         <ComboBox fx:id="comboCarburant" prefWidth="120.0" />
                      </children>
                   </VBox>
@@ -69,7 +69,20 @@
    <center>
       <VBox prefHeight="500.0" prefWidth="588.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Véhicules disponibles" styleClass="section-title"/>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+               <children>
+                  <Label styleClass="section-title" text="Véhicules disponibles">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Region prefHeight="35.0" prefWidth="338.0" />
+                  <Button fx:id="btnAjouterVoiture" minWidth="-Infinity" mnemonicParsing="false" text="Ajouter un véhicule" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
             <ScrollPane fitToWidth="true" prefHeight="500.0" prefWidth="588.0" VBox.vgrow="ALWAYS">
                <content>
                   <FlowPane fx:id="cardsContainer" hgap="15.0" vgap="15.0" />
@@ -77,10 +90,10 @@
             </ScrollPane>
             <HBox alignment="CENTER" prefHeight="50.0" spacing="12.0">
                <children>
-                  <Button fx:id="btnPagePrecedenteCards" mnemonicParsing="false" text="Page précédente" styleClass="btn-pagination"/>
-                  <Label text="Page" style="-fx-text-fill: #555; -fx-font-weight: bold;"/>
-                  <Label fx:id="labelNumeroPagesCards" text="1/1" styleClass="badge-pagination"/>
-                  <Button fx:id="btnPageSuivanteCards" mnemonicParsing="false" text="Page suivante" styleClass="btn-pagination"/>
+                  <Button fx:id="btnPagePrecedenteCards" mnemonicParsing="false" styleClass="btn-pagination" text="Page précédente" />
+                  <Label style="-fx-text-fill: #555; -fx-font-weight: bold;" text="Page" />
+                  <Label fx:id="labelNumeroPagesCards" styleClass="badge-pagination" text="1/1" />
+                  <Button fx:id="btnPageSuivanteCards" mnemonicParsing="false" styleClass="btn-pagination" text="Page suivante" />
                </children>
             </HBox>
          </children>
@@ -91,7 +104,7 @@
          <children>
             <VBox spacing="8.0">
                <children>
-            <Label text="Transmission :" styleClass="filter-label"/>
+            <Label styleClass="filter-label" text="Transmission :" />
             <VBox spacing="6.0" styleClass="radio-container">
                <children>
                   <RadioButton fx:id="radioTransmissionToutes" mnemonicParsing="false" text="Toutes" />
@@ -104,19 +117,19 @@
 
             <VBox spacing="6.0">
                     <children>
-            <Label text="Trier par : " styleClass="filter-label"/>
+            <Label styleClass="filter-label" text="Trier par : " />
             <ComboBox fx:id="comboTypeTri" maxWidth="Infinity" />
                     </children>
             </VBox>
                <VBox spacing="6.0">
                   <children>
-                  <Label text="Choisir une marque :" styleClass="filter-label"/>
+                  <Label styleClass="filter-label" text="Choisir une marque :" />
                   <ComboBox fx:id="comboMarques" maxWidth="Infinity" />
                </children>
             </VBox>
          </children>
          <padding>
-            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0"/>
+            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
          </padding>
       </VBox>
    </left>

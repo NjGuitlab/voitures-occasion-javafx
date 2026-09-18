@@ -1,4 +1,5 @@
 package com.cours.controller;
+import com.cours.dao.VoiturePostgreSQLDAO;
 import com.cours.model.Transmission;
 import com.cours.model.TypeCarburant;
 import com.cours.model.Voiture;
@@ -17,7 +18,7 @@ import java.util.*;
 public class MainController {
 
     // On implémente une instance de Voiture service dans le Controller
-    private final VoitureService service = new VoitureService(new LectureCSV());
+    private final VoitureService service = new VoitureService(new VoiturePostgreSQLDAO());
 
     private List<Voiture> listeVoitures;
 
@@ -40,7 +41,7 @@ public class MainController {
     private FlowPane cardsContainer;
 
     @FXML
-    private Button btnPagePrecedenteCards, btnPageSuivanteCards;
+    private Button btnPagePrecedenteCards, btnPageSuivanteCards, btnAjouterVoiture;
 
     @FXML
     private RadioButton radioTransmissionToutes, radioTransmissionAuto, radioTransmissionManuelle;
@@ -59,7 +60,7 @@ public class MainController {
     private final PauseTransition debounce = new PauseTransition(Duration.millis(300));  // Pour éviter de lancer trop rapidement la requête à chaque touche tapée
 
     @FXML
-    public void initialize() {   // On initialise les données et toutes les options de filtrage
+    public void initialize() {// On initialise les données et toutes les options de filtrage
         chargerDonneesVoitures();
         pagination = new Pagination(listeVoitures, VOITURES_PAR_PAGE);  // Pour la pagination des cards
         btnPagePrecedenteCards.setOnAction(e -> allerPagePrecedente());
