@@ -15,6 +15,7 @@ public class VoitureService {
 
     private List<Voiture> voitures;
     private List<Voiture> favoris;
+    private SourceDonnees sourceDonnees;
 
     private TriFusion<Voiture> fusion = new TriFusion<>();
     private TriRapide<Voiture> rapide = new TriRapide<>();
@@ -22,13 +23,20 @@ public class VoitureService {
 
     public VoitureService(SourceDonnees sourceDonnees) {
 
+        this.sourceDonnees = sourceDonnees;
         this.voitures = sourceDonnees.chargerVoitures();
         this.favoris = new ArrayList<>();
 
     }
 
+    // ----- Methode pour retourner toutes les voitures de notre sourcedonnées --- //
     public List<Voiture> getVoitures() {
         return voitures;
+    }
+
+    // ----- Methode pour retourner toutes les marques de notre sourcedonnées --- //
+    public List<String> getMarques() {
+        return sourceDonnees.chargerMarques();
     }
 
     //---------------- Filter les voitures par marque ----------------------- //

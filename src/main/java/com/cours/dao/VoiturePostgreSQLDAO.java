@@ -3,6 +3,7 @@ import com.cours.model.Voiture;
 import com.cours.model.TypeCarburant;
 import com.cours.model.Transmission;
 import com.cours.model.TypeVendeur;
+import com.cours.util.SourceDonnees;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class VoiturePostgreSQLDAO implements VoitureDAO{
+public class VoiturePostgreSQLDAO implements VoitureDAO, SourceDonnees {
 
 
 
@@ -346,5 +347,33 @@ public class VoiturePostgreSQLDAO implements VoitureDAO{
         } catch (SQLException e) {
             throw new RuntimeException("Erreur lors de la suppression de la voiture.", e);
         }
+    }
+
+    @Override
+    public List<Voiture> chargerVoitures() {
+        return trouverTous();
+    }
+
+    @Override
+    public List<String> chargerMarques() {
+
+        List<String> marques = new ArrayList<>();
+
+        String sql = "SELECT nom FROM marques ORDER BY nom";
+
+        try (Connection connexion = DatabaseConnection.connexion();
+             PreparedStatement statement = connexion.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                marques.add(resultSet.getString("nom"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(
+                    "Erreur lors de la récupération des marques.", e);
+        }
+
+        return marques;
     }
 }
