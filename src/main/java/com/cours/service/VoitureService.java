@@ -3,6 +3,7 @@ package com.cours.service;
 import com.cours.algorithmes.TriFusion;
 import com.cours.algorithmes.TriInsertion;
 import com.cours.algorithmes.TriRapide;
+import com.cours.dao.VoitureDAO;
 import com.cours.model.Transmission;
 import com.cours.model.Voiture;
 import com.cours.util.SourceDonnees;
@@ -16,11 +17,25 @@ public class VoitureService {
     private List<Voiture> voitures;
     private List<Voiture> favoris;
     private SourceDonnees sourceDonnees;
+    private VoitureDAO dao;
 
     private TriFusion<Voiture> fusion = new TriFusion<>();
     private TriRapide<Voiture> rapide = new TriRapide<>();
     private TriInsertion<String> insertion = new TriInsertion<>();  // On l'utilise pour trier les noms de marques
 
+    // Constructeur utilisé lorsque les opérations CRUD doivent être effectuées
+    // via le DAO PostgreSQL.
+    public VoitureService(SourceDonnees sourceDonnees, VoitureDAO dao) {
+
+        this.sourceDonnees = sourceDonnees;
+        this.dao = dao;
+        this.voitures = sourceDonnees.chargerVoitures();
+        this.favoris = new ArrayList<>();
+
+    }
+
+    // Constructeur utilisé pour conserver la compatibilité avec les fonctionnalités
+    // existantes qui utilisent uniquement une SourceDonnees (ex. CSV et tests).
     public VoitureService(SourceDonnees sourceDonnees) {
 
         this.sourceDonnees = sourceDonnees;
@@ -39,6 +54,17 @@ public class VoitureService {
         return sourceDonnees.chargerMarques();
     }
 
+    public Voiture ajouter(Voiture voiture) {
+        return dao.ajouter(voiture);
+    }
+
+    public void modifier(Voiture voiture) {
+        dao.modifier(voiture);
+    }
+
+    public void supprimer(int id) {
+        dao.supprimer(id);
+    }
     //---------------- Filter les voitures par marque ----------------------- //
 
     public List<Voiture> filtrerParMarque(String marque) {

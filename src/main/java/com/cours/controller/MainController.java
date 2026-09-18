@@ -1,4 +1,8 @@
 package com.cours.controller;
+
+import com.cours.dao.VoitureDAO;
+import com.cours.dao.VoiturePostgreSQLDAO;
+
 import com.cours.model.Transmission;
 import com.cours.model.TypeCarburant;
 import com.cours.model.Voiture;
@@ -17,7 +21,9 @@ import java.util.*;
 public class MainController {
 
     // On implémente une instance de Voiture service dans le Controller
-    private final VoitureService service = new VoitureService(new LectureCSV());
+    //private final VoitureService service = new VoitureService(new LectureCSV());
+    private final VoitureDAO dao = new VoiturePostgreSQLDAO();
+    private final VoitureService service = new VoitureService(new LectureCSV(), dao);
 
     private List<Voiture> listeVoitures;
 
