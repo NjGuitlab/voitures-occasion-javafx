@@ -272,20 +272,28 @@ public class MainController {
 
         Thread chargerFichier = new Thread(()->{
             try {
-                FormAjouterVoitureController formulaireAjouter = new FormAjouterVoitureController();
+                FormAjouterVoitureController formulaireAjouter = new FormAjouterVoitureController(service);
+
+                formulaireAjouter.recevoirFnRafraichirUI(this::rafraichirIU);
 
                 FXMLLoader loader = new FXMLLoader(getClass()
                         .getResource("/fxml/formulaires/formAjouterVoiture.fxml"));
                 loader.setController(formulaireAjouter);
-                Parent root = loader.load();
 
                 Platform.runLater(()-> {
+                    try {
+                        Parent root = loader.load();
+                        Stage stage = new Stage();
+                        stage.setTitle("Ajouter une annonce");
+                        stage.setScene(new Scene(root));
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.showAndWait();
 
-                    Stage stage = new Stage();
-                    stage.setTitle("Ajouter une annonce");
-                    stage.setScene(new Scene(root));
-                    stage.initModality(Modality.APPLICATION_MODAL);
-                    stage.showAndWait();
+                    } catch (Exception error) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText("Erreur lors du chargement d'un formulaire.");
+                        alert.showAndWait();
+                    }
                 });
 
             } catch (Exception error) {
