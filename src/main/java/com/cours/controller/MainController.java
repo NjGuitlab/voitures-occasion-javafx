@@ -1,5 +1,8 @@
 package com.cours.controller;
+
+import com.cours.dao.VoitureDAO;
 import com.cours.dao.VoiturePostgreSQLDAO;
+
 import com.cours.model.Transmission;
 import com.cours.model.TypeCarburant;
 import com.cours.model.Voiture;
@@ -18,7 +21,9 @@ import java.util.*;
 public class MainController {
 
     // On implémente une instance de Voiture service dans le Controller
-    private final VoitureService service = new VoitureService(new VoiturePostgreSQLDAO());
+    //private final VoitureService service = new VoitureService(new LectureCSV());
+    private final VoitureDAO dao = new VoiturePostgreSQLDAO();
+    private final VoitureService service = new VoitureService(new LectureCSV(), dao);
 
     private List<Voiture> listeVoitures;
 
@@ -41,7 +46,7 @@ public class MainController {
     private FlowPane cardsContainer;
 
     @FXML
-    private Button btnPagePrecedenteCards, btnPageSuivanteCards, btnAjouterVoiture;
+    private Button btnPagePrecedenteCards, btnPageSuivanteCards;
 
     @FXML
     private RadioButton radioTransmissionToutes, radioTransmissionAuto, radioTransmissionManuelle;
@@ -60,7 +65,7 @@ public class MainController {
     private final PauseTransition debounce = new PauseTransition(Duration.millis(300));  // Pour éviter de lancer trop rapidement la requête à chaque touche tapée
 
     @FXML
-    public void initialize() {// On initialise les données et toutes les options de filtrage
+    public void initialize() {   // On initialise les données et toutes les options de filtrage
         chargerDonneesVoitures();
         pagination = new Pagination(listeVoitures, VOITURES_PAR_PAGE);  // Pour la pagination des cards
         btnPagePrecedenteCards.setOnAction(e -> allerPagePrecedente());
@@ -210,7 +215,7 @@ public class MainController {
         List<Voiture> voituresPage = pagination.getVoiturePageActuelle();
 
         for (Voiture voiture : voituresPage) {  // On affiche le nombre de cartes qu'on veut dans une page
-            CardVoitureController card = new CardVoitureController(voiture, service,id -> afficherDetailsVoitures(id));
+            CardVoitureController card = new CardVoitureController(voiture, id -> afficherDetailsVoitures(id));
             cardsContainer.getChildren().add(card);
         }
         labelNumeroPagesCards.setText(pagination.getPageActuelle() + "/" + pagination.getNombrePages()); // Met à jour la page dans le label
@@ -245,10 +250,6 @@ public class MainController {
         service.triApplique(trouvees, comboTypeTri.getValue(), false);
         pagination = new Pagination(trouvees, VOITURES_PAR_PAGE);
         afficherCartes();
-    }
-
-    private void modifierVoitureDB(Voiture v) {
-        service.getVoitures();
     }
 
 }
