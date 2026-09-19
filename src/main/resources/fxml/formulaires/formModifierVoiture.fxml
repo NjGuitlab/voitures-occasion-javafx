@@ -51,21 +51,23 @@
             <Region prefHeight="48.0" prefWidth="376.0" />
             <VBox prefHeight="300.0" prefWidth="100.0" spacing="10.0" style="-fx-border-color: black;">
                <children>
-                  <HBox alignment="CENTER" prefHeight="63.0" prefWidth="354.0" spacing="30.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="354.0" spacing="5.0">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                        <VBox alignment="CENTER">
                            <children>
                               <Label text="Prix" />
                               <Spinner fx:id="spinnerPrix" editable="true" prefHeight="28.0" prefWidth="62.0" style="-fx-body-text-by-child: ce;" styleClass="split-arrows-vertical" />
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                        <Region prefHeight="28.0" prefWidth="62.0" />
+                        <VBox alignment="CENTER">
                            <children>
                               <Label text="Kilométrage" />
                               <Spinner fx:id="spinnerKilos" editable="true" prefHeight="28.0" prefWidth="62.0" styleClass="split-arrows-vertical" />
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                        <Region prefHeight="28.0" prefWidth="62.0" />
+                        <VBox alignment="CENTER">
                            <children>
                               <Label text="Année" />
                               <Spinner fx:id="spinnerAnnee" editable="true" prefHeight="28.0" prefWidth="62.0" styleClass="split-arrows-vertical" />
@@ -86,10 +88,10 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <ComboBox fx:id="comboTransmission" prefWidth="150.0" promptText="Transmission" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                        <ComboBox fx:id="comboCarburant" prefWidth="150.0" promptText="Carburant" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                        <ComboBox fx:id="comboVendeur" prefWidth="150.0" promptText="Vendeur" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                        <ComboBox fx:id="comboCouleur" prefWidth="150.0" promptText="Couleur" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                        <ComboBox fx:id="comboTransmission" prefWidth="150.0" promptText="Transmission" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
+                        <ComboBox fx:id="comboCarburant" prefWidth="150.0" promptText="Carburant" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
+                        <ComboBox fx:id="comboVendeur" prefWidth="150.0" promptText="Vendeur" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                        <ComboBox fx:id="comboCouleur" prefWidth="150.0" promptText="Couleur" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                      </children>
                   </GridPane>
                   <TextArea fx:id="textDescription" prefHeight="119.0" prefWidth="354.0" promptText="Description..." wrapText="true" />

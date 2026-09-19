@@ -4,6 +4,7 @@ import com.cours.model.TypeCarburant;
 import com.cours.model.TypeVendeur;
 import com.cours.model.Voiture;
 import com.cours.service.VoitureService;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,6 +34,8 @@ public class FormModifierVoitureController {
     );
 
     private VoitureService service;
+
+    private Runnable rafraichirUI;
 
     public FormModifierVoitureController(Voiture v, VoitureService serv) {
         voiture = v;
@@ -115,11 +118,64 @@ public class FormModifierVoitureController {
 
         // Actions
         btnAnnuler.setOnAction(this::fermerForm);
+        btnModifier.setOnAction(this::sauvegarderModification);
+    }
+
+    public void recevoirFnRafraichirUI(Runnable fonction) {
+        this.rafraichirUI = fonction;
     }
 
     private void fermerForm(ActionEvent e) {
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
+    }
+
+    private void sauvegarderModification(ActionEvent event) {
+
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+
+        int id = voiture.getId();
+        String marque = voiture.getMarque();
+        String modele = voiture.getModele();
+        String ville = voiture.getVille();
+        LocalDate datePub = voiture.getDatePublication();
+        int prix = spinnerPrix.getValue();
+        int annee = spinnerAnnee.getValue();
+        int kilos = spinnerKilos.getValue();
+        Transmission transmission = Transmission.valueOf(comboTransmission.getValue().toString());
+        TypeCarburant carburant = TypeCarburant.valueOf(comboCarburant.getValue().toString());
+        TypeVendeur vendeur = TypeVendeur.valueOf(comboVendeur.getValue().toString());
+        String couleur = comboCouleur.getValue().toString();
+        String desc = textDescription.getText();
+
+        Thread modifierAnnonce = new Thread(() -> {
+
+            try {
+                service.modifier(new Voiture(
+                        id, marque, modele, annee, kilos, prix,
+                        carburant, transmission, couleur, ville, vendeur, datePub, desc
+                ));
+
+                Platform.runLater(() ->{
+                    rafraichirUI.run();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Voiture modifiée!");
+                    alert.showAndWait();
+                    stage.close();
+                });
+
+            } catch(Exception e) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Erreur lors de la modification.");
+                    alert.showAndWait();
+                });
+            }
+        });
+        modifierAnnonce.setDaemon(true);
+        modifierAnnonce.start();
+
     }
 }
