@@ -2,6 +2,7 @@ package com.cours.controller;
 
 import com.cours.controller.formulaires.FormModifierVoitureController;
 import com.cours.model.Voiture;
+import com.cours.service.VoitureService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,11 +27,14 @@ public class CardVoitureController extends VBox {
 
     private Voiture vehicule;
 
+    private VoitureService service;
+
     private static final java.text.DecimalFormat FORMAT_NOMBRE = new java.text.DecimalFormat("#,###");  // Pour avoir un beau formatage pour les chiffres
 
-    public CardVoitureController(Voiture voiture, Consumer<Integer> onVoirDetails) {// Consumer sert à stocker l'ID pour le bouton
+    public CardVoitureController(Voiture voiture, VoitureService serv, Consumer<Integer> onVoirDetails) {// Consumer sert à stocker l'ID pour le bouton
 
         vehicule = voiture;
+        service = serv;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CardVoiture.fxml"));  // Pour charger le fichier FXML
 
         loader.setRoot(this);
@@ -71,7 +75,7 @@ public class CardVoitureController extends VBox {
         private void ouvrirFormModifierVoiture(ActionEvent e) {
             try {
 
-                FormModifierVoitureController formulaireModifier = new FormModifierVoitureController(vehicule);
+                FormModifierVoitureController formulaireModifier = new FormModifierVoitureController(vehicule, service);
 
                 FXMLLoader loader = new FXMLLoader(getClass()
                         .getResource("/fxml/formulaires/formModifierVoiture.fxml"));

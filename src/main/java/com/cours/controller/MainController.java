@@ -210,7 +210,7 @@ public class MainController {
         List<Voiture> voituresPage = pagination.getVoiturePageActuelle();
 
         for (Voiture voiture : voituresPage) {  // On affiche le nombre de cartes qu'on veut dans une page
-            CardVoitureController card = new CardVoitureController(voiture, id -> afficherDetailsVoitures(id));
+            CardVoitureController card = new CardVoitureController(voiture, service,id -> afficherDetailsVoitures(id));
             cardsContainer.getChildren().add(card);
         }
         labelNumeroPagesCards.setText(pagination.getPageActuelle() + "/" + pagination.getNombrePages()); // Met à jour la page dans le label
@@ -245,6 +245,10 @@ public class MainController {
         service.triApplique(trouvees, comboTypeTri.getValue(), false);
         pagination = new Pagination(trouvees, VOITURES_PAR_PAGE);
         afficherCartes();
+    }
+
+    private void modifierVoitureDB(Voiture v) {
+        service.getVoitures();
     }
 
 }

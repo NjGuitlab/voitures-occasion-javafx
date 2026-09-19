@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" style="-fx-border-color: black; -fx-border-width: 2;" BorderPane.alignment="CENTER">
@@ -57,7 +56,7 @@
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
                               <Label text="Prix" />
-                              <Spinner fx:id="spinnerPrix" editable="true" prefHeight="28.0" prefWidth="62.0" styleClass="split-arrows-vertical" />
+                              <Spinner fx:id="spinnerPrix" editable="true" prefHeight="28.0" prefWidth="62.0" style="-fx-body-text-by-child: ce;" styleClass="split-arrows-vertical" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
@@ -102,7 +101,7 @@
             <HBox alignment="CENTER_RIGHT" prefHeight="56.0" prefWidth="376.0" spacing="10.0">
                <children>
                   <Button fx:id="btnModifier" minWidth="-Infinity" mnemonicParsing="false" prefWidth="75.0" text="Modifier" />
-                  <Button fx:id="btnConfirmer" minWidth="-Infinity" mnemonicParsing="false" prefWidth="75.0" text="Annuler" />
+                  <Button fx:id="btnAnnuler" minWidth="-Infinity" mnemonicParsing="false" prefWidth="75.0" text="Annuler" />
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

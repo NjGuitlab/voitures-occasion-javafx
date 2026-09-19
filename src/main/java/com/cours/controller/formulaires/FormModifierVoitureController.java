@@ -1,6 +1,4 @@
 package com.cours.controller.formulaires;
-
-import com.cours.dao.VoiturePostgreSQLDAO;
 import com.cours.model.Transmission;
 import com.cours.model.TypeCarburant;
 import com.cours.model.TypeVendeur;
@@ -8,20 +6,25 @@ import com.cours.model.Voiture;
 import com.cours.service.VoitureService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
-
+import javafx.stage.Stage;
+import java.time.LocalDate;
 import java.time.Year;
 
 public class FormModifierVoitureController {
     @FXML
     private Label labelMarque, labelModele, labelVille, labelDatePub;
     @FXML
-    private Spinner spinnerPrix, spinnerKilos, spinnerAnnee;
+    private Spinner<Integer> spinnerPrix, spinnerKilos, spinnerAnnee;
     @FXML
     private ComboBox comboTransmission, comboCarburant, comboVendeur, comboCouleur;
     @FXML
     private TextArea textDescription;
+    @FXML
+    private Button btnModifier, btnAnnuler;
 
     private Voiture voiture;
 
@@ -29,10 +32,11 @@ public class FormModifierVoitureController {
             "Argent","Bordeaux","Beige","Blanc","Bleu","Brun","Gris","Noir","Rouge","Vert"
     );
 
-    private VoitureService service = new VoitureService(new VoiturePostgreSQLDAO());
+    private VoitureService service;
 
-    public FormModifierVoitureController(Voiture v) {
+    public FormModifierVoitureController(Voiture v, VoitureService serv) {
         voiture = v;
+        service = serv;
     }
 
     public void initialize() {
@@ -40,6 +44,51 @@ public class FormModifierVoitureController {
         labelModele.setText(voiture.getModele());
         labelVille.setText(voiture.getVille());
         labelDatePub.setText(voiture.getDatePublication().toString());
+
+        // Validation de saisie dans les spinners
+        spinnerPrix.getEditor().setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+
+            if (newText.isEmpty()) {
+                return change;
+            }
+
+            if (newText.matches("\\d*") && Integer.parseInt(newText) <= 1000000) {
+                return change;
+            }
+
+            return null;
+        }));
+
+        spinnerAnnee.getEditor().setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+
+            if (newText.isEmpty()) {
+                return change;
+            }
+
+            if (newText.matches("\\d*") && Integer.parseInt(newText) <= Year.now().getValue()) {
+                return change;
+            }
+
+            return null;
+        }));
+
+        spinnerKilos.getEditor().setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+
+            if (newText.isEmpty()) {
+                return change;
+            }
+
+            if (newText.matches("\\d*") && Integer.parseInt(newText) <= 1000000) {
+                return change;
+            }
+
+            return null;
+        }));
+
+
 
         SpinnerValueFactory<Integer> spinnerPrixFactory = new SpinnerValueFactory.
                 IntegerSpinnerValueFactory(1, 1000000, voiture.getPrix());
@@ -64,5 +113,13 @@ public class FormModifierVoitureController {
 
         textDescription.setText(voiture.getDescription());
 
+        // Actions
+        btnAnnuler.setOnAction(this::fermerForm);
+    }
+
+    private void fermerForm(ActionEvent e) {
+        Node source = (Node) e.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
     }
 }
