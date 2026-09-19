@@ -1,15 +1,21 @@
 package com.cours.controller;
 
+import com.cours.controller.formulaires.FormModifierVoitureController;
 import com.cours.model.Voiture;
+import com.cours.service.VoitureService;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
-import java.io.Console;
 import java.io.IOException;
 import java.util.function.Consumer;
 
@@ -19,11 +25,20 @@ public class CardVoitureController extends VBox {
     private Label labelCardMarque, labelCardModele, labelCardAnnee, labelCardKilometrage, labelCardPrix, labelCardVille, labelCardDatePublication;
 
     @FXML
-    private Button btnVoirDetails;
+    private Button btnVoirDetails, btnModifierVoiture;
+
+    private Voiture vehicule;
+
+    private VoitureService service;
 
     private static final java.text.DecimalFormat FORMAT_NOMBRE = new java.text.DecimalFormat("#,###");  // Pour avoir un beau formatage pour les chiffres
 
-    public CardVoitureController(Voiture voiture, Consumer<Integer> onVoirDetails) {  // Consumer sert à stocker l'ID pour le bouton
+    private Runnable rafraichirUI;
+
+    public CardVoitureController(Voiture voiture, VoitureService serv, Consumer<Integer> onVoirDetails) {// Consumer sert à stocker l'ID pour le bouton
+
+        vehicule = voiture;
+        service = serv;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CardVoiture.fxml"));  // Pour charger le fichier FXML
 
         loader.setRoot(this);
@@ -44,6 +59,12 @@ public class CardVoitureController extends VBox {
                 onVoirDetails.accept(voiture.getId());
             }
         });
+
+        btnModifierVoiture.setOnAction(this::ouvrirFormModifierVoiture);
+    }
+
+    public void recevoirFnRafraichirUI(Runnable fonction) {
+        this.rafraichirUI = fonction;
     }
 
         // La fonction pour remplir les donnees dans la Card
@@ -56,6 +77,39 @@ public class CardVoitureController extends VBox {
             labelCardDatePublication.setText(voiture.getDatePublication().toString());
             labelCardPrix.setText(FORMAT_NOMBRE.format(voiture.getPrix()) + " $");
             labelCardVille.setText(voiture.getVille());
+        }
+
+        @FXML
+        private void ouvrirFormModifierVoiture(ActionEvent e) {
+
+            FormModifierVoitureController formulaireModifier = new FormModifierVoitureController(vehicule, service);
+            formulaireModifier.recevoirFnRafraichirUI(rafraichirUI);
+
+            Thread chargerFichier = new Thread(()->{
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass()
+                            .getResource("/fxml/formulaires/formModifierVoiture.fxml"));
+
+                    loader.setController(formulaireModifier);
+                    Parent root = loader.load();
+
+                    Platform.runLater(()->{
+                        Stage stage = new Stage();
+                        stage.setTitle("Modifier une annonce");
+                        stage.setScene(new Scene(root));
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.showAndWait();
+                    });
+
+                } catch (Exception erreur) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Erreur lors du chargement d'un formulaire.");
+                    alert.showAndWait();
+                }
+            });
+
+            chargerFichier.setDaemon(true);
+            chargerFichier.start();
         }
 
     }

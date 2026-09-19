@@ -1,3 +1,0 @@
-db.url=jdbc:postgresql://localhost:5432/tp2_voitures
-db.username=postgres
-db.password=CHANGE_ME
