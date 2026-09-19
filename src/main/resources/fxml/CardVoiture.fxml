@@ -7,42 +7,47 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root prefHeight="308.0" prefWidth="205.0" spacing="8.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="308.0" prefWidth="205.0" spacing="8.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
     <ImageView fx:id="imageVoiture" fitHeight="97.0" fitWidth="190.0" preserveRatio="true">
       <image>
          <Image url="@/images/images.jpg" />
       </image>
     </ImageView>
-   <HBox spacing="6.0" alignment="CENTER_LEFT">
+   <HBox alignment="CENTER_LEFT" spacing="6.0">
       <children>
          <Label fx:id="labelCardMarque" styleClass="card-title" />
-         <Label fx:id="labelCardModele"  styleClass="card-title" HBox.hgrow="ALWAYS"/>
-         <Label fx:id="labelCardAnnee"  styleClass="card-year" />
+         <Label fx:id="labelCardModele" styleClass="card-title" HBox.hgrow="ALWAYS" />
+         <Label fx:id="labelCardAnnee" styleClass="card-year" />
       </children>
    </HBox>
    <HBox spacing="6.0">
       <children>
-         <Label text="Kilométrage :" styleClass="card-label"/>
-         <Label fx:id="labelCardKilometrage" styleClass="card-value"/>
+         <Label styleClass="card-label" text="Kilométrage :" />
+         <Label fx:id="labelCardKilometrage" styleClass="card-value" />
       </children>
    </HBox>
    <HBox spacing="6.0">
       <children>
-         <Label text="Publié le :" styleClass="card-label"/>
+         <Label styleClass="card-label" text="Publié le :" />
          <Label fx:id="labelCardDatePublication" styleClass="card-value" />
       </children>
    </HBox>
    <HBox spacing="6.0">
    <children>
-      <Label text="Ville :" styleClass="card-label"/>
+      <Label styleClass="card-label" text="Ville :" />
       <Label fx:id="labelCardVille" styleClass="card-value" />
    </children>
    </HBox>
    <HBox alignment="CENTER_LEFT" spacing="6.0">
       <children>
-         <Label text="Prix :" styleClass="card-label"/>
+         <Label styleClass="card-label" text="Prix :" />
          <Label fx:id="labelCardPrix" styleClass="card-price" />
       </children>
    </HBox>
-   <Button fx:id="btnVoirDetails" mnemonicParsing="false" text="Voir les détails" styleClass="btn-details" />
+   <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+      <children>
+         <Button fx:id="btnVoirDetails" minWidth="-Infinity" mnemonicParsing="false" styleClass="btn-details" text="Voir les détails" />
+         <Button fx:id="btnModifierVoiture" minWidth="-Infinity" mnemonicParsing="false" onAction="#ouvrirFormModifierVoiture" text="Modifier" />
+      </children>
+   </HBox>
 </fx:root>
