@@ -24,9 +24,7 @@ public class LectureCSV implements SourceDonnees {
         InputStream fichier = getClass().getResourceAsStream("/data/voitures.csv");
 
         if (fichier == null) {
-            throw new IllegalStateException(
-                    "Le fichier voitures.csv est introuvable."
-            );
+            throw new IllegalStateException("Le fichier voitures.csv est introuvable.");
         }
 
         // Transformation des octets en caractères avec UTF-8
@@ -102,7 +100,16 @@ public class LectureCSV implements SourceDonnees {
         return voitures;
     }
 
+    // ----------- Methode pour récuperer les marques du csv ------- //
+    @Override
+    public List<String> chargerMarques() {
+        return chargerVoitures().stream()
+                .map(Voiture::getMarque)
+                .distinct()
+                .toList();
+    }
 
+    //------------ Methode pour lire le csv -------------------- //
     private String[] parserLigneCSV(String ligne) {
 
         // Liste des champs trouvés
@@ -142,4 +149,5 @@ public class LectureCSV implements SourceDonnees {
         // Transforme la liste en tableau
         return champs.toArray(new String[0]);
     }
+
 }

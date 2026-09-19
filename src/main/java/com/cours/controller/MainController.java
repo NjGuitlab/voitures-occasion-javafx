@@ -1,4 +1,10 @@
 package com.cours.controller;
+
+import com.cours.controller.formulaires.FormAjouterVoitureController;
+import com.cours.controller.formulaires.FormModifierVoitureController;
+import com.cours.dao.VoitureDAO;
+import com.cours.dao.VoiturePostgreSQLDAO;
+
 import com.cours.model.Transmission;
 import com.cours.model.TypeCarburant;
 import com.cours.model.Voiture;
@@ -6,10 +12,17 @@ import com.cours.service.VoitureService;
 import com.cours.util.LectureCSV;
 import com.cours.util.Pagination;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.time.Year;
 import java.util.*;
@@ -17,7 +30,9 @@ import java.util.*;
 public class MainController {
 
     // On implémente une instance de Voiture service dans le Controller
-    private final VoitureService service = new VoitureService(new LectureCSV());
+    //private final VoitureService service = new VoitureService(new LectureCSV());
+    private final VoitureDAO dao = new VoiturePostgreSQLDAO();
+    private final VoitureService service = new VoitureService(new LectureCSV(), dao);
 
     private List<Voiture> listeVoitures;
 
@@ -40,7 +55,7 @@ public class MainController {
     private FlowPane cardsContainer;
 
     @FXML
-    private Button btnPagePrecedenteCards, btnPageSuivanteCards;
+    private Button btnPagePrecedenteCards, btnPageSuivanteCards, btnAjouterVoiture;
 
     @FXML
     private RadioButton radioTransmissionToutes, radioTransmissionAuto, radioTransmissionManuelle;
@@ -64,6 +79,7 @@ public class MainController {
         pagination = new Pagination(listeVoitures, VOITURES_PAR_PAGE);  // Pour la pagination des cards
         btnPagePrecedenteCards.setOnAction(e -> allerPagePrecedente());
         btnPageSuivanteCards.setOnAction(e -> allerPageSuivante());
+        btnAjouterVoiture.setOnAction(this::ouvrirFormAjouterVoiture);
 
         if (detailsVoitureController != null) {
             detailsVoitureController.setVoitureService(service);  // Pour que la zone de détails ait le même service
@@ -209,7 +225,8 @@ public class MainController {
         List<Voiture> voituresPage = pagination.getVoiturePageActuelle();
 
         for (Voiture voiture : voituresPage) {  // On affiche le nombre de cartes qu'on veut dans une page
-            CardVoitureController card = new CardVoitureController(voiture, id -> afficherDetailsVoitures(id));
+            CardVoitureController card = new CardVoitureController(voiture, service, id -> afficherDetailsVoitures(id));
+            card.recevoirFnRafraichirUI(this::rafraichirIU);
             cardsContainer.getChildren().add(card);
         }
         labelNumeroPagesCards.setText(pagination.getPageActuelle() + "/" + pagination.getNombrePages()); // Met à jour la page dans le label
@@ -244,6 +261,51 @@ public class MainController {
         service.triApplique(trouvees, comboTypeTri.getValue(), false);
         pagination = new Pagination(trouvees, VOITURES_PAR_PAGE);
         afficherCartes();
+    }
+
+    private void rafraichirIU() {
+        chargerDonneesVoitures();
+        afficherCartes();
+    }
+
+    private void ouvrirFormAjouterVoiture(ActionEvent e) {
+
+        Thread chargerFichier = new Thread(()->{
+            try {
+                FormAjouterVoitureController formulaireAjouter = new FormAjouterVoitureController(service);
+
+                formulaireAjouter.recevoirFnRafraichirUI(this::rafraichirIU);
+
+                FXMLLoader loader = new FXMLLoader(getClass()
+                        .getResource("/fxml/formulaires/formAjouterVoiture.fxml"));
+                loader.setController(formulaireAjouter);
+
+                Platform.runLater(()-> {
+                    try {
+                        Parent root = loader.load();
+                        Stage stage = new Stage();
+                        stage.setTitle("Ajouter une annonce");
+                        stage.setScene(new Scene(root));
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.showAndWait();
+
+                    } catch (Exception error) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText("Erreur lors du chargement d'un formulaire.");
+                        alert.showAndWait();
+                    }
+                });
+
+            } catch (Exception error) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Erreur lors du chargement d'un formulaire.");
+                alert.showAndWait();
+            }
+        });
+
+        chargerFichier.setDaemon(true);
+        chargerFichier.start();
+
     }
 
 }
