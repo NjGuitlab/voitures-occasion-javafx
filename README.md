@@ -1,30 +1,21 @@
 # LABORATOIRE 2 - 420-930-MA - Ete 2026 - gr. 25604
 
-Instructions :
-
-1. Copiez ce fichier dans votre depot GitHub sous le nom README.md
-2. Remplissez toutes les sections marquees [A COMPLETER]
-3. Supprimez tous les commentaires HTML (<!-- ... -->) avant la remise
-4. Deposez ce fichier (rempli) sur Teams, canal du groupe
-   avec le titre : "Lab2 - Sujet X - Nom1 Nom2 [Nom3]"
-   ====================================================================
-
-# Voitures d'occasion - Lab 2
+# Voitures d'occasion - Lab 3
 
 **Cours** : 420-930-MA — Algorithmes et modèles de programmation
 **Session** : Été 2026, groupe 25604
-**Laboratoire** : 2 (Application JavaFX v1)
-**Date de remise** : 13 septembre 2026, 23h59
+**Laboratoire** : 3 (Application JavaFX v1)
+**Date de remise** : 20 septembre 2026, 23h59
 
 ---
 
 ## Équipe
 
-| Nom complet           | Adresse courriel        | Contribution principale                |
-| --------------------- | ----------------------- | -------------------------------------- |
-| Ammmour, Nadjib       | nadjib.ammour@gmail.com | Modèle, Service, Tris, Pagination, CSV |
-| Pierre, Jean-François | jfp112@hotmail.com      | UI FXML, Controller, CSS               |
-| Chandel, Amit         | a.chandel@pm.me         | Algorithmes, Benchmark                 |
+| Nom complet           | Adresse courriel        | Contribution principale                               					|
+| --------------------- | ----------------------- | ------------------------------------------------------------------------|
+| Ammmour, Nadjib       | nadjib.ammour@gmail.com | connexion, interface DAO et implémentation PostgreSQL 					|
+| Pierre, Jean-François | jfp112@hotmail.com      | schéma SQL, scripts de création et de peuplement      					|
+| Chandel, Amit         | a.chandel@pm.me         | formulaires CRUD, validation, alertes 									|
 
 ---
 
@@ -47,7 +38,9 @@ Instructions :
 ## Fonctionnalités implémentées
 
 ### ✅ Obligatoires (cocher ce qui est fait)
-
+- [x] connexion, interface DAO et implémentation PostgreSQL
+- [x] schéma SQL, scripts de création et de peuplement
+- [x] formulaires CRUD, validation, alertes
 - [x] Architecture MVC avec packages séparés (model / service / algorithmes / controller / util)
 - [x] Chargement des données depuis fichier CSV (nombre de lignes : 420)
 - [x] Interface JavaFX principale avec liste/tableau
@@ -63,11 +56,6 @@ Instructions :
 - [x] Wishlist / Favoris (ajout, retrait, pas de doublons)
 - [x] CSS appliqué (thème visuel du projet)
 
-### 🎁 Bonus (cocher ce qui est fait)
-
-- [x] Cards au lieu d'un tableau
-- [ ] [Bonus 2 : ex. Statistiques]
-- [ ] [Bonus 3 : ...]
 
 ### ❌ Non implémenté (assumer honnêtement)
 
@@ -82,16 +70,22 @@ voitures-occasion-javafx/
 ├── src/main/
 │   ├── java/
 │   │   └── com.cours/
+│   │       ├── Launcher.java
 │   │       ├── MainFx.java
+│   │       ├── dao
 │   │       ├── model/
 │   │       ├── service/
 │   │       ├── algorithmes/
 │   │       ├── controller/
 │   │       └── util/
 │   └── resources/
+│       ├── images/
 │       ├── fxml/
-│       ├── styles/
-│       └── data/voitures.csv
+│       ├── css/
+│       ├── data/
+│       ├── donnees.sql
+│       ├── schema.sql
+│       └── database.properties.example
 ```
 
 ---
@@ -106,16 +100,20 @@ voitures-occasion-javafx/
 
 ### Étapes
 
-```bash
-# 1. Cloner le dépôt
+```bash  
+# 1. Installer le moteur postgres https://www.postgresql.org/download/, configurer et démarrer le serveur.
+
+# 2. Installer un outil de gestion postgres (ex: PGADMIN https://www.pgadmin.org/) et créer une base de données (PGADMIN).
+
+# 3. Exécuter dans l'outil de gestion le SQL dans les fichiers schema.sql et donnees.sql pour créer les tables et les populer, respectivement.
+
+# 4. Cloner le dépôt
 git clone https://github.com/NjGuitlab/voitures-occasion-javafx.git
-cd voitures-occasion-javafx
 
-# 2. Compiler
-mvn clean compile
+# 5. Renommer database.properties.example à database.properties et modifier les valeurs dans le fichier où demandé pour permettre de communiquer avec le serveur postgres.
 
-# 3. Lancer l'application
-mvn javafx:run
+# 6. cd dans voitures-occasion-javafx et exécuter mvn clean javafx:run pour lancer l'application
+
 ```
 
 ### Alternative dans IntelliJ
@@ -136,6 +134,7 @@ Java 21
 ### Format des données
 
 CSV, séparateur: virgule, encodage : UTF-8, nombre de lignes : 420
+PostgresSQL
 
 ### Algorithmes de tri implémentés
 
@@ -149,25 +148,13 @@ CSV, séparateur: virgule, encodage : UTF-8, nombre de lignes : 420
 
 ---
 
-## Difficultés rencontrées
-
-Rendre le contrôleur assez mince en implantant tous les tris, filtres, fonctions, etc.
-
----
-
 ## Répartition du travail (auto-évaluation)
 
-| Membre        | % contribution estimée | Ce sur quoi j'ai travaillé                                |
-| ------------- | ---------------------- | --------------------------------------------------------- |
-| Jean-François | 33%                    | Les fichiers FXML, les controlleurs, le CSS et le README  |
-| Nadjib        | 33 %                   | Le modèle, le service, la pagination et la lecture du CSV |
-| Amit          | 33%%                   | Les algorithmes, les comparateurs et le benchmark         |
-
----
-
-## Notes pour le correcteur
-
-Le benchmark est accessible en cliquant sur le bouton "Performance des tris"
+| Membre        | % contribution estimée | Ce sur quoi j'ai travaillé                               |
+| ------------- | ---------------------- | ---------------------------------------------------------|
+| Jean-François | 33%                    | schéma SQL, scripts de création et de peuplement  		|
+| Nadjib        | 33 %                   | connexion, interface DAO et implémentation PostgreSQL 	|
+| Amit          | 33%%                   | formulaires CRUD, validation, alertes         			|
 
 ---
 
@@ -176,6 +163,10 @@ Le benchmark est accessible en cliquant sur le bouton "Performance des tris"
 ### Écran principal
 
 ![Écran principal](screenshots/principal.png)
+
+### Example de modification
+
+![crud-modification](screenshots/crud-modif.png)
 
 ### Écran de benchmark
 
@@ -186,9 +177,9 @@ Le benchmark est accessible en cliquant sur le bouton "Performance des tris"
 
 ## Historique Git
 
-**Nombre total de commits** : 85
+**Nombre total de commits** : 129
 **Date du premier commit** : 2026-08-26
-**Date du dernier commit** : 2026-09-13
+**Date du dernier commit** : 2026-09-20
 
 Voir l'onglet **Insights > Contributors** de GitHub pour voir la contribution de chacun.
 
