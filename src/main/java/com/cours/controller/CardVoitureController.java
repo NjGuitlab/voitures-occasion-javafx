@@ -1,3 +1,4 @@
+
 package com.cours.controller;
 
 import com.cours.controller.formulaires.FormModifierVoitureController;
@@ -11,12 +12,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class CardVoitureController extends VBox {
@@ -25,7 +28,7 @@ public class CardVoitureController extends VBox {
     private Label labelCardMarque, labelCardModele, labelCardAnnee, labelCardKilometrage, labelCardPrix, labelCardVille, labelCardDatePublication;
 
     @FXML
-    private Button btnVoirDetails, btnModifierVoiture;
+    private Button btnVoirDetails, btnModifierVoiture, btnSupprimerVoiture;
 
     private Voiture vehicule;
 
@@ -61,56 +64,91 @@ public class CardVoitureController extends VBox {
         });
 
         btnModifierVoiture.setOnAction(this::ouvrirFormModifierVoiture);
+        btnSupprimerVoiture.setOnAction(this::supprimerVoiture);
     }
 
     public void recevoirFnRafraichirUI(Runnable fonction) {
         this.rafraichirUI = fonction;
     }
 
-        // La fonction pour remplir les donnees dans la Card
-        private void remplirDonnees(Voiture voiture) {
-            labelCardMarque.setText(voiture.getMarque());
-            labelCardModele.setText(voiture.getModele());
-            labelCardAnnee.setText(String.valueOf(voiture.getAnnee()));
+    // La fonction pour remplir les donnees dans la Card
+    private void remplirDonnees(Voiture voiture) {
+        labelCardMarque.setText(voiture.getMarque());
+        labelCardModele.setText(voiture.getModele());
+        labelCardAnnee.setText(String.valueOf(voiture.getAnnee()));
 
-            labelCardKilometrage.setText(FORMAT_NOMBRE.format(voiture.getKilometrage()) + " km");
-            labelCardDatePublication.setText(voiture.getDatePublication().toString());
-            labelCardPrix.setText(FORMAT_NOMBRE.format(voiture.getPrix()) + " $");
-            labelCardVille.setText(voiture.getVille());
-        }
+        labelCardKilometrage.setText(FORMAT_NOMBRE.format(voiture.getKilometrage()) + " km");
+        labelCardDatePublication.setText(voiture.getDatePublication().toString());
+        labelCardPrix.setText(FORMAT_NOMBRE.format(voiture.getPrix()) + " $");
+        labelCardVille.setText(voiture.getVille());
+    }
 
-        @FXML
-        private void ouvrirFormModifierVoiture(ActionEvent e) {
+    @FXML
+    private void ouvrirFormModifierVoiture(ActionEvent e) {
 
-            FormModifierVoitureController formulaireModifier = new FormModifierVoitureController(vehicule, service);
-            formulaireModifier.recevoirFnRafraichirUI(rafraichirUI);
+        FormModifierVoitureController formulaireModifier = new FormModifierVoitureController(vehicule, service);
+        formulaireModifier.recevoirFnRafraichirUI(rafraichirUI);
 
-            Thread chargerFichier = new Thread(()->{
+        Thread chargerFichier = new Thread(()->{
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass()
+                        .getResource("/fxml/formulaires/formModifierVoiture.fxml"));
+
+                loader.setController(formulaireModifier);
+                Parent root = loader.load();
+
+                Platform.runLater(()->{
+                    Stage stage = new Stage();
+                    stage.setTitle("Modifier une annonce");
+                    stage.setScene(new Scene(root));
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.showAndWait();
+                });
+
+            } catch (Exception erreur) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Erreur lors du chargement d'un formulaire: " + erreur.getMessage());
+                alert.showAndWait();
+            }
+        });
+
+        chargerFichier.setDaemon(true);
+        chargerFichier.start();
+    }
+
+    private void supprimerVoiture(ActionEvent e) {
+
+        Alert suppression = new Alert(Alert.AlertType.WARNING);
+        suppression.setTitle("Confirmer suppression");
+        suppression.setHeaderText("Suppression de voiture");
+        suppression.setContentText("Voulez-vous vraiment compléter cette opération?");
+
+        Optional<ButtonType> result = suppression.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+            Thread suppressionVoiture = new Thread(()-> {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass()
-                            .getResource("/fxml/formulaires/formModifierVoiture.fxml"));
 
-                    loader.setController(formulaireModifier);
-                    Parent root = loader.load();
-
-                    Platform.runLater(()->{
-                        Stage stage = new Stage();
-                        stage.setTitle("Modifier une annonce");
-                        stage.setScene(new Scene(root));
-                        stage.initModality(Modality.APPLICATION_MODAL);
-                        stage.showAndWait();
+                    service.supprimer(vehicule.getId());
+                    Platform.runLater(() -> {
+                        rafraichirUI.run();
                     });
 
-                } catch (Exception erreur) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Voiture supprimée!");
+                    alert.showAndWait();
+
+                } catch (Exception error) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Erreur lors du chargement d'un formulaire.");
+                    alert.setContentText("Erreur lors de la suppression: " + error.getMessage());
                     alert.showAndWait();
                 }
             });
+            suppressionVoiture.setDaemon(true);
+            suppressionVoiture.start();
 
-            chargerFichier.setDaemon(true);
-            chargerFichier.start();
         }
-
     }
 
+}

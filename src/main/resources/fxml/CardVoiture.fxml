@@ -8,11 +8,20 @@
 <?import javafx.scene.layout.VBox?>
 
 <fx:root prefHeight="308.0" prefWidth="205.0" spacing="8.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
-    <ImageView fx:id="imageVoiture" fitHeight="97.0" fitWidth="190.0" preserveRatio="true">
-      <image>
-         <Image url="@/images/images.jpg" />
-      </image>
-    </ImageView>
+   <HBox alignment="CENTER_RIGHT">
+      <children>
+         <Button fx:id="btnSupprimerVoiture" mnemonicParsing="false" text="X" />
+      </children>
+   </HBox>
+   <HBox alignment="CENTER">
+      <children>
+          <ImageView fx:id="imageVoiture" fitHeight="97.0" fitWidth="190.0" preserveRatio="true">
+            <image>
+               <Image url="@/images/images.jpg" />
+            </image>
+          </ImageView>
+      </children>
+   </HBox>
    <HBox alignment="CENTER_LEFT" spacing="6.0">
       <children>
          <Label fx:id="labelCardMarque" styleClass="card-title" />

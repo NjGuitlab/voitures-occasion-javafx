@@ -1,7 +1,6 @@
 package com.cours.controller;
 
 import com.cours.controller.formulaires.FormAjouterVoitureController;
-import com.cours.controller.formulaires.FormModifierVoitureController;
 import com.cours.dao.VoitureDAO;
 import com.cours.dao.VoiturePostgreSQLDAO;
 
@@ -289,16 +288,16 @@ public class MainController {
                         stage.initModality(Modality.APPLICATION_MODAL);
                         stage.showAndWait();
 
-                    } catch (Exception error) {
+                    } catch (Exception erreur) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setContentText("Erreur lors du chargement d'un formulaire.");
+                        alert.setContentText("Erreur lors du chargement d'un formulaire: " + erreur.getMessage());
                         alert.showAndWait();
                     }
                 });
 
-            } catch (Exception error) {
+            } catch (Exception erreur) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Erreur lors du chargement d'un formulaire.");
+                alert.setContentText("Erreur lors du chargement d'un formulaire: " + erreur.getMessage());
                 alert.showAndWait();
             }
         });
