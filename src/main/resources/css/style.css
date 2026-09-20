@@ -336,13 +336,3 @@
     -fx-text-fill: #4b5563;
 }
 
-#spinnerKilos > .text-field > .text {
-    -fx-text-alignment: center;
-}
-
-/* 2. Fix the layout block constraint math for custom 49px heights */
-#spinnerKilos > .text-field {
-    -fx-content-display: center;
-    -fx-alignment: center;
-}
-
