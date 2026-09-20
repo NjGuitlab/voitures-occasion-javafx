@@ -20,6 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
+/**
+ * Contrôleur pour le formulaire d'ajout d'une nouvelle voiture.
+ */
 public class FormAjouterVoitureController {
     @FXML
     private ComboBox comboMarque, comboModele, comboTransmission, comboCarburant, comboVendeur, comboCouleur;
@@ -49,6 +54,11 @@ public class FormAjouterVoitureController {
 
     private Runnable rafraichirUI;
 
+    /**
+     * Initialise le contrôleur avec le service de gestion des voitures.
+     *
+     * @param serv Le service d'accès aux données des voitures.
+     */
     public FormAjouterVoitureController(VoitureService serv) {
         this.service = serv;
 
@@ -84,7 +94,11 @@ public class FormAjouterVoitureController {
         modelesVoitures.put("Isuzu", new ArrayList<>(List.of("D-Max", "MU-X")));
     }
 
+    /**
+     * Initialise les composants de l'interface, les filtres de saisie et les événements.
+     */
     public void initialize() {
+
         comboMarque.setItems(FXCollections.observableArrayList(service.getMarques()).sorted());
         comboMarque.getSelectionModel().selectedItemProperty().addListener(
                 ((observable, o, n) -> {
@@ -170,16 +184,31 @@ public class FormAjouterVoitureController {
 
     }
 
+    /**
+     * Reçoit la fonction de rappel permettant de rafraîchir l'interface principale.
+     *
+     * @param fonction Action à exécuter pour mettre à jour l'UI.
+     */
     public void recevoirFnRafraichirUI(Runnable fonction) {
         this.rafraichirUI = fonction;
     }
 
+    /**
+     * Ferme la fenêtre active du formulaire.
+     *
+     * @param e L'événement déclencheur.
+     */
     private void fermerForm(ActionEvent e) {
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Valide le formulaire et enregistre la nouvelle voiture de manière asynchrone.
+     *
+     * @param e L'événement déclencheur.
+     */
     private void sauvegarderAjout(ActionEvent e) {
 
         // Validations de saisies
