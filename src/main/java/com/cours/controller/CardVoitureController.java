@@ -139,7 +139,6 @@ public class CardVoitureController extends VBox {
 
             Thread suppressionVoiture = new Thread(()-> {
                 try {
-
                     service.supprimer(vehicule.getId());
                     Platform.runLater(() -> {
                         rafraichirUI.run();

@@ -259,12 +259,14 @@ public class FormAjouterVoitureController {
                 });
 
             } catch (Exception erreur) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setHeaderText("Erreur d'application");
-                alert.setContentText("Une erreur est survenue: " + erreur.getMessage());
-                alert.showAndWait();
-                stage.close();
+                Platform.runLater(()->{
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText("Erreur d'application");
+                    alert.setContentText("Une erreur est survenue: " + erreur.getMessage());
+                    alert.showAndWait();
+                    stage.close();
+                });
             }
         });
 
