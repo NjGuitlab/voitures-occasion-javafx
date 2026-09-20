@@ -160,17 +160,18 @@ public class FormModifierVoitureController {
 
                 Platform.runLater(() ->{
                     rafraichirUI.run();
-                });
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("Voiture modifiée!");
-                alert.showAndWait();
-                stage.close();
-
-            } catch(Exception e) {
-
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Erreur lors de la modification.");
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Voiture modifiée!");
                     alert.showAndWait();
+                    stage.close();
+                });
+
+            } catch(Exception erreur) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Erreur d'application");
+                alert.setContentText("Une erreur est survenue: " + erreur.getMessage());
+                alert.showAndWait();
 
             }
         });

@@ -30,8 +30,8 @@ public class MainController {
 
     // On implémente une instance de Voiture service dans le Controller
     //private final VoitureService service = new VoitureService(new LectureCSV());
-    private final VoitureDAO dao = new VoiturePostgreSQLDAO();
-    private final VoitureService service = new VoitureService(new LectureCSV(), dao);
+    private final VoiturePostgreSQLDAO dao = new VoiturePostgreSQLDAO();
+    private final VoitureService service = new VoitureService(dao, dao);
 
     private List<Voiture> listeVoitures;
 
@@ -290,6 +290,8 @@ public class MainController {
 
                     } catch (Exception erreur) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Erreur");
+                        alert.setHeaderText("Erreur d'application");
                         alert.setContentText("Erreur lors du chargement d'un formulaire: " + erreur.getMessage());
                         alert.showAndWait();
                     }
@@ -297,6 +299,8 @@ public class MainController {
 
             } catch (Exception erreur) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Erreur d'application");
                 alert.setContentText("Erreur lors du chargement d'un formulaire: " + erreur.getMessage());
                 alert.showAndWait();
             }

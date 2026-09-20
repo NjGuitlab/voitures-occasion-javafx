@@ -222,6 +222,8 @@ public class FormAjouterVoitureController {
                 Platform.runLater(() -> {
                     rafraichirUI.run();
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Opération");
+                    alert.setHeaderText("Ajout de voiture");
                     alert.setContentText("Voiture ajoutée!");
                     alert.showAndWait();
                     stage.close();
@@ -229,7 +231,9 @@ public class FormAjouterVoitureController {
 
             } catch (Exception erreur) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Une erreur est survenue pendant l'opération: " + erreur.getMessage());
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Erreur d'application");
+                alert.setContentText("Une erreur est survenue: " + erreur.getMessage());
                 alert.showAndWait();
                 stage.close();
             }
