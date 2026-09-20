@@ -103,8 +103,6 @@ public class FormModifierVoitureController {
             return null;
         }));
 
-
-
         SpinnerValueFactory<Integer> spinnerPrixFactory = new SpinnerValueFactory.
                 IntegerSpinnerValueFactory(1, 1000000, voiture.getPrix());
         SpinnerValueFactory<Integer> spinnerKilosFactory = new SpinnerValueFactory.
@@ -194,12 +192,13 @@ public class FormModifierVoitureController {
                 });
 
             } catch(Exception erreur) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setHeaderText("Erreur d'application");
-                alert.setContentText("Une erreur est survenue: " + erreur.getMessage());
-                alert.showAndWait();
-
+                Platform.runLater(()->{
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText("Erreur d'application");
+                    alert.setContentText("Une erreur est survenue: " + erreur.getMessage());
+                    alert.showAndWait();
+                });
             }
         });
         modifierAnnonce.setDaemon(true);
