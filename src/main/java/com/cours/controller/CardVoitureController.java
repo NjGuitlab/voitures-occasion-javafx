@@ -67,6 +67,11 @@ public class CardVoitureController extends VBox {
         btnSupprimerVoiture.setOnAction(this::supprimerVoiture);
     }
 
+    /**
+     * Reçoit la fonction de rappel permettant de rafraîchir l'interface principale.
+     *
+     * @param fonction Action à exécuter pour mettre à jour l'UI.
+     */
     public void recevoirFnRafraichirUI(Runnable fonction) {
         this.rafraichirUI = fonction;
     }
@@ -83,6 +88,11 @@ public class CardVoitureController extends VBox {
         labelCardVille.setText(voiture.getVille());
     }
 
+    /**
+     * Charge et affiche la fenêtre modale pour modifier les informations de la voiture.
+     *
+     * @param e L'événement déclencheur.
+     */
     @FXML
     private void ouvrirFormModifierVoiture(ActionEvent e) {
 
@@ -133,16 +143,17 @@ public class CardVoitureController extends VBox {
                     service.supprimer(vehicule.getId());
                     Platform.runLater(() -> {
                         rafraichirUI.run();
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setContentText("Voiture supprimée!");
+                        alert.showAndWait();
                     });
 
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setContentText("Voiture supprimée!");
-                    alert.showAndWait();
-
                 } catch (Exception error) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Erreur lors de la suppression: " + error.getMessage());
-                    alert.showAndWait();
+                    Platform.runLater(()-> {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText("Erreur lors de la suppression: " + error.getMessage());
+                        alert.showAndWait();
+                    });
                 }
             });
             suppressionVoiture.setDaemon(true);
