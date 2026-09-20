@@ -26,6 +26,12 @@
 
 ---
 
+## Date de présentation
+
+**En classe** : lundi 21 septembre
+
+---
+
 ## 🔗 Lien du dépôt GitHub PUBLIC
 
 **URL** : https://github.com/NjGuitlab/voitures-occasion-javafx
