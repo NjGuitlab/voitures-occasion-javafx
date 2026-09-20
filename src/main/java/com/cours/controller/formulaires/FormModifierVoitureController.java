@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.time.Year;
 
+/**
+ * Contrôleur pour le formulaire de modification d'une voiture existante.
+ */
 public class FormModifierVoitureController {
     @FXML
     private Label labelMarque, labelModele, labelVille, labelDatePub;
@@ -37,11 +40,20 @@ public class FormModifierVoitureController {
 
     private Runnable rafraichirUI;
 
+    /**
+     * Initialise le contrôleur avec l'instance voiture dans la carte et l'instance service du MainController
+     *
+     * @param v    instance voiture dans la carte
+     * @param serv Le service d'accès aux données des voitures.
+     */
     public FormModifierVoitureController(Voiture v, VoitureService serv) {
         voiture = v;
         service = serv;
     }
 
+    /**
+     * Initialise l'interface graphique avec les données actuelles de la voiture et configure les filtres.
+     */
     public void initialize() {
         labelMarque.setText(voiture.getMarque());
         labelModele.setText(voiture.getModele());
@@ -121,16 +133,31 @@ public class FormModifierVoitureController {
         btnModifier.setOnAction(this::sauvegarderModification);
     }
 
+    /**
+     * Reçoit la fonction de rappel permettant de rafraîchir l'interface principale.
+     *
+     * @param fonction Action à exécuter pour mettre à jour l'UI.
+     */
     public void recevoirFnRafraichirUI(Runnable fonction) {
         this.rafraichirUI = fonction;
     }
 
+    /**
+     * Ferme la fenêtre active du formulaire.
+     *
+     * @param e L'événement déclencheur.
+     */
     private void fermerForm(ActionEvent e) {
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Récupère les données du formulaire de modification et met à jour l'annonce de manière asynchrone.
+     *
+     * @param event L'événement déclencheur sur pousse bouton.
+     */
     private void sauvegarderModification(ActionEvent event) {
 
         Node source = (Node) event.getSource();
