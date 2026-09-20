@@ -10,7 +10,7 @@
 <fx:root prefHeight="308.0" prefWidth="205.0" spacing="8.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <HBox alignment="CENTER_RIGHT">
       <children>
-         <Button fx:id="btnSupprimerVoiture" mnemonicParsing="false" text="X" />
+         <Button fx:id="btnSupprimerVoiture" styleClass="btn-details" mnemonicParsing="false" text="X" />
       </children>
    </HBox>
    <HBox alignment="CENTER">

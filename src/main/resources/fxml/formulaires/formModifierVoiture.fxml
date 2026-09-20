@@ -16,10 +16,10 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" style="-fx-border-color: black; -fx-border-width: 2;" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="form-inner" stylesheets="@../../css/style.css" BorderPane.alignment="CENTER">
          <children>
             <Region prefHeight="34.0" prefWidth="376.0" />
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: black;">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="form-inner">
                <children>
                   <GridPane prefWidth="374.0">
                     <columnConstraints>
@@ -33,14 +33,14 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Marque" />
-                        <Label text="Modèle" GridPane.rowIndex="1" />
-                        <Label text="Ville" GridPane.rowIndex="2" />
-                        <Label text="Date Publiée" GridPane.rowIndex="3" />
-                        <Label fx:id="labelMarque" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-                        <Label fx:id="labelModele" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                        <Label fx:id="labelVille" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                        <Label fx:id="labelDatePub" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                        <Label styleClass="form-labels" text="Marque" />
+                        <Label styleClass="form-labels" text="Modèle" GridPane.rowIndex="1" />
+                        <Label styleClass="form-labels" text="Ville" GridPane.rowIndex="2" />
+                        <Label styleClass="form-labels" text="Date Publiée" GridPane.rowIndex="3" />
+                        <Label fx:id="labelMarque" styleClass="form-labels" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                        <Label fx:id="labelModele" styleClass="form-labels" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <Label fx:id="labelVille" styleClass="form-labels" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                        <Label fx:id="labelDatePub" styleClass="form-labels" text="Label" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                </children>
@@ -49,27 +49,27 @@
                </padding>
             </VBox>
             <Region prefHeight="48.0" prefWidth="376.0" />
-            <VBox prefHeight="300.0" prefWidth="100.0" spacing="10.0" style="-fx-border-color: black;">
+            <VBox prefHeight="300.0" prefWidth="100.0" spacing="10.0" styleClass="form-inner">
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="354.0" spacing="5.0">
                      <children>
                         <VBox alignment="CENTER">
                            <children>
-                              <Label text="Prix" />
+                              <Label styleClass="form-labels" text="Prix" />
                               <Spinner fx:id="spinnerPrix" editable="true" prefHeight="28.0" prefWidth="62.0" style="-fx-body-text-by-child: ce;" styleClass="split-arrows-vertical" />
                            </children>
                         </VBox>
                         <Region prefHeight="28.0" prefWidth="62.0" />
                         <VBox alignment="CENTER">
                            <children>
-                              <Label text="Kilométrage" />
+                              <Label styleClass="form-labels" text="Kilométrage" />
                               <Spinner fx:id="spinnerKilos" editable="true" prefHeight="28.0" prefWidth="62.0" styleClass="split-arrows-vertical" />
                            </children>
                         </VBox>
                         <Region prefHeight="28.0" prefWidth="62.0" />
                         <VBox alignment="CENTER">
                            <children>
-                              <Label text="Année" />
+                              <Label styleClass="form-labels" text="Année" />
                               <Spinner fx:id="spinnerAnnee" editable="true" prefHeight="28.0" prefWidth="62.0" styleClass="split-arrows-vertical" />
                            </children>
                         </VBox>

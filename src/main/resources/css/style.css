@@ -320,3 +320,29 @@
     -fx-text-fill: #2c3e50;
     -fx-padding: 8px 12px;
 }
+
+.form-inner {
+    -fx-background-color: #fbf9f4;
+    -fx-border-color: #d6cfc4;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.08), 8, 0.0, 0, 2);
+}
+
+.form-labels {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4b5563;
+}
+
+#spinnerKilos > .text-field > .text {
+    -fx-text-alignment: center;
+}
+
+/* 2. Fix the layout block constraint math for custom 49px heights */
+#spinnerKilos > .text-field {
+    -fx-content-display: center;
+    -fx-alignment: center;
+}
+
