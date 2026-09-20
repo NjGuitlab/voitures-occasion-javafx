@@ -46,6 +46,8 @@ public class VoitureService {
 
     // ----- Methode pour retourner toutes les voitures de notre sourcedonnées --- //
     public List<Voiture> getVoitures() {
+        voitures.clear();
+        voitures.addAll(sourceDonnees.chargerVoitures());
         return voitures;
     }
 

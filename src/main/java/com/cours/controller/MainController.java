@@ -1,7 +1,6 @@
 package com.cours.controller;
 
 import com.cours.controller.formulaires.FormAjouterVoitureController;
-import com.cours.controller.formulaires.FormModifierVoitureController;
 import com.cours.dao.VoitureDAO;
 import com.cours.dao.VoiturePostgreSQLDAO;
 
@@ -31,8 +30,8 @@ public class MainController {
 
     // On implémente une instance de Voiture service dans le Controller
     //private final VoitureService service = new VoitureService(new LectureCSV());
-    private final VoitureDAO dao = new VoiturePostgreSQLDAO();
-    private final VoitureService service = new VoitureService(new LectureCSV(), dao);
+    private final VoiturePostgreSQLDAO dao = new VoiturePostgreSQLDAO();
+    private final VoitureService service = new VoitureService(dao, dao);
 
     private List<Voiture> listeVoitures;
 
@@ -289,16 +288,20 @@ public class MainController {
                         stage.initModality(Modality.APPLICATION_MODAL);
                         stage.showAndWait();
 
-                    } catch (Exception error) {
+                    } catch (Exception erreur) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setContentText("Erreur lors du chargement d'un formulaire.");
+                        alert.setTitle("Erreur");
+                        alert.setHeaderText("Erreur d'application");
+                        alert.setContentText("Erreur lors du chargement d'un formulaire: " + erreur.getMessage());
                         alert.showAndWait();
                     }
                 });
 
-            } catch (Exception error) {
+            } catch (Exception erreur) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Erreur lors du chargement d'un formulaire.");
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Erreur d'application");
+                alert.setContentText("Erreur lors du chargement d'un formulaire: " + erreur.getMessage());
                 alert.showAndWait();
             }
         });
