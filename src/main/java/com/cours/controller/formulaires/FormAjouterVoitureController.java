@@ -222,23 +222,24 @@ public class FormAjouterVoitureController {
                 Platform.runLater(() -> {
                     rafraichirUI.run();
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Opération");
+                    alert.setHeaderText("Ajout de voiture");
                     alert.setContentText("Voiture ajoutée!");
                     alert.showAndWait();
                     stage.close();
                 });
-            } catch (Exception erreur) {
 
+            } catch (Exception erreur) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Erreur d'application");
+                alert.setContentText("Une erreur est survenue: " + erreur.getMessage());
+                alert.showAndWait();
+                stage.close();
             }
         });
 
         ajouterVoiture.setDaemon(true);
         ajouterVoiture.start();
     }
-
-    public void temp() {
-        service.ajouter(new Voiture(5, "f","rr",2012,90,90,
-                TypeCarburant.valueOf("ESSENCE"),Transmission.valueOf("MANUELLE"),"gris", "ville",
-                TypeVendeur.valueOf("PARTICULIER"),LocalDate.now(),"bbb"));
-    }
-
 }

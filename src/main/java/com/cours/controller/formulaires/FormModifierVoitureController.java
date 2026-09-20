@@ -166,12 +166,13 @@ public class FormModifierVoitureController {
                     stage.close();
                 });
 
-            } catch(Exception e) {
-                Platform.runLater(() -> {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Erreur lors de la modification.");
-                    alert.showAndWait();
-                });
+            } catch(Exception erreur) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Erreur d'application");
+                alert.setContentText("Une erreur est survenue: " + erreur.getMessage());
+                alert.showAndWait();
+
             }
         });
         modifierAnnonce.setDaemon(true);

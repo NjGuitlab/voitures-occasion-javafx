@@ -1,0 +1,3 @@
+db.url=[CHANGER ex: jdbc:postgresql://localhost:5432/voitures]
+db.username=[CHANGER]
+db.password=[CHANGER]
