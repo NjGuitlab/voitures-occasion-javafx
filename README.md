@@ -1,4 +1,4 @@
-# LABORATOIRE 2 - 420-930-MA - Ete 2026 - gr. 25604
+# LABORATOIRE 3 - 420-930-MA - Ete 2026 - gr. 25604
 
 # Voitures d'occasion - Lab 3
 
