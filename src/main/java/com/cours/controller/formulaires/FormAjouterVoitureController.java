@@ -231,6 +231,7 @@ public class FormAjouterVoitureController {
             alert.setHeaderText("Saisie formulaire invalide");
             alert.setContentText("Veuillez confirmer que le formulaire est complet.");
             alert.showAndWait();
+            return;
         }
 
         Voiture v = new Voiture(
