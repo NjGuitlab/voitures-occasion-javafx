@@ -270,7 +270,7 @@ public class MainController {
     private void ouvrirFormAjouterVoiture(ActionEvent e) {
 
         Thread chargerFichier = new Thread(()->{
-            try {
+
                 FormAjouterVoitureController formulaireAjouter = new FormAjouterVoitureController(service);
 
                 formulaireAjouter.recevoirFnRafraichirUI(this::rafraichirIU);
@@ -296,14 +296,6 @@ public class MainController {
                         alert.showAndWait();
                     }
                 });
-
-            } catch (Exception erreur) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setHeaderText("Erreur d'application");
-                alert.setContentText("Erreur lors du chargement d'un formulaire: " + erreur.getMessage());
-                alert.showAndWait();
-            }
         });
 
         chargerFichier.setDaemon(true);
