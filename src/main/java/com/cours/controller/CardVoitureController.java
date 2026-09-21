@@ -116,9 +116,11 @@ public class CardVoitureController extends VBox {
                 });
 
             } catch (Exception erreur) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Erreur lors du chargement d'un formulaire: " + erreur.getMessage());
-                alert.showAndWait();
+                Platform.runLater(()->{
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Erreur lors du chargement d'un formulaire: " + erreur.getMessage());
+                    alert.showAndWait();
+                });
             }
         });
 
