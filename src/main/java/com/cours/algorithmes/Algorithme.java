@@ -17,5 +17,5 @@ public interface Algorithme<T> {
 
     String complexiteTheorique();
 
-    <T> void ordonner(List<T> data, Comparator<T> comparator);
+    void ordonner(ArrayList<T> data, Comparator<T> comparator);
 }

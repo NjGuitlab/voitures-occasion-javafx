@@ -25,17 +25,17 @@ public class TriRapide<T> implements Algorithme<T> {
      * Tous les éléments du tableau doivent implémenter l'interface Comparator.
      * </p>
      *
-     * @param ArrayList<T> le type des éléments de la liste, devant être comparables entre eux
+     * @param data le type des éléments de la liste, devant être comparables entre eux
      * @param comparateur permet de déterminer le critère de tri
      * @version 1.0
      */
     @Override
-    public <T> void ordonner(List<T> data, Comparator<T> comparateur) {
+    public void ordonner(ArrayList<T> data, Comparator<T> comparateur) {
         if (data == null || data.size() <= 1) return;
         trier(data, 0, data.size() - 1, comparateur);
     }
 
-    private <T> void trier(List<T> data, int deb, int fin, Comparator<T> comparateur) {
+    private void trier(List<T> data, int deb, int fin, Comparator<T> comparateur) {
         if (deb < fin) {
             int p = sectionner(data, deb, fin, comparateur);
             trier(data, deb, p, comparateur);
@@ -43,7 +43,7 @@ public class TriRapide<T> implements Algorithme<T> {
         }
     }
 
-    private <T> int sectionner(List<T> data, int deb, int fin, Comparator<T> comparateur) {
+    private int sectionner(List<T> data, int deb, int fin, Comparator<T> comparateur) {
         // Choix de pivot aléatoire afin de réduire le nombre de comparaisons pour des données presque triées
         int pivotIndex = deb + ThreadLocalRandom.current().nextInt(fin - deb + 1);
         T pivot = data.get(pivotIndex);

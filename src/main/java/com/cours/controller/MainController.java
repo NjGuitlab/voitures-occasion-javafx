@@ -264,7 +264,7 @@ public class MainController {
 
     private void rafraichirIU() {
         chargerDonneesVoitures();
-        afficherCartes();
+        appliquerFiltreMultipleEtTri();
     }
 
     private void ouvrirFormAjouterVoiture(ActionEvent e) {

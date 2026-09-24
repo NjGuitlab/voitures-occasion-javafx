@@ -21,7 +21,7 @@ public class VoitureService {
 
     private TriFusion<Voiture> fusion = new TriFusion<>();
     private TriRapide<Voiture> rapide = new TriRapide<>();
-    private TriInsertion<String> insertion = new TriInsertion<>();  // On l'utilise pour trier les noms de marques
+    private TriInsertion<Voiture> insertion = new TriInsertion<>();  // On l'utilise pour trier les noms de marques
 
     // Constructeur utilisé lorsque les opérations CRUD doivent être effectuées
     // via le DAO PostgreSQL.

@@ -25,12 +25,11 @@ public class TriInsertion<T> implements Algorithme<T> {
      * Tous les éléments du tableau doivent implémenter l'interface Comparator.
      * </p>
      *
-     * @param ArrayList<T> le type des éléments de la liste, devant être comparables entre eux
-     * @param comparateur permet de déterminer le critère de tri
+     *  @param comparateur permet de déterminer le critère de tri
      * @version 1.0
      */
     @Override
-    public <T> void ordonner(List<T> data, Comparator<T> comparateur) {
+    public void ordonner(ArrayList<T> data, Comparator<T> comparateur) {
         
         for (int i = 1; i < data.size(); i++) {
             T key = data.get(i);

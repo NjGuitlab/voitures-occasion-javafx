@@ -30,12 +30,12 @@ public class TriFusion<T> implements Algorithme<T> {
      * @version 1.0
      */
     @Override
-    public <T> void ordonner(List<T> data, Comparator<T> comparateur) {
+    public  void ordonner(ArrayList<T> data, Comparator<T> comparateur) {
 
         diviser(data, 0, data.size() - 1, comparateur);
     }
 
-    private <T> void diviser(List<T> data, int deb, int fin, Comparator<T> comparateur) {
+    private void diviser(List<T> data, int deb, int fin, Comparator<T> comparateur) {
         if (deb >= fin) return;
 
         int mil = (deb + fin)/2;
@@ -45,7 +45,7 @@ public class TriFusion<T> implements Algorithme<T> {
         fusionner(data, deb, mil, fin, comparateur);
     }
 
-    private <T> void fusionner(List<T> data, int deb, int mil, int fin, Comparator<T> comparateur) {
+    private void fusionner(List<T> data, int deb, int mil, int fin, Comparator<T> comparateur) {
 
         ArrayList<T> temp = new ArrayList<>(fin - deb + 1);
 
